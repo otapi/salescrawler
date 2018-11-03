@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SalesCrawler.Models.CrawlProfile">
+    <Position X="1" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAQAAAAAAAIAAAAAAAAAQAA=</HashCode>
+      <FileName>Models\CrawlProfile.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Matches" />
+      <Property Name="CrawlerbotSettings" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="SalesCrawler.Models.CrawlerbotSetting">
+    <Position X="4.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAQAAAAAABAAQAAAAACAAAA=</HashCode>
+      <FileName>Models\CrawlerbotSetting.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Crawlerbot" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SalesCrawler.Models.Crawlerbot">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Crawlerbot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SalesCrawler.Models.Match">
+    <Position X="4.25" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAAgQABIAAAgAGAAAAAAAAAACAgAAAQICAAAAAAAQAA=</HashCode>
+      <FileName>Models\Match.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CrawlerbotSetting" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="PriceHistories" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="SalesCrawler.Models.PriceHistory">
+    <Position X="7.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAAAAAAAI=</HashCode>
+      <FileName>Models\PriceHistory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
