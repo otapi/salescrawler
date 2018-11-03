@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SalesCrawler
+namespace SalesCrawler.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

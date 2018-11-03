@@ -10,16 +10,14 @@ namespace SalesCrawler.Models
     {
         public int CrawlerbotSettingId { get; set; }
         public string Name { get; set; }
-        /// <summary>
-        /// If null, DefaultUrl is used with SeachPattern
-        /// If not null, SearchPattern is ignored
-        /// </summary>
-        public string CustomUrl { get; set; }
-        /// <summary>
-        /// Ignored if CustomUrl is null
-        /// </summary>
+        public bool IsSearchPatternURL { get; set; }
         public string SearchPattern { get; set; }
 
         public Crawlerbot Crawlerbot { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

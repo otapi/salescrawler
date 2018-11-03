@@ -3,18 +3,18 @@
   <Class Name="SalesCrawler.Models.CrawlProfile">
     <Position X="1" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>ABAAAAAAAAAAAAAAAAAAAAQAAAAAAAIAAAAAAAAAQAA=</HashCode>
+      <HashCode>ABAAAAAAAAAAAAAEAAAAAAQAAAAAAAIAAAAAAAAAQAA=</HashCode>
       <FileName>Models\CrawlProfile.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Matches" />
       <Property Name="CrawlerbotSettings" />
+      <Property Name="Matches" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="SalesCrawler.Models.CrawlerbotSetting">
     <Position X="4.25" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEAAAAAAAAAAAQAAAAAABAAQAAAAACAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAEAAAAEAAAAAAQAAAAAABAAQAAAAACAAAA=</HashCode>
       <FileName>Models\CrawlerbotSetting.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -29,9 +29,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SalesCrawler.Models.Match">
-    <Position X="4.25" Y="2.5" Width="1.75" />
+    <Position X="4.25" Y="3" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>IAAgQABIAAAgAGAAAAAAAAAACAgAAAQICAAAAAAAQAA=</HashCode>
+      <HashCode>IAAgQABAAAAgAGAAAAAAAAAACAgAAAQICAAAAAAASAA=</HashCode>
       <FileName>Models\Match.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

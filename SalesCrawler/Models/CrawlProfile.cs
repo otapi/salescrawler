@@ -13,5 +13,10 @@ namespace SalesCrawler.Models
 
         public ICollection<CrawlerbotSetting> CrawlerbotSettings { get; set; } = new List<CrawlerbotSetting>();
         public ICollection<Match> Matches { get; set; } = new List<Match>();
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
