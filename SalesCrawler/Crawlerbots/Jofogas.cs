@@ -12,7 +12,7 @@ namespace SalesCrawler.Crawlerbots
         public Crawlerbot Datasheet { get; } = new Crawlerbot()
         {
             CrawlerbotId = 1,
-            Name = "Jofogas.hu"
+            Name = "Jofogas.hu",
         };
     }
 }

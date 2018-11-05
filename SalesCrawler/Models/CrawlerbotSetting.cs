@@ -14,6 +14,7 @@ namespace SalesCrawler.Models
         public string SearchPattern { get; set; }
 
         public Crawlerbot Crawlerbot { get; set; }
+        public CrawlProfile CrawlProfile { get; set; }
 
         public override string ToString()
         {

@@ -14,17 +14,18 @@
   <Class Name="SalesCrawler.Models.CrawlerbotSetting">
     <Position X="4.25" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEAAAAEAAAAAAQAAAAAABAAQAAAAACAAAA=</HashCode>
+      <HashCode>AAAEAAAAAAAAAAAEAAAAAAQAAAAAABAAQAAAQACAAAA=</HashCode>
       <FileName>Models\CrawlerbotSetting.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Crawlerbot" />
+      <Property Name="CrawlProfile" />
     </ShowAsAssociation>
   </Class>
   <Class Name="SalesCrawler.Models.Crawlerbot">
     <Position X="7.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAgQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Crawlerbot.cs</FileName>
     </TypeIdentifier>
   </Class>

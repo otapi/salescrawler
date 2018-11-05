@@ -8,6 +8,6 @@ namespace SalesCrawler.Architecture
 {
     interface ICrawlerbot
     {
-        static Models.Crawlerbot Datasheet { get; }
+        Models.Crawlerbot Datasheet { get; }
     }
 }
