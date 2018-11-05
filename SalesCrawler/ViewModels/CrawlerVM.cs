@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SalesCrawler.Architecture
+namespace SalesCrawler.ViewModels
 {
-    interface ICrawlerbot
+    public class CrawlerVM
     {
-        static Models.Crawlerbot Datasheet { get; }
+        public CrawlerVM()
+        {
+
+        }
     }
 }
