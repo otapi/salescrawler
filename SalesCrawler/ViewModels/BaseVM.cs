@@ -5,11 +5,18 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SalesCrawler.ViewModels
 {
     public class BaseVM : INotifyPropertyChanged
     {
+        bool isBusy = false;
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set { SetProperty(ref isBusy, value); }
+        }
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName]string propertyName = "",
             Action onChanged = null)
@@ -34,5 +41,28 @@ namespace SalesCrawler.ViewModels
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+    }
+
+    public class CommandHandler : ICommand
+    {
+        private Action _action;
+        private bool _canExecute;
+        public CommandHandler(Action action, bool canExecute)
+        {
+            _action = action;
+            _canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return _canExecute;
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public void Execute(object parameter)
+        {
+            _action();
+        }
     }
 }

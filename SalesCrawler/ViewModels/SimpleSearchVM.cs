@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using SalesCrawler.Models;
 
 namespace SalesCrawler.ViewModels
@@ -23,6 +24,20 @@ namespace SalesCrawler.ViewModels
             get { return _TextToSearch; }
             set { SetProperty(ref _TextToSearch, value); }
         }
+
+        private ICommand _SearchCommand;
+        public ICommand SearchCommand
+        {
+            get
+            {
+                return _SearchCommand ?? (_SearchCommand = new CommandHandler(() => MyAction(), !IsBusy));
+            }
+        }
+        public void SearchCommandExecute()
+        {
+
+        }
+
         public SimpleSearchVM()
         {
             Crawlerbots = new ObservableCollection<Crawlerbot>();
