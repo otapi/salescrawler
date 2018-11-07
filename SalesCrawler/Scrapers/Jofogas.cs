@@ -5,14 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using SalesCrawler.Models;
 
-namespace SalesCrawler.Crawlerbots
+namespace SalesCrawler.Scrapers
 {
-    public class Jofogas : Architecture.ICrawlerbot
+    public class Jofogas : ViewModels.CrawlerBotBase, Architecture.IScraper
     {
         public Crawlerbot Datasheet { get; } = new Crawlerbot()
         {
             CrawlerbotId = 1,
             Name = "Jofogas.hu",
         };
+
+        public async Task StartAsync()
+        {
+            PrintNote("Start");
+
+        }
     }
 }

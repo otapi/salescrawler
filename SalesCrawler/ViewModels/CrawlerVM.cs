@@ -11,39 +11,43 @@ namespace SalesCrawler.ViewModels
 {
     public class CrawlerVM : BaseVM
     {
-        ObservableCollection<Crawlerbot> _AvailableBots;
-        public ObservableCollection<Crawlerbot> AvailableBots
+        ObservableCollection<Crawlerbot> _AvailableScrapers;
+        public ObservableCollection<Crawlerbot> AvailableScrapers
         {
-            get { return _AvailableBots; }
-            set { SetProperty(ref _AvailableBots, value); }
+            get { return _AvailableScrapers; }
+            set { SetProperty(ref _AvailableScrapers, value); }
         }
 
-        Dictionary<int, Type> BotClasses;
-        Dictionary<CrawlerbotSetting, Architecture.ICrawlerbot> Bots;
+        Dictionary<int, Type> ScraperClasses;
+        Dictionary<int, Architecture.IScraper> Bots;
+
+        int BotIndex;
         public CrawlerVM()
         {
-            ScanBotClasses();
-            Bots = new Dictionary<CrawlerbotSetting, Architecture.ICrawlerbot>();
+            BotIndex = 0;
+            ScanScraperClasses();
+            Bots = new Dictionary<int, Architecture.IScraper>();
         }
 
-        public void AddBot(CrawlerbotSetting crawlerbotSetting)
+        public int AddBot(CrawlerbotSetting crawlerbotSetting)
         {
-            var bot = Activator.CreateInstance(BotClasses[crawlerbotSetting.Crawlerbot.CrawlerbotId]) as Architecture.ICrawlerbot;
-            Bots.Add(crawlerbotSetting, bot);
+            var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Crawlerbot.CrawlerbotId]) as Architecture.IScraper;
+            Bots.Add(BotIndex++, bot);
+            return BotIndex;
         }
 
 
 
-        void ScanBotClasses()
+        void ScanScraperClasses()
         {
-            BotClasses = new Dictionary<int, Type>();
-            ObservableCollection<Crawlerbot> AvailableBots = new ObservableCollection<Crawlerbot>();
-            var theList = Assembly.GetExecutingAssembly().GetTypes().ToList().Where(t => t.Namespace == "SalesCrawler.Crawlerbots").ToList();
+            ScraperClasses = new Dictionary<int, Type>();
+            AvailableScrapers = new ObservableCollection<Crawlerbot>();
+            var theList = Assembly.GetExecutingAssembly().GetTypes().ToList().Where(t => t.Namespace == "SalesCrawler.Scrapers" && !t.FullName.Contains("+")).ToList();
             foreach (Type t in theList)
             {
-                var b = Activator.CreateInstance(t) as Architecture.ICrawlerbot;
-                BotClasses.Add(b.Datasheet.CrawlerbotId, t);
-                AvailableBots.Add(b.Datasheet);
+                var b = Activator.CreateInstance(t) as Architecture.IScraper;
+                ScraperClasses.Add(b.Datasheet.CrawlerbotId, t);
+                AvailableScrapers.Add(b.Datasheet);
             }
         }
     }
