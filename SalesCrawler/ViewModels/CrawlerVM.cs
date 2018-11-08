@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,19 +22,16 @@ namespace SalesCrawler.ViewModels
         }
 
         Dictionary<int, Type> ScraperClasses;
-        ObservableCollection<BotInfo> _Bots;
-        public ObservableCollection<BotInfo> Bots
-        {
-            get { return _Bots; }
-            set { SetProperty(ref _Bots, value); }
-        }
-        
+        public ObservableCollection<BotInfo> Bots { get; }
+
         int BotIndex;
         public CrawlerVM()
         {
             BotIndex = 0;
             ScanScraperClasses();
+
             Bots = new ObservableCollection<BotInfo>();
+            Bots.CollectionChanged += OnCollectionChanged;
         }
 
         public int AddBot(ScraperSetting crawlerbotSetting)
@@ -62,6 +60,11 @@ namespace SalesCrawler.ViewModels
                 ScraperClasses.Add(b.Datasheet.ScraperId, t);
                 AvailableScrapers.Add(b.Datasheet);
             }
+        }
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RaisePropertyChanged(() => Bots);
         }
     }
 }
