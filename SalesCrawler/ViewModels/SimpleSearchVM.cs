@@ -30,12 +30,24 @@ namespace SalesCrawler.ViewModels
         {
             get
             {
-                return _SearchCommand ?? (_SearchCommand = new CommandHandler(() => MyAction(), !IsBusy));
+                return _SearchCommand ?? (_SearchCommand = new CommandHandler((param) => SearchCommandExecute(param), !IsBusy));
             }
         }
-        public void SearchCommandExecute()
+        public void SearchCommandExecute(object selectedItems)
         {
-
+            System.Collections.IList items = (System.Collections.IList)selectedItems;
+            var collection = items.Cast<Crawlerbot>();
+            
+            foreach (var item in collection)
+            {
+                CrawlerbotSetting setting = new CrawlerbotSetting()
+                {
+                    Name = $"SimpleSearch - {item.Name}",
+                    SearchPattern = TextToSearch,
+                    Crawlerbot = item
+                };
+                App.CrawlerVM.AddBot(setting);
+            }
         }
 
         public SimpleSearchVM()

@@ -11,10 +11,12 @@
         <ViewModels:SimpleSearchVM/>
     </Window.DataContext>
     <Grid>
-        <ListBox HorizontalAlignment="Left" Margin="10,31,0,4.667" Width="177" SelectionMode="Extended" ItemsSource="{Binding Crawlerbots}"/>
+        <ListBox x:Name="LBScrapers" HorizontalAlignment="Left" Margin="10,31,0,4.667" Width="177" SelectionMode="Extended" ItemsSource="{Binding Crawlerbots}"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Scrapers:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="192,10,0,0" TextWrapping="Wrap" Text="Text to search:" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="192,31,0,0" TextWrapping="Wrap" Text="{Binding TextToSearch}" VerticalAlignment="Top" Width="591"/>
+        <Button Command="{Binding SearchCommand}"
+        CommandParameter="{Binding ElementName=LBScrapers, Path=SelectedItems}" Margin="192,59,511.333,334.667">Start crawling</Button>
 
     </Grid>
 </Window>

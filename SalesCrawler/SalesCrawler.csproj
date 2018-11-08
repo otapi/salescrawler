@@ -68,11 +68,19 @@
     </ApplicationDefinition>
     <Compile Include="Scrapers\Jofogas.cs" />
     <Compile Include="ViewModels\CrawlerBotBase.cs" />
+    <Compile Include="ViewModels\CrawlerMonitorVM.cs" />
     <Compile Include="ViewModels\CrawlerVM.cs" />
     <Compile Include="ViewModels\SimpleSearchVM.cs" />
+    <Compile Include="Views\CrawlerMonitorWindow.xaml.cs">
+      <DependentUpon>CrawlerMonitorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SimpleSearchWindow.xaml.cs">
       <DependentUpon>SimpleSearchWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\CrawlerMonitorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
