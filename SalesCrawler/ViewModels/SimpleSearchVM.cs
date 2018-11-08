@@ -11,8 +11,8 @@ namespace SalesCrawler.ViewModels
 {
     class SimpleSearchVM : BaseVM
     {
-        ObservableCollection<Crawlerbot> _Crawlerbots;
-        public ObservableCollection<Crawlerbot> Crawlerbots
+        ObservableCollection<Scraper> _Crawlerbots;
+        public ObservableCollection<Scraper> Crawlerbots
         {
             get { return _Crawlerbots; }
             set { SetProperty(ref _Crawlerbots, value); }
@@ -36,23 +36,24 @@ namespace SalesCrawler.ViewModels
         public void SearchCommandExecute(object selectedItems)
         {
             System.Collections.IList items = (System.Collections.IList)selectedItems;
-            var collection = items.Cast<Crawlerbot>();
+            var collection = items.Cast<Scraper>();
             
             foreach (var item in collection)
             {
-                CrawlerbotSetting setting = new CrawlerbotSetting()
+                ScraperSetting setting = new ScraperSetting()
                 {
                     Name = $"SimpleSearch - {item.Name}",
                     SearchPattern = TextToSearch,
-                    Crawlerbot = item
+                    Scraper = item
                 };
                 App.CrawlerVM.AddBot(setting);
             }
+
         }
 
         public SimpleSearchVM()
         {
-            Crawlerbots = new ObservableCollection<Crawlerbot>();
+            Crawlerbots = new ObservableCollection<Scraper>();
             foreach(var c in App.CrawlerVM.AvailableScrapers)
             {
                 Crawlerbots.Add(c);

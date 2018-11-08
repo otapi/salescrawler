@@ -9,10 +9,10 @@
         
         Title="CrawlerMonitorWindow" Height="450" Width="800">
     <Window.DataContext>
-        <ViewModels:CrawlerMonitorVM/>
+        <ViewModels:CrawlerVM/>
     </Window.DataContext>
     <Grid>
-        <DataGrid Height="366" Margin="10,10,0,0" Width="773"/>
+        <DataGrid Height="366" Margin="10,10,0,0" Width="773" ItemsSource="{Binding Bots}" />
 
     </Grid>
 </Window>

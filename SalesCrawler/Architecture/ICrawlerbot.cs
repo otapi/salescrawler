@@ -7,12 +7,12 @@ using SalesCrawler.Models;
 
 namespace SalesCrawler.Architecture
 {
-    interface IScraper
+    public interface IScraper
     {
-        Crawlerbot Datasheet { get; }
-        CrawlerbotSetting Setting { get; }
+        Scraper Datasheet { get; }
+        ScraperSetting Setting { get; }
         Task Task { get; set; }
-        void Init(CrawlerbotSetting crawlerbotSetting);
+        void Init(ScraperSetting crawlerbotSetting);
         Task StartAsync();
     }
 }

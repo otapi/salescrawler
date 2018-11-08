@@ -25,8 +25,8 @@ namespace SalesCrawler.Data
         }
 
         public virtual DbSet<CrawlProfile> CrawlProfiles { get; set; }
-        public virtual DbSet<CrawlerbotSetting> CrawlerbotSettings { get; set; }
-        public virtual DbSet<Crawlerbot> Crawlerbots { get; set; }
+        public virtual DbSet<ScraperSetting> CrawlerbotSettings { get; set; }
+        public virtual DbSet<Scraper> Crawlerbots { get; set; }
         public virtual DbSet<Match> Matches { get; set; }
         public virtual DbSet<PriceHistory> PriceHistories { get; set; }
     }

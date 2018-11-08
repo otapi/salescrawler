@@ -9,9 +9,9 @@ namespace SalesCrawler.Scrapers
 {
     public class Jofogas : ViewModels.CrawlerBotBase, Architecture.IScraper
     {
-        public Crawlerbot Datasheet { get; } = new Crawlerbot()
+        public Scraper Datasheet { get; } = new Scraper()
         {
-            CrawlerbotId = 1,
+            ScraperId = 1,
             Name = "Jofogas.hu",
         };
 

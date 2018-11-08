@@ -9,10 +9,10 @@ namespace SalesCrawler.ViewModels
 {
     public class CrawlerBotBase
     {
-        public CrawlerbotSetting Setting { get; set; }
+        public ScraperSetting Setting { get; set; }
         public Task Task { get; set; }
         
-        public void Init(CrawlerbotSetting crawlerbotSetting)
+        public void Init(ScraperSetting crawlerbotSetting)
         {
             Setting = crawlerbotSetting;
         }

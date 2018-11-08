@@ -24,5 +24,7 @@ namespace SalesCrawler.Views
         {
             InitializeComponent();
         }
+
+        
     }
 }

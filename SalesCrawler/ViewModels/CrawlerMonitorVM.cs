@@ -9,5 +9,6 @@ namespace SalesCrawler.ViewModels
     class CrawlerMonitorVM : BaseVM
     {
         // https://github.com/tom-englert/DataGridExtensions
+
     }
 }

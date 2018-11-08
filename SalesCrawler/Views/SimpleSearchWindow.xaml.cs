@@ -23,5 +23,11 @@ namespace SalesCrawler.Views
         {
             InitializeComponent();
         }
+
+        private void seebots_Click(object sender, RoutedEventArgs e)
+        {
+            CrawlerMonitorWindow view = new CrawlerMonitorWindow();
+            view.Show();
+        }
     }
 }

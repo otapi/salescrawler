@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SalesCrawler.Models
 {
-    public class Crawlerbot
+    public class Scraper
     {
-        public int CrawlerbotId { get; set; }
+        public int ScraperId { get; set; }
         public string Name { get; set; }
         public override string ToString()
         {

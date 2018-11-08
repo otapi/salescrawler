@@ -17,6 +17,7 @@
         <TextBox HorizontalAlignment="Left" Height="23" Margin="192,31,0,0" TextWrapping="Wrap" Text="{Binding TextToSearch}" VerticalAlignment="Top" Width="591"/>
         <Button Command="{Binding SearchCommand}"
         CommandParameter="{Binding ElementName=LBScrapers, Path=SelectedItems}" Margin="192,59,511.333,334.667">Start crawling</Button>
+        <Button x:Name="seebots" Content="See bots" HorizontalAlignment="Left" Margin="192,91,0,0" VerticalAlignment="Top" Width="90" Height="27" Click="seebots_Click"/>
 
     </Grid>
 </Window>

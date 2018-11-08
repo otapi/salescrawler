@@ -9,7 +9,7 @@ namespace SalesCrawler.Models
     public class Match
     {
         public int MatchId { get; set; }
-        public CrawlerbotSetting CrawlerbotSetting { get; set; }
+        public ScraperSetting CrawlerbotSetting { get; set; }
         public string Seller { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }

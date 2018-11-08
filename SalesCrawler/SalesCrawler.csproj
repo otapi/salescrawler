@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\BotInfo.cs" />
     <Compile Include="Scrapers\Jofogas.cs" />
     <Compile Include="ViewModels\CrawlerBotBase.cs" />
     <Compile Include="ViewModels\CrawlerMonitorVM.cs" />
@@ -103,8 +104,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Crawlerbot.cs" />
-    <Compile Include="Models\CrawlerbotSetting.cs" />
+    <Compile Include="Models\Scraper.cs" />
+    <Compile Include="Models\ScraperSetting.cs" />
     <Compile Include="Models\CrawlProfile.cs" />
     <Compile Include="Models\Currencies.cs" />
     <Compile Include="Models\Match.cs" />
