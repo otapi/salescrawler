@@ -12,7 +12,7 @@ namespace SalesCrawler.Scrapers
     {
         public Scraper Datasheet { get; } = new Scraper()
         {
-            ScraperId = 1,
+            ScraperIdentifier = 1,
             Name = "Jofogas.hu",
         };
 
@@ -20,7 +20,15 @@ namespace SalesCrawler.Scrapers
         public async Task Start()
         {
             PrintNote("start");
-            Thread.Sleep(5000);
+            await SaveMatch(new Match()
+            {
+                Alive = true,
+                Description = "This is a dummy",
+                LastScannedDate = DateTime.Now,
+                CrawlerbotSetting = Setting,
+                Title = "Hahó!"
+
+            });
             PrintNote("completed");
         }
     }

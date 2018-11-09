@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
+using System.Windows.Input;
 
 namespace SalesCrawler.ViewModels
 {
@@ -19,8 +20,28 @@ namespace SalesCrawler.ViewModels
         {
             Matches = new ObservableCollection<Match>();
             Matches.CollectionChanged += OnCollectionChanged;
+
+            LoadItemsCommand.Execute(null);
         }
 
+        private ICommand _LoadItemsCommand;
+        public ICommand LoadItemsCommand
+        {
+            get
+            {
+                return _LoadItemsCommand ?? (_LoadItemsCommand = new CommandHandler(async (param) => await LoadItemsCommandExecute(null), !IsBusy));
+            }
+        }
+        public async Task LoadItemsCommandExecute(object param = null)
+        {
+            IsBusy = true;
+            Matches.Clear();
+            foreach (var m in await App.DB.GetMatches())
+            {
+                Matches.Add(m);
+            }
+            IsBusy = false;
+        }
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             RaisePropertyChanged(() => Matches);

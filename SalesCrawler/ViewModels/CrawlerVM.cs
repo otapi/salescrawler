@@ -13,8 +13,8 @@ namespace SalesCrawler.ViewModels
     public class CrawlerVM : BaseVM
     {
         // https://github.com/tom-englert/DataGridExtensions
+        // TODO: adapt MVVM best practices? https://blog.rsuter.com/recommendations-best-practices-implementing-mvvm-xaml-net-applications/
 
-        
         ObservableCollection<Scraper> _AvailableScrapers;
         public ObservableCollection<Scraper> AvailableScrapers
         {
@@ -37,7 +37,7 @@ namespace SalesCrawler.ViewModels
 
         public void AddBot(ScraperSetting crawlerbotSetting)
         {
-            var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperId]) as Architecture.IScraper;
+            var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]) as Architecture.IScraper;
             bot.Init(crawlerbotSetting);
             var bi = new BotInfo()
             {
@@ -71,7 +71,7 @@ namespace SalesCrawler.ViewModels
             foreach (Type t in theList)
             {
                 var b = Activator.CreateInstance(t) as Architecture.IScraper;
-                ScraperClasses.Add(b.Datasheet.ScraperId, t);
+                ScraperClasses.Add(b.Datasheet.ScraperIdentifier, t);
                 AvailableScrapers.Add(b.Datasheet);
             }
         }

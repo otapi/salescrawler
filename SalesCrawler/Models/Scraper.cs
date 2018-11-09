@@ -9,6 +9,7 @@ namespace SalesCrawler.Models
     public class Scraper
     {
         public int ScraperId { get; set; }
+        public int ScraperIdentifier { get; set; }
         public string Name { get; set; }
         public override string ToString()
         {

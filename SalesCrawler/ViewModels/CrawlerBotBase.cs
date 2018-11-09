@@ -16,6 +16,12 @@ namespace SalesCrawler.ViewModels
             Setting = crawlerbotSetting;
         }
 
+        protected async Task SaveMatch(Match match)
+        {
+            App.DB.Matches.Add(match);
+            await App.DB.SaveChangesAsync();
+        }
+
         protected void PrintNote(string message)
         {
             App.PrintNote($"[{Setting.Name}] ${message}");

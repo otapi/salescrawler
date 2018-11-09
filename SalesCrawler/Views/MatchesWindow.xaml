@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="MatchesWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding Matches}" >
+        <DataGrid ItemsSource="{Binding Matches}" Margin="0,39,0.333,-0.333" >
         </DataGrid>
+        <Button Content="Refresh" Command="{Binding LoadItemsCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
     </Grid>
 </Window>

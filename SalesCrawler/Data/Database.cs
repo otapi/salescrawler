@@ -8,6 +8,7 @@ using SalesCrawler.Models;
 namespace SalesCrawler.Data
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Data.Entity;
     using System.Linq;
 
@@ -29,5 +30,18 @@ namespace SalesCrawler.Data
         public virtual DbSet<Scraper> Crawlerbots { get; set; }
         public virtual DbSet<Match> Matches { get; set; }
         public virtual DbSet<PriceHistory> PriceHistories { get; set; }
+
+        async public Task<List<Match>> GetMatches()
+        {
+            return await Matches.ToListAsync();
+        }
+
+        async public Task DeleteAllMatches()
+        {
+            foreach(var m in await GetMatches())
+            {
+                Matches.Remove(m);
+            }
+        }
     }
 }
