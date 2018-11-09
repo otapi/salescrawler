@@ -15,9 +15,11 @@
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Scrapers:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="192,10,0,0" TextWrapping="Wrap" Text="Text to search:" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="192,31,0,0" TextWrapping="Wrap" Text="{Binding TextToSearch}" VerticalAlignment="Top" Width="591"/>
+        
         <Button Command="{Binding SearchCommand}"
         CommandParameter="{Binding ElementName=LBScrapers, Path=SelectedItems}" Margin="192,59,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="95">Start crawling</Button>
         <local:CrawlerMonitorUC Margin="192,89,0.333,-0.333"/>
+        <Button Content="Open Matches" HorizontalAlignment="Right" Margin="0,64,10.333,0" VerticalAlignment="Top" Width="99" Click="Button_Click"/>
 
     </Grid>
 </Window>

@@ -13,14 +13,8 @@ namespace SalesCrawler.ViewModels
     public class CrawlerVM : BaseVM
     {
         // https://github.com/tom-englert/DataGridExtensions
-        // TaskCreationOptions.LongRunning
 
-        int _NumberOfRunningBots = 10;
-        public int NumberOfRunningBots
-        {
-            get { return _NumberOfRunningBots; }
-            set { SetProperty(ref _NumberOfRunningBots, value); }
-        }
+        
         ObservableCollection<Scraper> _AvailableScrapers;
         public ObservableCollection<Scraper> AvailableScrapers
         {
@@ -31,10 +25,8 @@ namespace SalesCrawler.ViewModels
         Dictionary<int, Type> ScraperClasses;
         public ObservableCollection<BotInfo> Bots { get; }
 
-        int BotIndex;
         public CrawlerVM()
         {
-            BotIndex = 0;
             ScanScraperClasses();
 
             Bots = new ObservableCollection<BotInfo>();
@@ -43,16 +35,16 @@ namespace SalesCrawler.ViewModels
             
         }
 
-        public int AddBot(ScraperSetting crawlerbotSetting)
+        public void AddBot(ScraperSetting crawlerbotSetting)
         {
             var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperId]) as Architecture.IScraper;
             bot.Init(crawlerbotSetting);
-            BotIndex++;
             var bi = new BotInfo()
             {
+                Name = crawlerbotSetting.Name,
                 Message = "",
                 Scraper = bot,
-                Task = Task.Factory.StartNew(bot.Start),
+                Task = Task.Factory.StartNew(bot.Start, TaskCreationOptions.LongRunning),
                 StatusMessage = StatusMessages[TaskStatus.Created],
                 StartTime = DateTime.Now
             };
@@ -63,11 +55,10 @@ namespace SalesCrawler.ViewModels
                 {
                     bi.Message = t.Exception.Message;
                 }
-                bi.ElapsedMinutes = (bi.FinishedTime - bi.StartTime).TotalMinutes;
+                bi.ElapsedMinutes = ((int)((bi.FinishedTime - bi.StartTime).TotalMinutes)*10)/10;
                 RaisePropertyChanged(() => Bots);
             });
             Bots.Add(bi);
-            return BotIndex;
         }
 
         

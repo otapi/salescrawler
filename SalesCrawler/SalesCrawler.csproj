@@ -69,23 +69,19 @@
     <Compile Include="Models\BotInfo.cs" />
     <Compile Include="Scrapers\Jofogas.cs" />
     <Compile Include="ViewModels\CrawlerBotBase.cs" />
-    <Compile Include="ViewModels\CrawlerMonitorVM.cs" />
     <Compile Include="ViewModels\CrawlerVM.cs" />
+    <Compile Include="ViewModels\MatchesVM.cs" />
     <Compile Include="ViewModels\SimpleSearchVM.cs" />
     <Compile Include="Views\CrawlerMonitorUC.xaml.cs">
       <DependentUpon>CrawlerMonitorUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CrawlerMonitorWindow.xaml.cs">
-      <DependentUpon>CrawlerMonitorWindow.xaml</DependentUpon>
+    <Compile Include="Views\MatchesWindow.xaml.cs">
+      <DependentUpon>MatchesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SimpleSearchWindow.xaml.cs">
       <DependentUpon>SimpleSearchWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\CrawlerMonitorUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CrawlerMonitorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -105,6 +101,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MatchesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SimpleSearchWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -13,6 +13,18 @@ namespace SalesCrawler
     /// </summary>
     public partial class App : Application
     {
+        static ViewModels.MatchesVM _MatchesVM;
+        public static ViewModels.MatchesVM MatchesVM
+        {
+            get
+            {
+                if (_MatchesVM == null)
+                {
+                    _MatchesVM = new ViewModels.MatchesVM();
+                }
+                return _MatchesVM;
+            }
+        }
         static ViewModels.CrawlerVM _CrawlerVM;
         public static ViewModels.CrawlerVM CrawlerVM
         {

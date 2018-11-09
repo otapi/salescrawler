@@ -10,11 +10,11 @@ namespace SalesCrawler.Models
 {
     public class BotInfo : BaseVM
     {
-        string _Message;
-        public string Message
+        string _Name;
+        public string Name
         {
-            get { return _Message; }
-            set { SetProperty(ref _Message, value); }
+            get { return _Name; }
+            set { SetProperty(ref _Name, value); }
         }
         DateTime _StartTime;
         public DateTime StartTime
@@ -40,7 +40,12 @@ namespace SalesCrawler.Models
             get { return _StatusMessage; }
             set { SetProperty(ref _StatusMessage, value); }
         }
-
+        string _Message;
+        public string Message
+        {
+            get { return _Message; }
+            set { SetProperty(ref _Message, value); }
+        }
         public Task Task { get; set; }
 
         IScraper _Scraper;

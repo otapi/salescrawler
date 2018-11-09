@@ -15,13 +15,14 @@ using System.Windows.Shapes;
 namespace SalesCrawler.Views
 {
     /// <summary>
-    /// Interaction logic for CrawlerMonitorWindow.xaml
+    /// Interaction logic for MatchesWindow.xaml
     /// </summary>
-    public partial class CrawlerMonitorWindow : Window
+    public partial class MatchesWindow : Window
     {
-        public CrawlerMonitorWindow()
+        public MatchesWindow()
         {
             InitializeComponent();
+            DataContext = App.MatchesVM;
         }
     }
 }
