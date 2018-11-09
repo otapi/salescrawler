@@ -1,4 +1,5 @@
 ﻿using SalesCrawler.Architecture;
+using SalesCrawler.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,34 +8,47 @@ using System.Threading.Tasks;
 
 namespace SalesCrawler.Models
 {
-    public class BotInfo
+    public class BotInfo : BaseVM
     {
-        public int Id { get; set; }
-        public IScraper Scraper { get; set; }
-        public STATUSES Status { get; set; }
-        public string StatusMessage { get
-            {
-                return StatusMessages[Status];
-            }
-        }
-        public string Message { get; set; }
-
-        public enum STATUSES : int
+        string _Message;
+        public string Message
         {
-            New = 0,
-            Paused = 1,
-            Running = 2,
-            Completed = 3,
-            StoppedWithError = 4        
+            get { return _Message; }
+            set { SetProperty(ref _Message, value); }
+        }
+        DateTime _StartTime;
+        public DateTime StartTime
+        {
+            get { return _StartTime; }
+            set { SetProperty(ref _StartTime, value); }
+        }
+        DateTime _FinishedTime;
+        public DateTime FinishedTime
+        {
+            get { return _FinishedTime; }
+            set { SetProperty(ref _FinishedTime, value); }
+        }
+        double _ElapsedMinutes;
+        public double ElapsedMinutes
+        {
+            get { return _ElapsedMinutes; }
+            set { SetProperty(ref _ElapsedMinutes, value); }
+        }
+        string _StatusMessage;
+        public string StatusMessage
+        {
+            get { return _StatusMessage; }
+            set { SetProperty(ref _StatusMessage, value); }
         }
 
-        static Dictionary<STATUSES, string> StatusMessages = new Dictionary<STATUSES, string>()
+        public Task Task { get; set; }
+
+        IScraper _Scraper;
+        public IScraper Scraper
         {
-            {STATUSES.New, "New" },
-            {STATUSES.Paused, "Paused" },
-            {STATUSES.Running, "Running" },
-            {STATUSES.Completed, "Completed" },
-            {STATUSES.StoppedWithError, "Stopped with Error" },
-        };
+            get { return _Scraper; }
+            set { SetProperty(ref _Scraper, value); }
+        }
+
     }
 }

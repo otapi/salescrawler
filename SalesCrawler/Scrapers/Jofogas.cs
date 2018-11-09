@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SalesCrawler.Models;
 
@@ -15,10 +16,12 @@ namespace SalesCrawler.Scrapers
             Name = "Jofogas.hu",
         };
 
-        public async Task StartAsync()
+        
+        public async Task Start()
         {
-            PrintNote("Start");
-
+            PrintNote("start");
+            Thread.Sleep(5000);
+            PrintNote("completed");
         }
     }
 }

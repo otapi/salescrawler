@@ -11,8 +11,7 @@ namespace SalesCrawler.Architecture
     {
         Scraper Datasheet { get; }
         ScraperSetting Setting { get; }
-        Task Task { get; set; }
         void Init(ScraperSetting crawlerbotSetting);
-        Task StartAsync();
+        Task Start();
     }
 }

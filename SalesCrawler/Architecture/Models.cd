@@ -51,22 +51,15 @@
   </Class>
   <Class Name="SalesCrawler.Models.BotInfo">
     <Position X="10" Y="0.5" Width="1.5" />
-    <NestedTypes>
-      <Enum Name="SalesCrawler.Models.BotInfo.STATUSES" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Models\BotInfo.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAACAAAEAAAAAQAAAAAAAAAAAAAAAAAAAAAIIIAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAEAIIIAAAAA=</HashCode>
       <FileName>Models\BotInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="SalesCrawler.Architecture.IScraper">
     <Position X="10" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUACAABAAAA=</HashCode>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQACAABAAAA=</HashCode>
       <FileName>Architecture\ICrawlerbot.cs</FileName>
     </TypeIdentifier>
   </Interface>

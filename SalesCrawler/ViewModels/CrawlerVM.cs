@@ -13,7 +13,14 @@ namespace SalesCrawler.ViewModels
     public class CrawlerVM : BaseVM
     {
         // https://github.com/tom-englert/DataGridExtensions
+        // TaskCreationOptions.LongRunning
 
+        int _NumberOfRunningBots = 10;
+        public int NumberOfRunningBots
+        {
+            get { return _NumberOfRunningBots; }
+            set { SetProperty(ref _NumberOfRunningBots, value); }
+        }
         ObservableCollection<Scraper> _AvailableScrapers;
         public ObservableCollection<Scraper> AvailableScrapers
         {
@@ -32,22 +39,38 @@ namespace SalesCrawler.ViewModels
 
             Bots = new ObservableCollection<BotInfo>();
             Bots.CollectionChanged += OnCollectionChanged;
+
+            
         }
 
         public int AddBot(ScraperSetting crawlerbotSetting)
         {
             var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperId]) as Architecture.IScraper;
+            bot.Init(crawlerbotSetting);
             BotIndex++;
             var bi = new BotInfo()
             {
-                Id = BotIndex,
                 Message = "",
                 Scraper = bot,
-                Status = BotInfo.STATUSES.New
+                Task = Task.Factory.StartNew(bot.Start),
+                StatusMessage = StatusMessages[TaskStatus.Created],
+                StartTime = DateTime.Now
             };
+            bi.Task.ContinueWith((t) => {
+                bi.FinishedTime = DateTime.Now;
+                bi.StatusMessage = StatusMessages[t.Status];
+                if (t.IsFaulted)
+                {
+                    bi.Message = t.Exception.Message;
+                }
+                bi.ElapsedMinutes = (bi.FinishedTime - bi.StartTime).TotalMinutes;
+                RaisePropertyChanged(() => Bots);
+            });
             Bots.Add(bi);
             return BotIndex;
         }
+
+        
 
         void ScanScraperClasses()
         {
@@ -66,5 +89,17 @@ namespace SalesCrawler.ViewModels
         {
             RaisePropertyChanged(() => Bots);
         }
+
+        static Dictionary<TaskStatus, string> StatusMessages = new Dictionary<TaskStatus, string>()
+        {
+            {TaskStatus.Canceled, "Canceled" },
+            {TaskStatus.Created, "Running" },
+            {TaskStatus.Faulted, "Faulted" },
+            {TaskStatus.RanToCompletion, "Completed" },
+            {TaskStatus.Running, "Running" },
+            {TaskStatus.WaitingForActivation, "Running" },
+            {TaskStatus.WaitingForChildrenToComplete, "Running" },
+            {TaskStatus.WaitingToRun, "Running" },
+        };
     }
 }
