@@ -20,15 +20,7 @@ namespace SalesCrawler.Scrapers
         public async Task Start()
         {
             PrintNote("start");
-            await SaveMatch(new Match()
-            {
-                Alive = true,
-                Description = "This is a dummy",
-                LastScannedDate = DateTime.Now,
-                CrawlerbotSetting = Setting,
-                Title = "Hahó!"
-
-            });
+            
             PrintNote("completed");
         }
     }
