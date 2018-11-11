@@ -4,22 +4,82 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SalesCrawler.Models;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+
 
 namespace SalesCrawler.ViewModels
 {
-    public class CrawlerBotBase
+    public class ScraperBase
     {
-        // http://scraping.pro/selenium-ide-and-web-scraping/
-        // https://saucelabs.com/resources/articles/getting-started-with-webdriver-in-c-using-visual-studio
-        // https://javabeginnerstutorial.com/selenium/selenium-tutorial/
-        // https://medium.com/the-andela-way/introduction-to-web-scraping-using-selenium-7ec377a8cf72
-        // https://github.com/AngleSharp/AngleSharp over htmlagilitypack
+        protected IWebDriver driver;
 
         public ScraperSetting Setting { get; set; }
         
         public void Init(ScraperSetting crawlerbotSetting)
         {
             Setting = crawlerbotSetting;
+        }
+
+        public async virtual Task Start()
+        {
+
+        }
+
+        async public void StartBase()
+        {
+            LaunchBrowser();
+            await Start();
+            //driver.Quit();
+
+        }
+
+        protected double StripToDouble(string text)
+        {
+            // TODO: check and locale spec
+            var s = System.Text.RegularExpressions.Regex.Replace(text, @"[^\d.,]", "");
+            if (s == "" || s == "." || s == ",")
+            {
+                return 0;
+            }
+            else
+            {
+                return double.Parse(s);
+            }
+        }
+
+        protected int StripToInt(string text)
+        {
+            var s = System.Text.RegularExpressions.Regex.Replace(text, @"[^\d]", "");
+            if (s == "")
+            {
+                return 0;
+            }
+            else
+            {
+                return int.Parse(s);
+            }
+        }
+
+
+        protected IWebDriver LaunchBrowser()
+        {
+            PrintNote("init");
+            var options = new ChromeOptions();
+            options.AddArgument("--incognito");
+            driver = new ChromeDriver(options);
+            //driver.Url = startURL;
+            PrintNote("start");
+            return driver;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="timeout">seconds</param>
+        /// <returns></returns>
+        protected WebDriverWait Wait(int timeout=10) {
+            return new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
         }
 
         protected async Task SaveMatch(string seller, string title, string url, string imageUrl, string description,

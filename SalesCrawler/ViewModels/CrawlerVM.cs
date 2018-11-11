@@ -37,14 +37,14 @@ namespace SalesCrawler.ViewModels
 
         public void AddBot(ScraperSetting crawlerbotSetting)
         {
-            var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]) as Architecture.IScraper;
+            var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]) as ScraperBase;
             bot.Init(crawlerbotSetting);
             var bi = new BotInfo()
             {
                 Name = crawlerbotSetting.Name,
                 Message = "",
                 Scraper = bot,
-                Task = Task.Factory.StartNew(bot.Start, TaskCreationOptions.LongRunning),
+                Task = Task.Factory.StartNew(bot.StartBase, TaskCreationOptions.LongRunning),
                 StatusMessage = StatusMessages[TaskStatus.Created],
                 StartTime = DateTime.Now
             };
