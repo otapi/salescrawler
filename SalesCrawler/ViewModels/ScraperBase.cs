@@ -17,22 +17,20 @@ namespace SalesCrawler.ViewModels
 
         public ScraperSetting Setting { get; set; }
         
-        public void Init(ScraperSetting crawlerbotSetting)
+        public void Init(ScraperSetting crawlerbotSetting, IWebDriver webDriver)
         {
+            driver = webDriver;
             Setting = crawlerbotSetting;
         }
 
-        public async virtual Task Start()
+        public virtual void Start()
         {
 
         }
 
-        async public void StartBase()
+        public void StartBase()
         {
-            LaunchBrowser();
-            await Start();
-            //driver.Quit();
-
+            Start();
         }
 
         protected double StripToDouble(string text)
@@ -63,16 +61,7 @@ namespace SalesCrawler.ViewModels
         }
 
 
-        protected IWebDriver LaunchBrowser()
-        {
-            PrintNote("init");
-            var options = new ChromeOptions();
-            options.AddArgument("--incognito");
-            driver = new ChromeDriver(options);
-            //driver.Url = startURL;
-            PrintNote("start");
-            return driver;
-        }
+        
         /// <summary>
         /// 
         /// </summary>

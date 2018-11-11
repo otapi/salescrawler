@@ -7,6 +7,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace SalesCrawler.ViewModels
 {
@@ -14,6 +18,13 @@ namespace SalesCrawler.ViewModels
     {
         // https://github.com/tom-englert/DataGridExtensions
         // TODO: adapt MVVM best practices? https://blog.rsuter.com/recommendations-best-practices-implementing-mvvm-xaml-net-applications/
+
+        public bool _IsRunning;
+        public bool IsRunning
+        {
+            get { return _IsRunning; }
+            set { SetProperty(ref _IsRunning, value); }
+        }
 
         ObservableCollection<Scraper> _AvailableScrapers;
         public ObservableCollection<Scraper> AvailableScrapers
@@ -25,6 +36,24 @@ namespace SalesCrawler.ViewModels
         Dictionary<int, Type> ScraperClasses;
         public ObservableCollection<BotInfo> Bots { get; }
 
+        IWebDriver _driver;
+        public IWebDriver driver
+        {
+            get
+            {
+                if (_driver == null)
+                {
+                    var options = new ChromeOptions();
+                    options.AddArgument("--incognito");
+                    _driver = new ChromeDriver(options);
+                    return driver;
+                }
+                return _driver;
+
+            }
+
+        }
+
         public CrawlerVM()
         {
             ScanScraperClasses();
@@ -32,22 +61,38 @@ namespace SalesCrawler.ViewModels
             Bots = new ObservableCollection<BotInfo>();
             Bots.CollectionChanged += OnCollectionChanged;
 
+            IsRunning = false;
             
         }
 
         public void AddBot(ScraperSetting crawlerbotSetting)
         {
             var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]) as ScraperBase;
-            bot.Init(crawlerbotSetting);
             var bi = new BotInfo()
             {
                 Name = crawlerbotSetting.Name,
                 Message = "",
+                Setting = crawlerbotSetting,
                 Scraper = bot,
-                Task = Task.Factory.StartNew(bot.StartBase, TaskCreationOptions.LongRunning),
+                Task = null,
                 StatusMessage = StatusMessages[TaskStatus.Created],
                 StartTime = DateTime.Now
             };
+            StartBot(bi);
+            Bots.Add(bi);
+        }
+
+        private void StartBot(BotInfo bi)
+        {
+            if (IsRunning)
+            {
+                App.PrintNote("Only one bot is allowed to run at once.");
+                return;
+            }
+            IsRunning = true;
+            bi.Scraper.Init(bi.Setting, driver);
+            bi.Task = Task.Factory.StartNew(bi.Scraper.StartBase, TaskCreationOptions.LongRunning);
+            bi.StatusMessage = StatusMessages[TaskStatus.Running];
             bi.Task.ContinueWith((t) => {
                 bi.FinishedTime = DateTime.Now;
                 bi.StatusMessage = StatusMessages[t.Status];
@@ -55,13 +100,34 @@ namespace SalesCrawler.ViewModels
                 {
                     bi.Message = t.Exception.Message;
                 }
-                bi.ElapsedMinutes = ((int)((bi.FinishedTime - bi.StartTime).TotalMinutes)*10)/10;
+                bi.ElapsedMinutes = ((int)((bi.FinishedTime - bi.StartTime).TotalMinutes) * 10) / 10;
                 RaisePropertyChanged(() => Bots);
-            });
-            Bots.Add(bi);
-        }
+                IsRunning = false;
+                Thread.Sleep(1000);
+                
+                var b = GetNextBotFromQueue();
+                if (b==null)
+                {
+                    // queue is done
+                } else
+                {
 
+                    StartBot(b);
+                }
+            });
+        }
         
+        private BotInfo GetNextBotFromQueue()
+        {
+            foreach (var b in Bots)
+            {
+                if (b.Task == null)
+                {
+                    return b;
+                }
+            }
+            return null;
+        }
 
         void ScanScraperClasses()
         {
@@ -84,13 +150,13 @@ namespace SalesCrawler.ViewModels
         static Dictionary<TaskStatus, string> StatusMessages = new Dictionary<TaskStatus, string>()
         {
             {TaskStatus.Canceled, "Canceled" },
-            {TaskStatus.Created, "Running" },
+            {TaskStatus.Created, "Waiting" },
             {TaskStatus.Faulted, "Faulted" },
             {TaskStatus.RanToCompletion, "Completed" },
             {TaskStatus.Running, "Running" },
-            {TaskStatus.WaitingForActivation, "Running" },
+            {TaskStatus.WaitingForActivation, "Waiting" },
             {TaskStatus.WaitingForChildrenToComplete, "Running" },
-            {TaskStatus.WaitingToRun, "Running" },
+            {TaskStatus.WaitingToRun, "Waiting" },
         };
     }
 }

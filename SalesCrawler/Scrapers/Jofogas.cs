@@ -25,13 +25,16 @@ namespace SalesCrawler.Scrapers
         };
 
         
-        override public async Task Start()
+        override public void Start()
         {
             if (!Setting.IsSearchPatternURL)
             {
                 driver.Navigate().GoToUrl("https://www.jofogas.hu/");
                 //Wait().Until(ExpectedConditions.ElementToBeClickable(By.Id("CybotCookiebotDialogBodyButtonAccept")));
-                driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
+                if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
+                {
+                    driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
+                }
 
                 //Wait().Until(c => c.FindElement(By.Id("index-search")));
                 //Wait().Until(ExpectedConditions.ElementToBeClickable(By.Id("index-search")));
@@ -44,7 +47,10 @@ namespace SalesCrawler.Scrapers
             {
                 driver.Navigate().GoToUrl(Setting.SearchPattern);
                 //Wait().Until(ExpectedConditions.ElementToBeClickable(By.Id("CybotCookiebotDialogBodyButtonAccept")));
-                driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
+                if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
+                {
+                    driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
+                }
 
             }
             //Wait().Until(ExpectedConditions.ElementToBeClickable(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
@@ -52,7 +58,7 @@ namespace SalesCrawler.Scrapers
 
             foreach (var item in driver.FindElements(By.XPath("//div//div[@class='contentArea']")))
             {
-                await SaveMatch(
+                SaveMatch(
                     seller: null,
                     title: item.FindElement(By.XPath(".//h3[@class='item-title']/a")).Text,
                     url: item.FindElement(By.XPath(".//h3[@class='item-title']/a")).GetAttribute("href"),
@@ -68,12 +74,17 @@ namespace SalesCrawler.Scrapers
         
         Default.Currency GetCurrency(string text)
         {
-            switch(text.Replace("&nbsp;", "").Trim())
+            text = text.Replace("&nbsp;", "").Trim();
+            switch (text)
             {
                 case "Ft":
                 case "":
                     return Default.Currency.HUF;
                 default:
+                    if (text.StartsWith("Ft"))
+                    {
+                        return Default.Currency.HUF;
+                    }
                     throw new Exception("Unkown currency: " + text);
             }
         }

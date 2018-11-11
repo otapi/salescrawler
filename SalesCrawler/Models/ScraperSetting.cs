@@ -10,7 +10,7 @@ namespace SalesCrawler.Models
     {
         public int ScraperSettingId { get; set; }
         public string Name { get; set; }
-        public bool IsSearchPatternURL { get; set; }
+        public bool IsSearchPatternURL { get; set; } = false;
         public string SearchPattern { get; set; }
 
         public Scraper Scraper { get; set; }

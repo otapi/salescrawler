@@ -16,6 +16,15 @@ namespace SalesCrawler.Models
             get { return _Name; }
             set { SetProperty(ref _Name, value); }
         }
+
+        ScraperSetting _Setting;
+        public ScraperSetting Setting
+        {
+            get { return _Setting; }
+            set { SetProperty(ref _Setting, value); }
+        }
+
+
         DateTime _StartTime;
         public DateTime StartTime
         {

@@ -10,8 +10,6 @@ namespace SalesCrawler.Architecture
     public interface IScraper
     {
         Scraper Datasheet { get; }
-        ScraperSetting Setting { get; }
-        void Init(ScraperSetting crawlerbotSetting);
-        Task Start();
+        void Start();
     }
 }
