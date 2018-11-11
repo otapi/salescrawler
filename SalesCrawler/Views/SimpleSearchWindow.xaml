@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SalesCrawler.Views"
         xmlns:ViewModels="clr-namespace:SalesCrawler.ViewModels"
         mc:Ignorable="d"
-        Title="Simple Search" Height="450" Width="800">
+        Title="Simple Search" Height="450" Width="800" WindowState="Maximized">
     <Window.DataContext>
         <ViewModels:SimpleSearchVM/>
     </Window.DataContext>
