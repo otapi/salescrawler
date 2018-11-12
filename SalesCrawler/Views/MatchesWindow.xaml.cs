@@ -22,7 +22,6 @@ namespace SalesCrawler.Views
         public MatchesWindow()
         {
             InitializeComponent();
-            DataContext = App.MatchesVM;
         }
     }
 }

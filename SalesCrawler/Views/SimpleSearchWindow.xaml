@@ -8,7 +8,11 @@
         mc:Ignorable="d"
         Title="Simple Search" Height="450" Width="800" WindowState="Maximized">
     <Window.DataContext>
-        <ViewModels:SimpleSearchVM/>
+        <ObjectDataProvider ObjectType="ViewModels:SimpleSearchVM">
+            <ObjectDataProvider.ConstructorParameters>
+                <StaticResource ResourceKey="CrawlerVM"/>
+            </ObjectDataProvider.ConstructorParameters>
+        </ObjectDataProvider>
     </Window.DataContext>
     <Grid>
         <ListBox x:Name="LBScrapers" HorizontalAlignment="Left" Margin="10,31,0,9.667" Width="177" SelectionMode="Extended" ItemsSource="{Binding Crawlerbots}"/>

@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ViewModels:CrawlerVM x:Key="CrawlerVM"></ViewModels:CrawlerVM>
-           
+            <ViewModels:MatchesVM x:Key="MatchesVM"></ViewModels:MatchesVM>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
