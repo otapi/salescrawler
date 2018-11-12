@@ -23,7 +23,6 @@ namespace SalesCrawler.Views
         public CrawlerMonitorUC()
         {
             InitializeComponent();
-            DataContext = App.CrawlerVM;
         }
     }
 }

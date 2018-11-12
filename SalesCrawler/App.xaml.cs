@@ -25,6 +25,7 @@ namespace SalesCrawler
                 return _MatchesVM;
             }
         }
+        /*
         static ViewModels.CrawlerVM _CrawlerVM;
         public static ViewModels.CrawlerVM CrawlerVM
         {
@@ -37,6 +38,8 @@ namespace SalesCrawler
                 return _CrawlerVM;
             }
         }
+        */
+        
 
         static Data.Database _DB;
         public static Data.Database DB
@@ -53,6 +56,8 @@ namespace SalesCrawler
                 return _DB;
             }
         }
+
+        public static object ServiceLocator { get; private set; }
 
         public static void PrintWarning(string message)
         {
