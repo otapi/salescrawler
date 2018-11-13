@@ -11,11 +11,6 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SalesCrawler.Scrapers
 {
-    // https://medium.com/the-andela-way/introduction-to-web-scraping-using-selenium-7ec377a8cf72
-    // https://javabeginnerstutorial.com/selenium/selenium-tutorial/
-    // https://github.com/AngleSharp/AngleSharp over htmlagilitypack
-    // http://scraping.pro
-
     public class Jofogas : Helpers.ScraperBase, Helpers.IScraper
     {
         public Scraper Datasheet { get; } = new Scraper()
@@ -67,14 +62,28 @@ namespace SalesCrawler.Scrapers
                 md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text);
                 md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text);
                 md.IsAuction = false;
-                md.Location = null;
+                md.Location = item.FindElement(By.XPath(".//section[@class='reLiSection cityname']")).Text;
                 md.Expire = NEVEREXPIRE;
                 AddMatch(md);
             };
-            
-            PrintNote("completed");
         }
-        
+
+        override public void UpdateMatchDetails(MatchData matchData)
+        {
+            driver.Navigate().GoToUrl(matchData.Url);
+
+            if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
+            {
+                driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
+            }
+
+            Wait().Until(c => c.FindElement(By.XPath("//div[@class='description']")));
+            matchData.Description = driver.FindElement(By.XPath("//div[@class='description']")).Text;
+            matchData.Seller = driver.FindElement(By.XPath("//div[@class='name']")).Text;
+
+        }
+
+
         Currencies.Currency GetCurrency(string text)
         {
             text = text.Replace("&nbsp;", "").Trim();

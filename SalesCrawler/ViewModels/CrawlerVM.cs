@@ -38,7 +38,7 @@ namespace SalesCrawler.ViewModels
                 if (_driver == null)
                 {
                     var options = new ChromeOptions();
-                    options.AddArgument("--incognito");
+                    //options.AddArgument("--incognito");
                     _driver = new ChromeDriver(options);
                     return driver;
                 }
