@@ -24,6 +24,12 @@ namespace SalesCrawler.Models
             set { SetProperty(ref _Setting, value); }
         }
 
+        DateTime _CreatedTime;
+        public DateTime CreatedTime
+        {
+            get { return _CreatedTime; }
+            set { SetProperty(ref _CreatedTime, value); }
+        }
 
         DateTime _StartTime;
         public DateTime StartTime

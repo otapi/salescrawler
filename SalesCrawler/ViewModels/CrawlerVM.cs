@@ -76,7 +76,7 @@ namespace SalesCrawler.ViewModels
                 Scraper = bot,
                 Task = null,
                 StatusMessage = StatusMessages[TaskStatus.Created],
-                StartTime = DateTime.Now
+                CreatedTime = DateTime.Now
             };
             StartBot(bi);
             Bots.Add(bi);
@@ -90,6 +90,7 @@ namespace SalesCrawler.ViewModels
                 return;
             }
             IsRunning = true;
+            bi.StartTime = DateTime.Now;
             bi.Scraper.Init(bi.Setting, driver);
             bi.Task = Task.Factory.StartNew(bi.Scraper.StartBase, TaskCreationOptions.LongRunning);
             bi.StatusMessage = StatusMessages[TaskStatus.Running];
@@ -109,6 +110,10 @@ namespace SalesCrawler.ViewModels
                 if (b==null)
                 {
                     // queue is done
+                    driver.Quit();
+                    driver.Dispose();
+                    _driver = null;
+                    
                 } else
                 {
 

@@ -6,9 +6,38 @@
         xmlns:local="clr-namespace:SalesCrawler.Views"
         mc:Ignorable="d"
         Title="MatchesWindow" Height="450" Width="800"
+        xmlns:ViewModels="clr-namespace:SalesCrawler.ViewModels"
         DataContext="{StaticResource MatchesVM}">
     <Grid>
-        <DataGrid ItemsSource="{Binding Matches}" Margin="0,39,0.333,-0.333" >
+        <DataGrid ItemsSource="{Binding Matches}" Margin="0,39,0.333,-0.333" AutoGenerateColumns="False" 
+                  RowHeight="100"
+                  EnableRowVirtualization="True" 
+             VirtualizingStackPanel.VirtualizationMode="Standard"
+             VirtualizingStackPanel.IsVirtualizing="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Visible">
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Visible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding CrawlerbotSetting.Name}" />
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                <DataGridTextColumn Header="Price HUF" Binding="{Binding ActualPriceHUF}" />
+                <DataGridTextColumn Header="Elapsed Minutes" Binding="{Binding LastScannedDate}" />
+                <DataGridTemplateColumn Header="Image">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="Hyperlink_RequestNavigate">
+                                    <Image Source="{Binding ImageUrl}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
         </DataGrid>
         <Button Content="Refresh" Command="{Binding LoadItemsCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
     </Grid>

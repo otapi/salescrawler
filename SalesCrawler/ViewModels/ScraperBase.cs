@@ -71,7 +71,7 @@ namespace SalesCrawler.ViewModels
             return new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
         }
 
-        protected async Task SaveMatch(string seller, string title, string url, string imageUrl, string description,
+        protected void SaveMatch(string seller, string title, string url, string imageUrl, string description,
                 double actualPrice, Default.Currency currency)
         {
         
@@ -92,7 +92,7 @@ namespace SalesCrawler.ViewModels
 
             };
             App.DB.Matches.Add(m);
-            await App.DB.SaveChangesAsync();
+            App.DB.SaveChangesAsync().Wait();
         }
 
         public static int ConvertPriceToHUF(Default.Currency currency, double price)
