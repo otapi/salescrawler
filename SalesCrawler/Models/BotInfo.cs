@@ -1,4 +1,4 @@
-﻿using SalesCrawler.Architecture;
+﻿using SalesCrawler.Helpers;
 using SalesCrawler.ViewModels;
 using System;
 using System.Collections.Generic;

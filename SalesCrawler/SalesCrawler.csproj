@@ -75,8 +75,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\BotInfo.cs" />
+    <Compile Include="Models\MatchData.cs" />
     <Compile Include="Scrapers\Jofogas.cs" />
-    <Compile Include="ViewModels\ScraperBase.cs" />
+    <Compile Include="Helpers\ScraperBase.cs" />
     <Compile Include="ViewModels\CrawlerVM.cs" />
     <Compile Include="ViewModels\MatchesVM.cs" />
     <Compile Include="ViewModels\SimpleSearchVM.cs" />
@@ -101,8 +102,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Architecture\ICrawlerbot.cs" />
-    <Compile Include="Data\Database.cs" />
+    <Compile Include="Helpers\IScraper.cs" />
+    <Compile Include="Helpers\Database.cs" />
     <Compile Include="ViewModels\BaseVM.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">

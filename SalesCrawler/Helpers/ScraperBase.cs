@@ -9,28 +9,42 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
 
-namespace SalesCrawler.ViewModels
+namespace SalesCrawler.Helpers
 {
     public class ScraperBase
     {
+        public static DateTime NEVEREXPIRE = new DateTime(2100, 1, 1);
         protected IWebDriver driver;
+        protected ScraperSetting Setting;
+        private Match Match;
 
-        public ScraperSetting Setting { get; set; }
-        
-        public void Init(ScraperSetting crawlerbotSetting, IWebDriver webDriver)
-        {
-            driver = webDriver;
-            Setting = crawlerbotSetting;
-        }
-
-        public virtual void Start()
+        public virtual void ScrapeList()
         {
 
         }
 
-        public void StartBase()
+        public void ScrapeListBase(IWebDriver driver, ScraperSetting scraperSettings)
         {
-            Start();
+            this.driver = driver;
+            Setting = scraperSettings;
+            Match = null;
+            ScrapeList();
+            
+        }
+
+        public virtual void UpdateMatchDetails(MatchData matchData)
+        {
+
+        }
+
+        public void UpdateMatchDetailsBase(IWebDriver driver, Match match)
+        {
+            this.driver = driver;
+            Setting = match.ScraperSetting;
+            Match = match;
+            UpdateMatchDetails(match.MatchData);
+            App.DB.SaveChangesAsync().Wait();
+
         }
 
         protected double StripToDouble(string text)
@@ -71,44 +85,22 @@ namespace SalesCrawler.ViewModels
             return new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
         }
 
-        protected void SaveMatch(string seller, string title, string url, string imageUrl, string description,
-                double actualPrice, Default.Currency currency)
+        protected void AddMatch(MatchData matchData)
         {
-        
-        var m = new Match()
+            var m = new Match();
+            m.LastScannedDate = DateTime.Now;
+            m.MatchData = matchData;
+            m.PriceHistories.Add(new PriceHistory()
             {
-                Seller = seller,
-                Title = title,
-                Url = url,
-                ImageUrl = imageUrl,
-                Description = description,
-                ActualPrice = actualPrice,
-                Currency = currency,
-                CrawlerbotSetting = Setting,
-                Alive = true,
-                LastScannedDate = DateTime.Now,
-                ActualPriceHUF = ConvertPriceToHUF(currency, actualPrice),
-                Visible = true,
-
-            };
+                Date = m.LastScannedDate,
+                PriceHUF = matchData.ActualPriceHUF
+            });
+            m.ScraperSetting = Setting;
             App.DB.Matches.Add(m);
             App.DB.SaveChangesAsync().Wait();
         }
 
-        public static int ConvertPriceToHUF(Default.Currency currency, double price)
-        {
-            switch (currency) {
-                case Default.Currency.EUR:
-                    return (int) price * 325;
-                case Default.Currency.HUF:
-                    return (int) price;
-                case Default.Currency.USD:
-                    return (int) price * 180;
-                default:
-                    App.PrintWarning($"Unkown currency: [{currency.ToString()}] with price ${price.ToString()}");
-                    return 0;
-            }
-        }
+        
         protected void PrintNote(string message)
         {
             App.PrintNote($"[{Setting.Name}] ${message}");

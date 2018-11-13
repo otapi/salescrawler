@@ -16,7 +16,7 @@ namespace SalesCrawler.Scrapers
     // https://github.com/AngleSharp/AngleSharp over htmlagilitypack
     // http://scraping.pro
 
-    public class Jofogas : ViewModels.ScraperBase, Architecture.IScraper
+    public class Jofogas : Helpers.ScraperBase, Helpers.IScraper
     {
         public Scraper Datasheet { get; } = new Scraper()
         {
@@ -25,7 +25,7 @@ namespace SalesCrawler.Scrapers
         };
 
         
-        override public void Start()
+        override public void ScrapeList()
         {
             if (!Setting.IsSearchPatternURL)
             {
@@ -58,32 +58,35 @@ namespace SalesCrawler.Scrapers
 
             foreach (var item in driver.FindElements(By.XPath("//div//div[@class='contentArea']")))
             {
-                SaveMatch(
-                    seller: null,
-                    title: item.FindElement(By.XPath(".//h3[@class='item-title']/a")).Text,
-                    url: item.FindElement(By.XPath(".//h3[@class='item-title']/a")).GetAttribute("href"),
-                    imageUrl: item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", ""),
-                    description: null,
-                    actualPrice: StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text),
-                    currency: GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text)
-                    );
+                var md = new MatchData();
+                md.Seller = null;
+                md.Title = item.FindElement(By.XPath(".//h3[@class='item-title']/a")).Text;
+                md.Url = item.FindElement(By.XPath(".//h3[@class='item-title']/a")).GetAttribute("href");
+                md.ImageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
+                md.Description = null;
+                md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text);
+                md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text);
+                md.IsAuction = false;
+                md.Location = null;
+                md.Expire = NEVEREXPIRE;
+                AddMatch(md);
             };
             
             PrintNote("completed");
         }
         
-        Default.Currency GetCurrency(string text)
+        Currencies.Currency GetCurrency(string text)
         {
             text = text.Replace("&nbsp;", "").Trim();
             switch (text)
             {
                 case "Ft":
                 case "":
-                    return Default.Currency.HUF;
+                    return Currencies.Currency.HUF;
                 default:
                     if (text.StartsWith("Ft"))
                     {
-                        return Default.Currency.HUF;
+                        return Currencies.Currency.HUF;
                     }
                     throw new Exception("Unkown currency: " + text);
             }

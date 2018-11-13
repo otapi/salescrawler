@@ -8,7 +8,6 @@
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="ScraperSettings" />
-      <Property Name="Matches" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="SalesCrawler.Models.ScraperSetting">
@@ -32,18 +31,19 @@
   <Class Name="SalesCrawler.Models.Match">
     <Position X="4.25" Y="3" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>IAAgQABAAAAgAGAAAAAAAAAACAgAAAQICAAAAAAASAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAACAAAAAAAAAAAAAAAAAABAAAAAAAQAA=</HashCode>
       <FileName>Models\Match.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="CrawlerbotSetting" />
+      <Property Name="MatchData" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="PriceHistories" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="SalesCrawler.Models.PriceHistory">
-    <Position X="7.25" Y="2.5" Width="1.5" />
+    <Position X="7.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAAAAAAAI=</HashCode>
       <FileName>Models\PriceHistory.cs</FileName>
@@ -55,15 +55,22 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAAABAAIgQAIBAAAAAAgEAIIMBIAAA=</HashCode>
+      <HashCode>AAAAAAAAAACAABAAABAAIgQAIBAAAAAAgEAIIMBIAAE=</HashCode>
       <FileName>Models\BotInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="SalesCrawler.Architecture.IScraper">
+  <Class Name="SalesCrawler.Models.MatchData">
+    <Position X="1.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAQABAAAAgAEAAAAAAAAAACAgAgAQICAAAAAAACAA=</HashCode>
+      <FileName>Models\MatchData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="SalesCrawler.Helpers.IScraper">
     <Position X="9.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Architecture\ICrawlerbot.cs</FileName>
+      <HashCode>AgAAAAAAAAAAAAAgAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\IScraper.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

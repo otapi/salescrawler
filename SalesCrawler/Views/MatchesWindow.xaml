@@ -23,15 +23,15 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Name" Binding="{Binding CrawlerbotSetting.Name}" />
-                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
-                <DataGridTextColumn Header="Price HUF" Binding="{Binding ActualPriceHUF}" />
-                <DataGridTextColumn Header="Elapsed Minutes" Binding="{Binding LastScannedDate}" />
+                <DataGridTextColumn Header="Title" Binding="{Binding MatchData.Title}" />
+                <DataGridTextColumn Header="Price HUF" Binding="{Binding MatchData.ActualPriceHUF}" />
+                <DataGridTextColumn Header="Location" Binding="{Binding MatchData.Location}" />
                 <DataGridTemplateColumn Header="Image">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock>
-                                <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="Hyperlink_RequestNavigate">
-                                    <Image Source="{Binding ImageUrl}" />
+                                <Hyperlink NavigateUri="{Binding MatchData.Url}" RequestNavigate="Hyperlink_RequestNavigate">
+                                    <Image Source="{Binding MatchData.ImageUrl}" />
                                 </Hyperlink>
                             </TextBlock>
                         </DataTemplate>

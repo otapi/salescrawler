@@ -13,8 +13,8 @@ namespace SalesCrawler
     /// </summary>
     public partial class App : Application
     {
-        static Data.Database _DB;
-        public static Data.Database DB
+        static Helpers.Database _DB;
+        public static Helpers.Database DB
         {
             get
             {
@@ -22,8 +22,8 @@ namespace SalesCrawler
                 {
                     App.PrintNote($"[DatabaseHelper] start");
 
-                    _DB = new Data.Database();
-                    _DB.Database.Delete(); _DB = new Data.Database();
+                    _DB = new Helpers.Database();
+                    _DB.Database.Delete(); _DB = new Helpers.Database();
                 }
                 return _DB;
             }

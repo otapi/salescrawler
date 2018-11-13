@@ -11,6 +11,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using SalesCrawler.Helpers;
 
 namespace SalesCrawler.ViewModels
 {
@@ -18,13 +19,6 @@ namespace SalesCrawler.ViewModels
     {
         // https://github.com/tom-englert/DataGridExtensions
         // TODO: adapt MVVM best practices? https://blog.rsuter.com/recommendations-best-practices-implementing-mvvm-xaml-net-applications/
-
-        public bool _IsRunning;
-        public bool IsRunning
-        {
-            get { return _IsRunning; }
-            set { SetProperty(ref _IsRunning, value); }
-        }
 
         ObservableCollection<Scraper> _AvailableScrapers;
         public ObservableCollection<Scraper> AvailableScrapers
@@ -61,7 +55,7 @@ namespace SalesCrawler.ViewModels
             Bots = new ObservableCollection<BotInfo>();
             Bots.CollectionChanged += OnCollectionChanged;
 
-            IsRunning = false;
+            IsBusy = false;
             
         }
 
@@ -78,21 +72,21 @@ namespace SalesCrawler.ViewModels
                 StatusMessage = StatusMessages[TaskStatus.Created],
                 CreatedTime = DateTime.Now
             };
-            StartBot(bi);
+            StartBotScrapeLists(bi);
             Bots.Add(bi);
         }
 
-        private void StartBot(BotInfo bi)
+        private void StartBotScrapeLists(BotInfo bi)
         {
-            if (IsRunning)
+            
+            if (IsBusy)
             {
                 App.PrintNote("Only one bot is allowed to run at once.");
                 return;
             }
-            IsRunning = true;
+            IsBusy = true;
             bi.StartTime = DateTime.Now;
-            bi.Scraper.Init(bi.Setting, driver);
-            bi.Task = Task.Factory.StartNew(bi.Scraper.StartBase, TaskCreationOptions.LongRunning);
+            bi.Task = Task.Factory.StartNew(() => bi.Scraper.ScrapeListBase(driver, bi.Setting), TaskCreationOptions.LongRunning);
             bi.StatusMessage = StatusMessages[TaskStatus.Running];
             bi.Task.ContinueWith((t) => {
                 bi.FinishedTime = DateTime.Now;
@@ -103,7 +97,7 @@ namespace SalesCrawler.ViewModels
                 }
                 bi.ElapsedMinutes = ((int)((bi.FinishedTime - bi.StartTime).TotalMinutes) * 10) / 10;
                 RaisePropertyChanged(() => Bots);
-                IsRunning = false;
+                IsBusy = false;
                 Thread.Sleep(1000);
                 
                 var b = GetNextBotFromQueue();
@@ -117,7 +111,7 @@ namespace SalesCrawler.ViewModels
                 } else
                 {
 
-                    StartBot(b);
+                    StartBotScrapeLists(b);
                 }
             });
         }
@@ -141,7 +135,7 @@ namespace SalesCrawler.ViewModels
             var theList = Assembly.GetExecutingAssembly().GetTypes().ToList().Where(t => t.Namespace == "SalesCrawler.Scrapers" && !t.FullName.Contains("+")).ToList();
             foreach (Type t in theList)
             {
-                var b = Activator.CreateInstance(t) as Architecture.IScraper;
+                var b = Activator.CreateInstance(t) as Helpers.IScraper;
                 ScraperClasses.Add(b.Datasheet.ScraperIdentifier, t);
                 AvailableScrapers.Add(b.Datasheet);
             }
