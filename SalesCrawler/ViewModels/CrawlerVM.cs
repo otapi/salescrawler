@@ -37,10 +37,14 @@ namespace SalesCrawler.ViewModels
             {
                 if (_driver == null)
                 {
-                    var options = new ChromeOptions();
+                    var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Google\\Chrome\\User Data\\";
+
+                    ChromeOptions options = new ChromeOptions();
+                    options.AddArgument("user-data-dir=" + userProfile);
+                    options.AddArgument("--start-maximized");
+                    options.AddUserProfilePreference("profile.default_content_setting_values.notifications", 2);
                     //options.AddArgument("--incognito");
                     _driver = new ChromeDriver(options);
-                    return driver;
                 }
                 return _driver;
 
@@ -103,11 +107,7 @@ namespace SalesCrawler.ViewModels
                 var b = GetNextBotFromQueue();
                 if (b==null)
                 {
-                    // queue is done
-                    driver.Quit();
-                    driver.Dispose();
-                    _driver = null;
-                    
+                    //CloseDriver();
                 } else
                 {
 
@@ -116,6 +116,12 @@ namespace SalesCrawler.ViewModels
             });
         }
         
+        private void CloseDriver()
+        {
+            driver.Quit();
+            driver.Dispose();
+            _driver = null;
+        }
         private BotInfo GetNextBotFromQueue()
         {
             foreach (var b in Bots)

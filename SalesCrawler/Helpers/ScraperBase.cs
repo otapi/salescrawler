@@ -76,6 +76,13 @@ namespace SalesCrawler.Helpers
             }
         }
 
+        protected string StripToLetters(string text)
+        {
+            var s = System.Text.RegularExpressions.Regex.Replace(text, @"[\d-]", string.Empty);
+            s = s.Replace("&nbsp;", " ");
+            return s.Trim();
+        }
+
 
 
         /// <summary>
@@ -83,8 +90,13 @@ namespace SalesCrawler.Helpers
         /// </summary>
         /// <param name="timeout">seconds</param>
         /// <returns></returns>
-        protected WebDriverWait Wait(int timeout = 10) {
+        protected WebDriverWait Waitfor(int timeout = 10) {
             return new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+        }
+
+        protected void Wait(int timeout = 1)
+        {
+            System.Threading.Thread.Sleep(timeout * 1000);
         }
 
         protected void AddMatch(MatchData matchData)
@@ -118,10 +130,15 @@ namespace SalesCrawler.Helpers
         /// </summary>
         /// <param name="element"></param>
         /// <returns>Y coordinate</returns>
-        protected int ScrollTo(IWebElement element)
+        protected int ScrollTo(IWebElement element, int offsetY = 0)
         {
-            ((IJavaScriptExecutor)driver).ExecuteScript($"window.scroll(0, {element.Location.Y});");
+            ((IJavaScriptExecutor)driver).ExecuteScript($"window.scroll(0, {element.Location.Y+offsetY});");
             return element.Location.Y;
+        }
+
+        protected void ScrollToBottom()
+        {
+            ((IJavaScriptExecutor)driver).ExecuteScript($"window.scrollTop = window.scrollHeight;");
         }
 
         protected byte[] GetImage(string url)
@@ -144,20 +161,20 @@ namespace SalesCrawler.Helpers
             }
             return b;
         }
-        protected byte[] TakeScreenshot(IWebDriver driver, IWebElement element)
+        protected byte[] TakeScreenshot(IWebElement element)
         {
 
             driver.SwitchTo();
             driver.Manage().Window.Maximize();
 
-
-            int yoffset = ScrollTo(element);
+            int offs = 100;
+            int yoffset = ScrollTo(element, -offs);
 
             // Todo: cache the screenshot with Y coordinates.
             Byte[] byteArray = ((ITakesScreenshot)driver).GetScreenshot().AsByteArray;
             System.Drawing.Bitmap screenshot = new System.Drawing.Bitmap(new System.IO.MemoryStream(byteArray));
 
-            System.Drawing.Rectangle croppedImage = new System.Drawing.Rectangle(element.Location.X, 0, element.Size.Width, element.Size.Height);
+            System.Drawing.Rectangle croppedImage = new System.Drawing.Rectangle(element.Location.X, offs, element.Size.Width, element.Size.Height+offs);
             screenshot = screenshot.Clone(croppedImage, screenshot.PixelFormat);
 
             ImageConverter converter = new ImageConverter();

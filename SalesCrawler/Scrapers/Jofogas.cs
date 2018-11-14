@@ -51,7 +51,7 @@ namespace SalesCrawler.Scrapers
             }
             //Wait().Until(ExpectedConditions.ElementToBeClickable(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
 
-            Wait().Until(c => c.FindElement(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
+            Waitfor().Until(c => c.FindElement(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
             foreach (var item in driver.FindElements(By.XPath("//div//div[@class='contentArea']")))
             {
                 var md = new MatchData();
@@ -81,7 +81,7 @@ namespace SalesCrawler.Scrapers
                 driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
             }
 
-            Wait().Until(c => c.FindElement(By.XPath("//div[@class='description']")));
+            Waitfor().Until(c => c.FindElement(By.XPath("//div[@class='description']")));
             matchData.Description = driver.FindElement(By.XPath("//div[@class='description']")).Text;
             matchData.Seller = driver.FindElement(By.XPath("//div[@class='name']")).Text;
 

@@ -19,34 +19,42 @@ namespace SalesCrawler.Scrapers
             Name = "FB Marketplace"
         };
 
-        
         override public void ScrapeList()
         {
             if (!Setting.IsSearchPatternURL)
             {
                 driver.Navigate().GoToUrl("https://www.facebook.com/marketplace/budapest?ref=bookmark");
-                driver.FindElement(By.XPath("//span[@placeholder='„truck” keresése']//input")).Click();
-                driver.FindElement(By.XPath("//span[@placeholder='„truck” keresése']//input")).Clear();
-                driver.FindElement(By.XPath("//span[@placeholder='„truck” keresése']//input")).SendKeys(Setting.SearchPattern);
+                var truck = driver.FindElement(By.XPath("//div[div[@aria-label='„Keresés” gomb']]/span//input"));
+                truck.Click();
+                truck.Clear();
+                truck.SendKeys(Setting.SearchPattern);
                 driver.FindElement(By.XPath("//div[@aria-label='„Keresés” gomb']")).Click();
+
             }
             else
             {
                 driver.Navigate().GoToUrl(Setting.SearchPattern);
             }
-            
-            foreach (var item in driver.FindElements(By.XPath("//a[@data-testid='marketplace_feed_item']")))
+
+            Wait();
+            for (int i=0;i<Setting.PagesToScrape;i++)
+            {
+                ScrollToBottom();
+                Wait();
+            }
+            var items = driver.FindElements(By.XPath("//a[@data-testid='marketplace_feed_item']"));
+            foreach (var item in items)
             {
                 var md = new MatchData();
                 md.Seller = null;
                 md.Title = item.GetAttribute("title");
                 md.Url = "https://www.facebook.com"+item.GetAttribute("href");
-                //md.ImageUrl = null;
+                md.ImageBinary = TakeScreenshot(item);
                 md.Description = null;
                 md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//div[@class='_f3l _4x3g']")).Text);
                 md.Currency = GetCurrency(item.FindElement(By.XPath(".//div[@class='_f3l _4x3g']")).Text);
                 md.IsAuction = false;
-                md.Location = item.FindElement(By.XPath(".//span[@location='[object Object']")).Text;
+                md.Location = item.FindElement(By.XPath(".//span[@location]")).Text;
                 md.Expire = NEVEREXPIRE;
                 AddMatch(md);
             };
@@ -61,10 +69,11 @@ namespace SalesCrawler.Scrapers
 
         Currencies.Currency GetCurrency(string text)
         {
-            text = text.Replace("&nbsp;", "").Trim();
-            switch (text)
+            
+            switch (StripToLetters(text))
             {
                 case "Ft":
+                case "INGYENES":
                 case "":
                     return Currencies.Currency.HUF;
                 default:
