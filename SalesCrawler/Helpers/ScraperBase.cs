@@ -7,7 +7,7 @@ using SalesCrawler.Models;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-
+using System.Drawing;
 
 namespace SalesCrawler.Helpers
 {
@@ -29,7 +29,7 @@ namespace SalesCrawler.Helpers
             Setting = scraperSettings;
             Match = null;
             ScrapeList();
-            
+
         }
 
         public virtual void UpdateMatchDetails(MatchData matchData)
@@ -75,13 +75,13 @@ namespace SalesCrawler.Helpers
         }
 
 
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="timeout">seconds</param>
         /// <returns></returns>
-        protected WebDriverWait Wait(int timeout=10) {
+        protected WebDriverWait Wait(int timeout = 10) {
             return new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
         }
 
@@ -100,7 +100,7 @@ namespace SalesCrawler.Helpers
             App.DB.SaveChangesAsync().Wait();
         }
 
-        
+
         protected void PrintNote(string message)
         {
             App.PrintNote($"[{Setting.Name}] ${message}");
@@ -110,5 +110,35 @@ namespace SalesCrawler.Helpers
         {
             App.PrintWarning($"[{Setting.Name}] ${message}");
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns>Y coordinate</returns>
+        int ScrollTo(IWebElement element)
+        {
+            ((IJavaScriptExecutor)driver).ExecuteScript($"window.scroll(0, {element.Location.Y});");
+            return element.Location.Y;
+        }
+
+        Bitmap TakeScreenshot(IWebDriver driver, IWebElement element)
+        {
+
+            driver.SwitchTo();
+            driver.Manage().Window.Maximize();
+
+
+            int yoffset = ScrollTo(element);
+
+            // Todo: cache the screenshot with Y coordinates.
+            Byte[] byteArray = ((ITakesScreenshot)driver).GetScreenshot().AsByteArray;
+            System.Drawing.Bitmap screenshot = new System.Drawing.Bitmap(new System.IO.MemoryStream(byteArray));
+
+            System.Drawing.Rectangle croppedImage = new System.Drawing.Rectangle(element.Location.X, 0, element.Size.Width, element.Size.Height);
+            screenshot = screenshot.Clone(croppedImage, screenshot.PixelFormat);
+            return screenshot;
+        }
     }
 }
+
