@@ -41,7 +41,7 @@ namespace SalesCrawler.Scrapers
                 md.Seller = null;
                 md.Title = item.GetAttribute("title");
                 md.Url = "https://www.facebook.com"+item.GetAttribute("href");
-                md.ImageUrl = null;
+                //md.ImageUrl = null;
                 md.Description = null;
                 md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//div[@class='_f3l _4x3g']")).Text);
                 md.Currency = GetCurrency(item.FindElement(By.XPath(".//div[@class='_f3l _4x3g']")).Text);

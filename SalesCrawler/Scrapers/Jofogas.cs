@@ -33,9 +33,10 @@ namespace SalesCrawler.Scrapers
 
                 //Wait().Until(c => c.FindElement(By.Id("index-search")));
                 //Wait().Until(ExpectedConditions.ElementToBeClickable(By.Id("index-search")));
-                driver.FindElement(By.Id("index-search")).Click();
-                driver.FindElement(By.Id("index-search")).Clear();
-                driver.FindElement(By.Id("index-search")).SendKeys(Setting.SearchPattern);
+                var search = driver.FindElement(By.Id("index-search"));
+                search.Click();
+                search.Clear();
+                search.SendKeys(Setting.SearchPattern);
                 driver.FindElement(By.XPath("//button[@type='submit']//i[@class='mdi mdi-magnify']")).Click();
             }
             else
@@ -49,15 +50,18 @@ namespace SalesCrawler.Scrapers
 
             }
             //Wait().Until(ExpectedConditions.ElementToBeClickable(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
-            Wait().Until(c => c.FindElement(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
 
+            Wait().Until(c => c.FindElement(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
             foreach (var item in driver.FindElements(By.XPath("//div//div[@class='contentArea']")))
             {
                 var md = new MatchData();
                 md.Seller = null;
-                md.Title = item.FindElement(By.XPath(".//h3[@class='item-title']/a")).Text;
-                md.Url = item.FindElement(By.XPath(".//h3[@class='item-title']/a")).GetAttribute("href");
-                md.ImageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
+                var link = item.FindElement(By.XPath(".//h3[@class='item-title']/a"));
+                md.Title = link.Text;
+                md.Url = link.GetAttribute("href");
+                var imageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
+                md.ImageBinary = GetImage(imageUrl);
+                //md.ImageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
                 md.Description = null;
                 md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text);
                 md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text);

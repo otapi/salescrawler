@@ -8,6 +8,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Drawing;
+using System.Net;
+using System.IO;
 
 namespace SalesCrawler.Helpers
 {
@@ -116,13 +118,33 @@ namespace SalesCrawler.Helpers
         /// </summary>
         /// <param name="element"></param>
         /// <returns>Y coordinate</returns>
-        int ScrollTo(IWebElement element)
+        protected int ScrollTo(IWebElement element)
         {
             ((IJavaScriptExecutor)driver).ExecuteScript($"window.scroll(0, {element.Location.Y});");
             return element.Location.Y;
         }
 
-        Bitmap TakeScreenshot(IWebDriver driver, IWebElement element)
+        protected byte[] GetImage(string url)
+        {
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(url);
+            WebResponse myResp = myReq.GetResponse();
+
+            byte[] b = null;
+            using (Stream stream = myResp.GetResponseStream())
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int count = 0;
+                do
+                {
+                    byte[] buf = new byte[1024];
+                    count = stream.Read(buf, 0, 1024);
+                    ms.Write(buf, 0, count);
+                } while (stream.CanRead && count > 0);
+                b = ms.ToArray();
+            }
+            return b;
+        }
+        protected byte[] TakeScreenshot(IWebDriver driver, IWebElement element)
         {
 
             driver.SwitchTo();
@@ -137,7 +159,9 @@ namespace SalesCrawler.Helpers
 
             System.Drawing.Rectangle croppedImage = new System.Drawing.Rectangle(element.Location.X, 0, element.Size.Width, element.Size.Height);
             screenshot = screenshot.Clone(croppedImage, screenshot.PixelFormat);
-            return screenshot;
+
+            ImageConverter converter = new ImageConverter();
+            return (byte[])converter.ConvertTo(screenshot, typeof(byte[]));
         }
     }
 }

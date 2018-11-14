@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace SalesCrawler.Models
 {
@@ -12,7 +15,25 @@ namespace SalesCrawler.Models
         public string Seller { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
-        public string ImageUrl { get; set; }
+        public byte[] ImageBinary { get; set; }
+        [NotMapped]
+        public BitmapImage Image
+        {
+            get
+            {
+                using (var ms = new System.IO.MemoryStream(ImageBinary))
+                {
+                    var image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = ms;
+                    image.EndInit();
+                    return image;
+                }
+            }
+        }
+
+
         public string Description { get; set; }
 
         public double ActualPrice { get; set; }

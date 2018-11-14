@@ -31,7 +31,7 @@
                         <DataTemplate>
                             <TextBlock>
                                 <Hyperlink NavigateUri="{Binding MatchData.Url}" RequestNavigate="Hyperlink_RequestNavigate">
-                                    <Image Source="{Binding MatchData.ImageUrl}" />
+                                    <Image Source="{Binding MatchData.Image}" />
                                 </Hyperlink>
                             </TextBlock>
                         </DataTemplate>
