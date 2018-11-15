@@ -15,7 +15,6 @@ namespace SalesCrawler.Scrapers
     {
         public Scraper Datasheet { get; } = new Scraper()
         {
-            ScraperIdentifier = 1,
             Name = "Jofogas.hu"
         };
 
@@ -51,26 +50,36 @@ namespace SalesCrawler.Scrapers
             }
             //Wait().Until(ExpectedConditions.ElementToBeClickable(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
 
-            Waitfor().Until(c => c.FindElement(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
-            foreach (var item in driver.FindElements(By.XPath("//div//div[@class='contentArea']")))
+            for (int page = 0; page < Setting.PagesToScrape; page++)
             {
-                var md = new MatchData();
-                md.Seller = null;
-                var link = item.FindElement(By.XPath(".//h3[@class='item-title']/a"));
-                md.Title = link.Text;
-                md.Url = link.GetAttribute("href");
-                var imageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
-                md.ImageBinary = GetImage(imageUrl);
-                //md.ImageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
-                md.Description = null;
-                md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text);
-                md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text);
-                md.IsAuction = false;
-                md.Location = item.FindElement(By.XPath(".//section[@class='reLiSection cityname']")).Text;
-                md.Expire = NEVEREXPIRE;
-                AddMatch(md);
-            };
-        }
+                Waitfor().Until(c => c.FindElement(By.XPath("//div[@id='footer_jofogas']")));
+                foreach (var item in driver.FindElements(By.XPath("//div//div[@class='contentArea']")))
+                {
+                    var md = new MatchData();
+                    md.Seller = null;
+                    var link = item.FindElement(By.XPath(".//h3[@class='item-title']/a"));
+                    md.Title = link.Text;
+                    md.Url = link.GetAttribute("href");
+                    var imageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
+                    md.ImageBinary = GetImage(imageUrl);
+                    //md.ImageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
+                    md.Description = null;
+                    md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text);
+                    md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text);
+                    md.IsAuction = false;
+                    md.Location = item.FindElement(By.XPath(".//section[@class='reLiSection cityname']")).Text;
+                    md.Expire = NEVEREXPIRE;
+                    AddMatch(md);
+                };
+                if (driver.FindElements(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")).Count == 0)
+                {
+                    break;
+                }
+                driver.FindElement(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")).Click();
+            }
+
+                
+            }
 
         override public void UpdateMatchDetails(MatchData matchData)
         {
@@ -86,24 +95,5 @@ namespace SalesCrawler.Scrapers
             matchData.Seller = driver.FindElement(By.XPath("//div[@class='name']")).Text;
 
         }
-
-
-        Currencies.Currency GetCurrency(string text)
-        {
-            text = text.Replace("&nbsp;", "").Trim();
-            switch (text)
-            {
-                case "Ft":
-                case "":
-                    return Currencies.Currency.HUF;
-                default:
-                    if (text.StartsWith("Ft"))
-                    {
-                        return Currencies.Currency.HUF;
-                    }
-                    throw new Exception("Unkown currency: " + text);
-            }
-        }
-        
     }
 }

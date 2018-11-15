@@ -21,6 +21,10 @@ namespace SalesCrawler.Models
         {
             get
             {
+                if (ImageBinary == null)
+                {
+                    return null;
+                }
                 using (var ms = new System.IO.MemoryStream(ImageBinary))
                 {
                     var image = new BitmapImage();

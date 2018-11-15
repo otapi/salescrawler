@@ -27,7 +27,7 @@ namespace SalesCrawler.Views
         }
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            Process.Start("chrome.exe", e.Uri.AbsoluteUri);
             e.Handled = true;
         }
     }

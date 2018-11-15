@@ -76,6 +76,8 @@
     </ApplicationDefinition>
     <Compile Include="Models\BotInfo.cs" />
     <Compile Include="Models\MatchData.cs" />
+    <Compile Include="Scrapers\TestBikeBolha.cs" />
+    <Compile Include="Scrapers\BikemagApro.cs" />
     <Compile Include="Scrapers\Jofogas.cs" />
     <Compile Include="Scrapers\FBMarketplace.cs" />
     <Compile Include="Helpers\ScraperBase.cs" />

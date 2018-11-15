@@ -13,7 +13,7 @@
   <Class Name="SalesCrawler.Models.ScraperSetting">
     <Position X="4.25" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AACEAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAIQACAAAA=</HashCode>
+      <HashCode>AACEgAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAIQACAAAA=</HashCode>
       <FileName>Models\ScraperSetting.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -31,11 +31,10 @@
   <Class Name="SalesCrawler.Models.Match">
     <Position X="4.25" Y="3" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAACAAAAAAAAAAAAAAAAAABAAAAAAAQAA=</HashCode>
+      <HashCode>AAAoAAAAAAAAACAAAAAAAAAAAAgAAAQIBAAAAAAAAAA=</HashCode>
       <FileName>Models\Match.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="CrawlerbotSetting" />
       <Property Name="MatchData" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
@@ -50,7 +49,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SalesCrawler.Models.BotInfo">
-    <Position X="10" Y="0.5" Width="1.5" />
+    <Position X="12" Y="0.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -58,18 +57,21 @@
       <HashCode>AAAAAAAAAACAABAAABAAIgQAIBAAAAAAgEAIIMBIAAE=</HashCode>
       <FileName>Models\BotInfo.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Setting" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="SalesCrawler.Models.MatchData">
     <Position X="1.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAQABAAAAgAEAAAAAAAAAACAgAgAQICAAAAAAACAA=</HashCode>
+      <HashCode>IEAAAABAAAAgAEAAAAIQAAAACAAAgBAACAAEAAAACAA=</HashCode>
       <FileName>Models\MatchData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="SalesCrawler.Helpers.IScraper">
-    <Position X="9.25" Y="3.75" Width="1.5" />
+    <Position X="9.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAAAgAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AgAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>Helpers\IScraper.cs</FileName>
     </TypeIdentifier>
   </Interface>

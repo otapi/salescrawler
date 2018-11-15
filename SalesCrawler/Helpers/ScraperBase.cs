@@ -112,6 +112,8 @@ namespace SalesCrawler.Helpers
             m.ScraperSetting = Setting;
             App.DB.Matches.Add(m);
             App.DB.SaveChangesAsync().Wait();
+
+            UpdateMatchDetailsBase(driver, m);
         }
 
 
@@ -179,6 +181,24 @@ namespace SalesCrawler.Helpers
 
             ImageConverter converter = new ImageConverter();
             return (byte[])converter.ConvertTo(screenshot, typeof(byte[]));
+        }
+
+        protected Currencies.Currency GetCurrency(string text)
+        {
+
+            switch (StripToLetters(text))
+            {
+                case "Ft":
+                case "":
+                case "INGYENES":
+                    return Currencies.Currency.HUF;
+                default:
+                    if (text.StartsWith("Ft"))
+                    {
+                        return Currencies.Currency.HUF;
+                    }
+                    throw new Exception("Unkown currency: " + text);
+            }
         }
     }
 }

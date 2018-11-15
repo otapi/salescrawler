@@ -27,7 +27,7 @@ namespace SalesCrawler.ViewModels
             set { SetProperty(ref _AvailableScrapers, value); }
         }
 
-        Dictionary<int, Type> ScraperClasses;
+        Dictionary<string, Type> ScraperClasses;
         public ObservableCollection<BotInfo> Bots { get; }
 
         IWebDriver _driver;
@@ -136,12 +136,13 @@ namespace SalesCrawler.ViewModels
 
         void ScanScraperClasses()
         {
-            ScraperClasses = new Dictionary<int, Type>();
+            ScraperClasses = new Dictionary<string, Type>();
             AvailableScrapers = new ObservableCollection<Scraper>();
             var theList = Assembly.GetExecutingAssembly().GetTypes().ToList().Where(t => t.Namespace == "SalesCrawler.Scrapers" && !t.FullName.Contains("+")).ToList();
             foreach (Type t in theList)
             {
                 var b = Activator.CreateInstance(t) as Helpers.IScraper;
+                b.Datasheet.ScraperIdentifier = t.FullName;
                 ScraperClasses.Add(b.Datasheet.ScraperIdentifier, t);
                 AvailableScrapers.Add(b.Datasheet);
             }

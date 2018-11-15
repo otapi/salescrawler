@@ -15,7 +15,6 @@ namespace SalesCrawler.Scrapers
     {
         public Scraper Datasheet { get; } = new Scraper()
         {
-            ScraperIdentifier = 2,
             Name = "FB Marketplace"
         };
 
@@ -49,7 +48,7 @@ namespace SalesCrawler.Scrapers
                 md.Seller = null;
                 md.Title = item.GetAttribute("title");
                 md.Url = "https://www.facebook.com"+item.GetAttribute("href");
-                md.ImageBinary = TakeScreenshot(item);
+               // md.ImageBinary = TakeScreenshot(item);
                 md.Description = null;
                 md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//div[@class='_f3l _4x3g']")).Text);
                 md.Currency = GetCurrency(item.FindElement(By.XPath(".//div[@class='_f3l _4x3g']")).Text);
@@ -67,23 +66,6 @@ namespace SalesCrawler.Scrapers
         }
 
 
-        Currencies.Currency GetCurrency(string text)
-        {
-            
-            switch (StripToLetters(text))
-            {
-                case "Ft":
-                case "INGYENES":
-                case "":
-                    return Currencies.Currency.HUF;
-                default:
-                    if (text.StartsWith("Ft"))
-                    {
-                        return Currencies.Currency.HUF;
-                    }
-                    throw new Exception("Unkown currency: " + text);
-            }
-        }
         
     }
 }
