@@ -15,11 +15,13 @@ namespace SalesCrawler.Helpers
 {
     public class ScraperBase
     {
+        private static bool SAVE_DB_ONLYONCE = true;
         public static DateTime NEVEREXPIRE = new DateTime(2100, 1, 1);
         protected IWebDriver driver;
         protected ScraperSetting Setting;
         private Match Match;
-
+        private List<Match> AddedMatches = new List<Match>();
+        
         public virtual void ScrapeList()
         {
 
@@ -30,8 +32,19 @@ namespace SalesCrawler.Helpers
             this.driver = driver;
             Setting = scraperSettings;
             Match = null;
+            AddedMatches = new List<Match>();
             ScrapeList();
 
+            // If details need to be updated at new Matches...
+            foreach (var match in AddedMatches)
+            {
+                UpdateMatchDetailsBase(driver, match);
+            }
+
+            if (SAVE_DB_ONLYONCE)
+            {
+                App.DB.SaveChangesAsync().Wait();
+            }
         }
 
         public virtual void UpdateMatchDetails(MatchData matchData)
@@ -39,13 +52,17 @@ namespace SalesCrawler.Helpers
 
         }
 
+        
         public void UpdateMatchDetailsBase(IWebDriver driver, Match match)
         {
             this.driver = driver;
             Setting = match.ScraperSetting;
             Match = match;
             UpdateMatchDetails(match.MatchData);
-            App.DB.SaveChangesAsync().Wait();
+            if (!SAVE_DB_ONLYONCE)
+            {
+                App.DB.SaveChangesAsync().Wait();
+            }
 
         }
 
@@ -111,9 +128,11 @@ namespace SalesCrawler.Helpers
             });
             m.ScraperSetting = Setting;
             App.DB.Matches.Add(m);
-            App.DB.SaveChangesAsync().Wait();
-
-            UpdateMatchDetailsBase(driver, m);
+            if (!SAVE_DB_ONLYONCE)
+            {
+                App.DB.SaveChangesAsync().Wait();
+            }
+            AddedMatches.Add(m);
         }
 
 

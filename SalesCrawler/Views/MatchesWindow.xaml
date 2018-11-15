@@ -16,16 +16,27 @@
              VirtualizingStackPanel.IsVirtualizing="True">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Visible">
-                    <DataGridTemplateColumn.CellEditingTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Visible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Name" Binding="{Binding CrawlerbotSetting.Name}" />
-                <DataGridTextColumn Header="Title" Binding="{Binding MatchData.Title}" />
-                <DataGridTextColumn Header="Price HUF" Binding="{Binding MatchData.ActualPriceHUF}" />
-                <DataGridTextColumn Header="Location" Binding="{Binding MatchData.Location}" />
+                <DataGridTextColumn Header="Title" Binding="{Binding MatchData.Title}" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Description" Binding="{Binding MatchData.Description}" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn Header="Image">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -37,6 +48,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Price HUF" Binding="{Binding MatchData.ActualPriceHUF}" />
+                <DataGridTextColumn Header="Location" Binding="{Binding MatchData.Location}" />
+                <DataGridTextColumn Header="Seller" Binding="{Binding MatchData.Seller}" />
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Refresh" Command="{Binding LoadItemsCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>

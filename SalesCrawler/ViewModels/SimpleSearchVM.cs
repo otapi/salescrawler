@@ -51,6 +51,33 @@ namespace SalesCrawler.ViewModels
             }
 
         }
+        
+        private ICommand _SearchTestCommand;
+        public ICommand SearchTestCommand
+        {
+            get
+            {
+                return _SearchTestCommand ?? (_SearchTestCommand = new CommandHandler((param) => SearchTestCommandExecute(param), !IsBusy));
+            }
+        }
+        public void SearchTestCommandExecute(object selectedItems)
+        {
+            System.Collections.IList items = (System.Collections.IList)selectedItems;
+            var collection = items.Cast<Scraper>();
+
+            foreach (var item in collection)
+            {
+                ScraperSetting setting = new ScraperSetting()
+                {
+                    Name = $"SimpleSearch - {item.Name}",
+                    SearchPattern = TextToSearch,
+                    Scraper = item,
+                    DoOnlyTest = true
+                };
+                CrawlerVM.AddBot(setting);
+            }
+
+        }
 
         public SimpleSearchVM(CrawlerVM crawlerVM)
         {

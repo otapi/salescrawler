@@ -22,6 +22,9 @@
         
         <Button Command="{Binding SearchCommand}"
         CommandParameter="{Binding ElementName=LBScrapers, Path=SelectedItems}" Margin="192,59,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="95">Start crawling</Button>
+        <Button Command="{Binding SearchTestCommand}"
+        CommandParameter="{Binding ElementName=LBScrapers, Path=SelectedItems}" Margin="292,59,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="95">Test it</Button>
+
         <local:CrawlerMonitorUC Margin="192,89,0.333,-0.333"/>
         <Button Content="Open Matches" HorizontalAlignment="Right" Margin="0,64,10.333,0" VerticalAlignment="Top" Width="99" Click="Button_Click"/>
 

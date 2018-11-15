@@ -101,8 +101,8 @@ namespace SalesCrawler.ViewModels
                 }
                 bi.ElapsedMinutes = ((int)((bi.FinishedTime - bi.StartTime).TotalMinutes) * 10) / 10;
                 RaisePropertyChanged(() => Bots);
+
                 IsBusy = false;
-                Thread.Sleep(1000);
                 
                 var b = GetNextBotFromQueue();
                 if (b==null)
