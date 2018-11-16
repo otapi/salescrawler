@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SalesCrawler.Scrapers
 {
-    public class Jofogas : Helpers.ScraperBase, Helpers.IScraper
+    public class Jofogas : Helpers.Scraper, Helpers.IScraper
     {
         public Scraper Datasheet { get; } = new Scraper()
         {
@@ -52,6 +52,7 @@ namespace SalesCrawler.Scrapers
 
             for (int page = 0; page < Setting.PagesToScrape; page++)
             {
+                PrintNote($"Scraping page {page}/{Setting.PagesToScrape}");
                 Waitfor().Until(c => c.FindElement(By.XPath("//div[@id='footer_jofogas']")));
                 foreach (var item in driver.FindElements(By.XPath("//div//div[@class='contentArea']")))
                 {
@@ -70,6 +71,8 @@ namespace SalesCrawler.Scrapers
                     md.Location = item.FindElement(By.XPath(".//section[@class='reLiSection cityname']")).Text;
                     md.Expire = NEVEREXPIRE;
                     AddMatch(md);
+                    if (Setting.DoOnlyTest) break;
+
                 };
                 if (driver.FindElements(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")).Count == 0)
                 {

@@ -13,6 +13,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="StatusMessage" Binding="{Binding StatusMessage}" />
+                <DataGridTextColumn Header="Message" Binding="{Binding Scraper.Message}" Width="200" />
                 <DataGridTextColumn Header="Elapsed Minutes" Binding="{Binding ElapsedMinutes}" />
             </DataGrid.Columns>
         </DataGrid>  

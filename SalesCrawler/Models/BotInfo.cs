@@ -55,16 +55,10 @@ namespace SalesCrawler.Models
             get { return _StatusMessage; }
             set { SetProperty(ref _StatusMessage, value); }
         }
-        string _Message;
-        public string Message
-        {
-            get { return _Message; }
-            set { SetProperty(ref _Message, value); }
-        }
         public Task Task { get; set; }
 
-        ScraperBase _Scraper;
-        public ScraperBase Scraper
+        Helpers.Scraper _Scraper;
+        public Scraper Scraper
         {
             get { return _Scraper; }
             set { SetProperty(ref _Scraper, value); }

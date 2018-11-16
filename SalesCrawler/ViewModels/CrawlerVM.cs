@@ -20,8 +20,8 @@ namespace SalesCrawler.ViewModels
         // https://github.com/tom-englert/DataGridExtensions
         // TODO: adapt MVVM best practices? https://blog.rsuter.com/recommendations-best-practices-implementing-mvvm-xaml-net-applications/
 
-        ObservableCollection<Scraper> _AvailableScrapers;
-        public ObservableCollection<Scraper> AvailableScrapers
+        ObservableCollection<Models.Scraper> _AvailableScrapers;
+        public ObservableCollection<Models.Scraper> AvailableScrapers
         {
             get { return _AvailableScrapers; }
             set { SetProperty(ref _AvailableScrapers, value); }
@@ -65,11 +65,10 @@ namespace SalesCrawler.ViewModels
 
         public void AddBot(ScraperSetting crawlerbotSetting)
         {
-            var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]) as ScraperBase;
+            var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]) as Helpers.Scraper;
             var bi = new BotInfo()
             {
                 Name = crawlerbotSetting.Name,
-                Message = "",
                 Setting = crawlerbotSetting,
                 Scraper = bot,
                 Task = null,
@@ -97,7 +96,7 @@ namespace SalesCrawler.ViewModels
                 bi.StatusMessage = StatusMessages[t.Status];
                 if (t.IsFaulted)
                 {
-                    bi.Message = t.Exception.Message;
+                    App.PrintWarning($"[{bi.Name}] {t.Exception.Message}");
                 }
                 bi.ElapsedMinutes = ((int)((bi.FinishedTime - bi.StartTime).TotalMinutes) * 10) / 10;
                 RaisePropertyChanged(() => Bots);
@@ -137,7 +136,7 @@ namespace SalesCrawler.ViewModels
         void ScanScraperClasses()
         {
             ScraperClasses = new Dictionary<string, Type>();
-            AvailableScrapers = new ObservableCollection<Scraper>();
+            AvailableScrapers = new ObservableCollection<Models.Scraper>();
             var theList = Assembly.GetExecutingAssembly().GetTypes().ToList().Where(t => t.Namespace == "SalesCrawler.Scrapers" && !t.FullName.Contains("+")).ToList();
             foreach (Type t in theList)
             {

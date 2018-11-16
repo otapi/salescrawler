@@ -14,7 +14,7 @@ using SalesCrawler.ViewModels;
 
 namespace SalesCrawler.Helpers
 {
-    public class ScraperBase : BaseVM
+    public class Scraper : BaseVM
     {
         private static bool SAVE_DB_ONLYONCE = true;
         public static DateTime NEVEREXPIRE = new DateTime(2100, 1, 1);

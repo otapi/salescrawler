@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SalesCrawler.Scrapers
 {
-    public class FBMarketplace : Helpers.ScraperBase, Helpers.IScraper
+    public class FBMarketplace : Helpers.Scraper, Helpers.IScraper
     {
         public Scraper Datasheet { get; } = new Scraper()
         {
@@ -56,6 +56,8 @@ namespace SalesCrawler.Scrapers
                 md.Location = item.FindElement(By.XPath(".//span[@location]")).Text;
                 md.Expire = NEVEREXPIRE;
                 AddMatch(md);
+                if (Setting.DoOnlyTest) break;
+
             };
         }
 

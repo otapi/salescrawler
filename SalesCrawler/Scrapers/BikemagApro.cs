@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SalesCrawler.Scrapers
 {
-    public class BikemagApro : Helpers.ScraperBase, Helpers.IScraper
+    public class BikemagApro : Helpers.Scraper, Helpers.IScraper
     {
         public Scraper Datasheet { get; } = new Scraper()
         {
@@ -58,6 +58,7 @@ namespace SalesCrawler.Scrapers
                     md.Expire = NEVEREXPIRE;
 
                     AddMatch(md);
+                    if (Setting.DoOnlyTest) break;
                 };
 
                 if (driver.FindElements(By.XPath("i[@class='fa fa-angle-right d_inline_m']")).Count == 0)

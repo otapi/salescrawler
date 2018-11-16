@@ -70,9 +70,10 @@ namespace SalesCrawler.ViewModels
                 ScraperSetting setting = new ScraperSetting()
                 {
                     Name = $"SimpleSearch - {item.Name}",
-                    SearchPattern = TextToSearch,
+                    SearchPattern = (TextToSearch == null ? "kerékpár" : TextToSearch),
                     Scraper = item,
-                    DoOnlyTest = true
+                    DoOnlyTest = true,
+                    PagesToScrape = 2
                 };
                 CrawlerVM.AddBot(setting);
             }
