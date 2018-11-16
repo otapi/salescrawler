@@ -74,14 +74,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers\ScraperBase.cs" />
+    <Compile Include="Helpers\ScraperBot.cs" />
     <Compile Include="Models\BotInfo.cs" />
     <Compile Include="Models\MatchData.cs" />
     <Compile Include="Scrapers\TestBikeBolha.cs" />
     <Compile Include="Scrapers\BikemagApro.cs" />
     <Compile Include="Scrapers\Jofogas.cs" />
     <Compile Include="Scrapers\FBMarketplace.cs" />
-    <Compile Include="Helpers\Scraper.cs" />
+    <Compile Include="Helpers\ScraperBase.cs" />
     <Compile Include="ViewModels\CrawlerVM.cs" />
     <Compile Include="ViewModels\MatchesVM.cs" />
     <Compile Include="ViewModels\SimpleSearchVM.cs" />

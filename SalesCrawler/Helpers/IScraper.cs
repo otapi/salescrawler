@@ -11,7 +11,10 @@ namespace SalesCrawler.Helpers
     public interface IScraper
     {
         Scraper Datasheet { get; }
-        void ScrapeList();
-        void UpdateMatchDetails(MatchData matchData);
+        void StartSearch(ScraperSetting scraperSettings);
+        IReadOnlyCollection<IWebElement> GetItemsOnPage();
+        void GetItem(IWebElement item, MatchData md);
+        By NextPageElement { get; }
+        void UpdateMatchDetails(MatchData md);
     }
 }

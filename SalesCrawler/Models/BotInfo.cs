@@ -57,8 +57,8 @@ namespace SalesCrawler.Models
         }
         public Task Task { get; set; }
 
-        Helpers.Scraper _Scraper;
-        public Scraper Scraper
+        Helpers.ScraperBot _Scraper;
+        public ScraperBot Scraper
         {
             get { return _Scraper; }
             set { SetProperty(ref _Scraper, value); }

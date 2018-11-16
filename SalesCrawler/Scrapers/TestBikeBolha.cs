@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SalesCrawler.Scrapers
 {
-    public class TestBikeBolha : Helpers.Scraper, Helpers.IScraper
+    public class TestBikeBolha : Helpers.ScraperBase, Helpers.IScraper
     {
         // Same as BikeMag!
         public Scraper Datasheet { get; } = new Scraper()
@@ -19,61 +19,52 @@ namespace SalesCrawler.Scrapers
             Name = "TestBike"
         };
 
-        
-        override public void ScrapeList()
+        public void StartSearch(ScraperSetting scraperSettings)
         {
-            
-            if (!Setting.IsSearchPatternURL)
+            if (scraperSettings.IsSearchPatternURL)
+            {
+                driver.Navigate().GoToUrl(scraperSettings.SearchPattern);
+            }
+            else
             {
                 driver.Navigate().GoToUrl("https://bolha.testbike.hu/");
 
                 var search = driver.FindElement(By.Id("SearchForm_needle"));
                 search.Click();
                 search.Clear();
-                search.SendKeys(Setting.SearchPattern);
+                search.SendKeys(scraperSettings.SearchPattern);
                 driver.FindElement(By.XPath("//form[@id='clSearch']//button")).Click();
-            }
-            else
-            {
-                driver.Navigate().GoToUrl(Setting.SearchPattern);
-                
-            }
-            //Wait().Until(ExpectedConditions.ElementToBeClickable(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
-
-            for (int page = 0; page < Setting.PagesToScrape; page++)
-            {
-                Waitfor().Until(c => c.FindElement(By.XPath("//h5")));
-                foreach (var item in driver.FindElements(By.XPath("//figure")))
-                {
-                    var md = new MatchData();
-                    var link = item.FindElement(By.XPath(".//a"));
-
-                    md.Seller = null;
-                    md.Title = link.GetAttribute("title");
-                    md.Url = link.GetAttribute("href");
-                    md.ImageBinary = GetImage(item.FindElement(By.XPath(".//img")).GetAttribute("src"));
-                    md.Description = null;
-                    md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//span[@class='d_block']")).Text);
-                    md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='d_block']")).Text);
-                    md.IsAuction = false;
-                    md.Location = item.FindElement(By.XPath(".//span[@class='d_block fw_bold color_light']")).Text;
-                                                                             
-                    md.Expire = NEVEREXPIRE;
-
-                    AddMatch(md);
-                    if (Setting.DoOnlyTest) break;
-
-                };
-
-                if (driver.FindElements(By.XPath("i[@class='fa fa-angle-right d_inline_m']")).Count == 0)
-                {
-                    break;
-                }
-                driver.FindElement(By.XPath("i[@class='fa fa-angle-right d_inline_m']")).Click();
             }
         }
 
-        
-        
+        public IReadOnlyCollection<IWebElement> GetItemsOnPage()
+        {
+            Waitfor(By.XPath("//h5"));
+            return driver.FindElements(By.XPath("//figure"));
+        }
+
+        public void GetItem(IWebElement item, MatchData md)
+        {
+            var link = item.FindElement(By.XPath(".//a"));
+
+            md.Seller = null;
+            md.Title = link.GetAttribute("title");
+            md.Url = link.GetAttribute("href");
+            md.ImageBinary = GetImage(item.FindElement(By.XPath(".//img")).GetAttribute("src"));
+            md.Description = null;
+            md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//span[@class='d_block']")).Text);
+            md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='d_block']")).Text);
+            md.IsAuction = false;
+            md.Location = item.FindElement(By.XPath(".//span[@class='d_block fw_bold color_light']")).Text;
+
+            md.Expire = NEVEREXPIRE;
+        }
+
+        public By NextPageElement { get; } = By.XPath("i[@class='fa fa-angle-right d_inline_m']");
+
+        public void UpdateMatchDetails(MatchData md)
+        {
+            
+        }
     }
 }

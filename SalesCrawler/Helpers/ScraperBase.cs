@@ -14,68 +14,15 @@ using SalesCrawler.ViewModels;
 
 namespace SalesCrawler.Helpers
 {
-    public class ScraperBase : BaseVM
+    public class ScraperBase
     {
-        private static bool SAVE_DB_ONLYONCE = true;
         public static DateTime NEVEREXPIRE = new DateTime(2100, 1, 1);
         protected IWebDriver driver;
-        protected ScraperSetting Setting;
-        private Match Match;
-        private List<Match> AddedMatches = new List<Match>();
-        string _Message;
-        public string Message
-        {
-            get { return _Message; }
-            set { SetProperty(ref _Message, value); }
-        }
-
-        public virtual void ScrapeList()
-        {
-
-        }
-
-        public void ScrapeListBase(IWebDriver driver, ScraperSetting scraperSettings)
-        {
-            this.driver = driver;
-            Setting = scraperSettings;
-            Match = null;
-            AddedMatches = new List<Match>();
-            Message = "Start Scrape List";
-            ScrapeList();
-
-            // If details need to be updated at new Matches...
-            for (int i=0; i<AddedMatches.Count;i++)
-            {
-                Message = $"Scrape Details: {i}/{AddedMatches.Count}";
-                UpdateMatchDetailsBase(driver, AddedMatches[i]);
-            }
-            Message = $"ScrapeList finished, found {AddedMatches.Count} items.";
-
-            if (SAVE_DB_ONLYONCE)
-            {
-                App.DB.SaveChangesAsync().Wait();
-            }
-        }
-
-        public virtual void UpdateMatchDetails(MatchData matchData)
-        {
-
-        }
-
         
-        public void UpdateMatchDetailsBase(IWebDriver driver, Match match)
+        public void Init(IWebDriver driver)
         {
             this.driver = driver;
-            Setting = match.ScraperSetting;
-            Match = match;
-            UpdateMatchDetails(match.MatchData);
-            if (!SAVE_DB_ONLYONCE)
-            {
-                App.DB.SaveChangesAsync().Wait();
-            }
-
         }
-
         protected double StripToDouble(string text)
         {
             // TODO: check and locale spec
@@ -110,55 +57,22 @@ namespace SalesCrawler.Helpers
             return s.Trim();
         }
 
-
-
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="by"></param>
         /// <param name="timeout">seconds</param>
-        /// <returns></returns>
-        protected WebDriverWait Waitfor(int timeout = 10) {
-            return new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+        protected void Waitfor(By by, int timeout = 10)
+        {
+            var w = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+            w.Until(c => c.FindElement(by));
         }
-
         protected void Wait(int timeout = 1)
         {
             System.Threading.Thread.Sleep(timeout * 1000);
         }
 
-        protected void AddMatch(MatchData matchData)
-        {
-            var m = new Match();
-            m.LastScannedDate = DateTime.Now;
-            m.MatchData = matchData;
-            m.PriceHistories.Add(new PriceHistory()
-            {
-                Date = m.LastScannedDate,
-                PriceHUF = matchData.ActualPriceHUF
-            });
-            m.ScraperSetting = Setting;
-            App.DB.Matches.Add(m);
-            if (!SAVE_DB_ONLYONCE)
-            {
-                App.DB.SaveChangesAsync().Wait();
-            }
-            AddedMatches.Add(m);
-            
-        }
-
-
-        protected void PrintNote(string message)
-        {
-            App.PrintNote($"[{Setting.Name}] ${message}");
-            Message = message;
-        }
-
-        protected void PrintWarning(string message)
-        {
-            App.PrintWarning($"[{Setting.Name}] ${message}");
-            Message = message;
-        }
-
+        
         /// <summary>
         /// 
         /// </summary>

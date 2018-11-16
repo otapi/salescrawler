@@ -65,7 +65,7 @@ namespace SalesCrawler.ViewModels
 
         public void AddBot(ScraperSetting crawlerbotSetting)
         {
-            var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]) as Helpers.Scraper;
+            var bot = new ScraperBot(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]);
             var bi = new BotInfo()
             {
                 Name = crawlerbotSetting.Name,
@@ -152,7 +152,7 @@ namespace SalesCrawler.ViewModels
             RaisePropertyChanged(() => Bots);
         }
 
-        static Dictionary<TaskStatus, string> StatusMessages = new Dictionary<TaskStatus, string>()
+        static readonly Dictionary<TaskStatus, string> StatusMessages = new Dictionary<TaskStatus, string>()
         {
             {TaskStatus.Canceled, "Canceled" },
             {TaskStatus.Created, "Waiting" },

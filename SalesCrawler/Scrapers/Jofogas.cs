@@ -11,92 +11,76 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SalesCrawler.Scrapers
 {
-    public class Jofogas : Helpers.Scraper, Helpers.IScraper
+    public class Jofogas : Helpers.ScraperBase, Helpers.IScraper
     {
         public Scraper Datasheet { get; } = new Scraper()
         {
             Name = "Jofogas.hu"
         };
 
-        
-        override public void ScrapeList()
+        public void StartSearch(ScraperSetting scraperSettings)
         {
-            if (!Setting.IsSearchPatternURL)
+            if (scraperSettings.IsSearchPatternURL)
             {
-                driver.Navigate().GoToUrl("https://www.jofogas.hu/");
-                //Wait().Until(ExpectedConditions.ElementToBeClickable(By.Id("CybotCookiebotDialogBodyButtonAccept")));
+                driver.Navigate().GoToUrl(scraperSettings.SearchPattern);
                 if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
                 {
                     driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
                 }
-
-                //Wait().Until(c => c.FindElement(By.Id("index-search")));
-                //Wait().Until(ExpectedConditions.ElementToBeClickable(By.Id("index-search")));
-                var search = driver.FindElement(By.Id("index-search"));
-                search.Click();
-                search.Clear();
-                search.SendKeys(Setting.SearchPattern);
-                driver.FindElement(By.XPath("//button[@type='submit']//i[@class='mdi mdi-magnify']")).Click();
             }
             else
             {
-                driver.Navigate().GoToUrl(Setting.SearchPattern);
-                //Wait().Until(ExpectedConditions.ElementToBeClickable(By.Id("CybotCookiebotDialogBodyButtonAccept")));
+                driver.Navigate().GoToUrl("https://www.jofogas.hu/");
                 if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
                 {
                     driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
                 }
 
+                var search = driver.FindElement(By.Id("index-search"));
+                search.Click();
+                search.Clear();
+                search.SendKeys(scraperSettings.SearchPattern);
+                driver.FindElement(By.XPath("//button[@type='submit']//i[@class='mdi mdi-magnify']")).Click();
             }
-            //Wait().Until(ExpectedConditions.ElementToBeClickable(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")));
+        }
 
-            for (int page = 0; page < Setting.PagesToScrape; page++)
-            {
-                PrintNote($"Scraping page {page}/{Setting.PagesToScrape}");
-                Waitfor().Until(c => c.FindElement(By.XPath("//div[@id='footer_jofogas']")));
-                foreach (var item in driver.FindElements(By.XPath("//div//div[@class='contentArea']")))
-                {
-                    var md = new MatchData();
-                    md.Seller = null;
-                    var link = item.FindElement(By.XPath(".//h3[@class='item-title']/a"));
-                    md.Title = link.Text;
-                    md.Url = link.GetAttribute("href");
-                    var imageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
-                    md.ImageBinary = GetImage(imageUrl);
-                    //md.ImageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
-                    md.Description = null;
-                    md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text);
-                    md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text);
-                    md.IsAuction = false;
-                    md.Location = item.FindElement(By.XPath(".//section[@class='reLiSection cityname']")).Text;
-                    md.Expire = NEVEREXPIRE;
-                    AddMatch(md);
-                    if (Setting.DoOnlyTest) break;
-
-                };
-                if (driver.FindElements(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")).Count == 0)
-                {
-                    break;
-                }
-                driver.FindElement(By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']")).Click();
-            }
-
-                
-            }
-
-        override public void UpdateMatchDetails(MatchData matchData)
+        public IReadOnlyCollection<IWebElement> GetItemsOnPage()
         {
-            driver.Navigate().GoToUrl(matchData.Url);
+            Waitfor(By.XPath("//div[@id='footer_jofogas']"));
+            return driver.FindElements(By.XPath("//div//div[@class='contentArea']"));
+        }
+
+        public void GetItem(IWebElement item, MatchData md)
+        {
+            md.Seller = null;
+            var link = item.FindElement(By.XPath(".//h3[@class='item-title']/a"));
+            md.Title = link.Text;
+            md.Url = link.GetAttribute("href");
+            var imageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
+            md.ImageBinary = GetImage(imageUrl);
+            //md.ImageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
+            md.Description = null;
+            md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text);
+            md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text);
+            md.IsAuction = false;
+            md.Location = item.FindElement(By.XPath(".//section[@class='reLiSection cityname']")).Text;
+            md.Expire = NEVEREXPIRE;
+        }
+
+        public By NextPageElement { get; } = By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']");
+
+        public void UpdateMatchDetails(MatchData md)
+        {
+            driver.Navigate().GoToUrl(md.Url);
 
             if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
             {
                 driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
             }
 
-            Waitfor().Until(c => c.FindElement(By.XPath("//div[@class='description']")));
-            matchData.Description = driver.FindElement(By.XPath("//div[@class='description']")).Text;
-            matchData.Seller = driver.FindElement(By.XPath("//div[@class='name']")).Text;
-
+            Waitfor(By.XPath("//div[@class='description']"));
+            md.Description = driver.FindElement(By.XPath("//div[@class='description']")).Text;
+            md.Seller = driver.FindElement(By.XPath("//div[@class='name']")).Text;
         }
     }
 }
