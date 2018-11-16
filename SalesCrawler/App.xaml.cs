@@ -23,7 +23,8 @@ namespace SalesCrawler
                     App.PrintNote($"[DatabaseHelper] start");
 
                     _DB = new Helpers.Database();
-                    _DB.Database.Delete(); _DB = new Helpers.Database();
+                    _DB.Database.Delete();
+                    _DB = new Helpers.Database();
                 }
                 return _DB;
             }

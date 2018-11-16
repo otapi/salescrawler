@@ -54,7 +54,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAABAAABAAIgQAIBAAAAAAgEAIIMBIAAE=</HashCode>
+      <HashCode>AAAAAAAAAACAABAAABAAIgQAIAAAAAAAgEAIAMBIAAE=</HashCode>
       <FileName>Models\BotInfo.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -64,14 +64,14 @@
   <Class Name="SalesCrawler.Models.MatchData">
     <Position X="1.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IEAAAABAAAAgAEAAAAIQAAAACAAAgBAACAAEAAAACAA=</HashCode>
+      <HashCode>IEAAAABEAAAgAEAAAAIQAAAACAAAgBAACAAEAAAACAA=</HashCode>
       <FileName>Models\MatchData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="SalesCrawler.Helpers.IScraper">
     <Position X="9.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <HashCode>BgAAAAACAAAAAEAAAAAAAAAAAAAAAAACAAAAIAAAAAA=</HashCode>
       <FileName>Helpers\IScraper.cs</FileName>
     </TypeIdentifier>
   </Interface>

@@ -23,6 +23,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Name" Binding="{Binding CrawlerbotSetting.Name}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding MatchData.Status}" />
                 <DataGridTextColumn Header="Title" Binding="{Binding MatchData.Title}" Width="150">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -30,7 +31,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Description" Binding="{Binding MatchData.Description}" Width="150">
+                <DataGridTextColumn Header="Description" Binding="{Binding MatchData.Description}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />

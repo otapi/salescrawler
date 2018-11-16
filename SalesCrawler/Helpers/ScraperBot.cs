@@ -40,15 +40,17 @@ namespace SalesCrawler.Helpers
             scraper.StartSearch(scraperSettings);
             for (int page = 0; page < scraperSettings.PagesToScrape; page++)
             {
-                Message = $"Scraping page {page}/{scraperSettings.PagesToScrape}";
+                Message = $"Scraping page {page+1}/{scraperSettings.PagesToScrape}";
                 var items = scraper.GetItemsOnPage();
                 for (int i = 0; i<items.Count; i++)
                 {
-                    Message = $"Scraping page {page}/{scraperSettings.PagesToScrape}, item {i}/{items.Count}";
+                    Message = $"Scraping page {page + 1}/{scraperSettings.PagesToScrape}, item {i+1}/{items.Count}";
                     var md = new MatchData();
                     scraper.GetItem(items.ElementAt(i), md);
-                    AddMatch(md, scraperSettings);
-                    if (scraperSettings.DoOnlyTest) break;
+                    if (md.Status != MatchDataStatus.Sold)
+                    {
+                        AddMatch(md, scraperSettings);
+                    } else if (scraperSettings.DoOnlyTest) break;
                 }
                 if (scraper.NextPageElement == null)
                 {
@@ -65,7 +67,7 @@ namespace SalesCrawler.Helpers
             // If details need to be updated at new Matches...
             for (int i=0; i<AddedMatches.Count;i++)
             {
-                Message = $"Scrape Details: {i}/{AddedMatches.Count}";
+                Message = $"Scrape Details: {i+1}/{AddedMatches.Count}";
 
                 UpdateMatchDetailsBase(driver, AddedMatches[i], scraperSettings, scraper);
             }
@@ -85,7 +87,6 @@ namespace SalesCrawler.Helpers
                 ((ScraperBase)scraperOrig).Init(driver);
                 scraper = (IScraper)scraperOrig;
             }
-            scraper.StartSearch(scraperSettings);
             scraper.UpdateMatchDetails(match.MatchData);
             if (!SAVE_DB_ONLYONCE)
             {

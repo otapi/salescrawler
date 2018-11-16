@@ -65,6 +65,11 @@ namespace SalesCrawler.Scrapers
             md.IsAuction = false;
             md.Location = item.FindElement(By.XPath(".//section[@class='reLiSection cityname']")).Text;
             md.Expire = NEVEREXPIRE;
+
+            if (item.FindElements(By.XPath("//div[contains(text(),'Kiszállítás folyamatban')]")).Count > 0)
+            {
+                md.Status = MatchDataStatus.Sold;
+            }
         }
 
         public By NextPageElement { get; } = By.XPath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']");
@@ -72,15 +77,15 @@ namespace SalesCrawler.Scrapers
         public void UpdateMatchDetails(MatchData md)
         {
             driver.Navigate().GoToUrl(md.Url);
-
-            if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
-            {
-                driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
-            }
-
             Waitfor(By.XPath("//div[@class='description']"));
             md.Description = driver.FindElement(By.XPath("//div[@class='description']")).Text;
-            md.Seller = driver.FindElement(By.XPath("//div[@class='name']")).Text;
+            var sell = driver.FindElements(By.XPath("//div[@class='name']"));
+            if (sell.Count == 0)
+            {
+                md.Status = MatchDataStatus.Sold;
+                return;
+            }
+            md.Seller = sell[0].Text;
         }
     }
 }
