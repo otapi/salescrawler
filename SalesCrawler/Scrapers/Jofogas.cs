@@ -23,24 +23,10 @@ namespace SalesCrawler.Scrapers
             if (scraperSettings.IsSearchPatternURL)
             {
                 driver.Navigate().GoToUrl(scraperSettings.SearchPattern);
-                if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
-                {
-                    driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
-                }
             }
             else
             {
-                driver.Navigate().GoToUrl("https://www.jofogas.hu/");
-                if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
-                {
-                    driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
-                }
-
-                var search = driver.FindElement(By.Id("index-search"));
-                search.Click();
-                search.Clear();
-                search.SendKeys(scraperSettings.SearchPattern);
-                driver.FindElement(By.XPath("//button[@type='submit']//i[@class='mdi mdi-magnify']")).Click();
+                driver.Navigate().GoToUrl($"https://www.jofogas.hu/magyarorszag?q={scraperSettings.SearchPattern}");
             }
         }
 
@@ -77,7 +63,7 @@ namespace SalesCrawler.Scrapers
         public void UpdateMatchDetails(MatchData md)
         {
             driver.Navigate().GoToUrl(md.Url);
-            Waitfor(By.XPath("//div[@class='description']"));
+            //Waitfor(By.XPath("//div[@class='description']"));
             md.Description = driver.FindElement(By.XPath("//div[@class='description']")).Text;
             var sell = driver.FindElements(By.XPath("//div[@class='name']"));
             if (sell.Count == 0)

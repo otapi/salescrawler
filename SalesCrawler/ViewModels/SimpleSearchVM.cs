@@ -45,7 +45,8 @@ namespace SalesCrawler.ViewModels
                 {
                     Name = $"SimpleSearch - {item.Name}",
                     SearchPattern = TextToSearch,
-                    Scraper = item
+                    Scraper = item,
+                    PagesToScrape = 3
                 };
                 CrawlerVM.AddBot(setting);
             }
