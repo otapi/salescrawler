@@ -65,12 +65,7 @@ namespace SalesCrawler.Helpers
             }
 
             // If details need to be updated at new Matches...
-            for (int i=0; i<AddedMatches.Count;i++)
-            {
-                Message = $"Scrape Details: {i+1}/{AddedMatches.Count}";
-
-                UpdateMatchDetailsBase(driver, AddedMatches[i], scraperSettings, scraper);
-            }
+            UpdateMatchDetails(driver, AddedMatches, scraperSettings, scraper);
             Message = $"ScrapeList finished, found {AddedMatches.Count} items.";
 
             if (SAVE_DB_ONLYONCE)
@@ -79,20 +74,56 @@ namespace SalesCrawler.Helpers
             }
         }
 
-        public void UpdateMatchDetailsBase(IWebDriver driver, Match match, ScraperSetting scraperSettings, IScraper scraper = null)
+        public void UpdateMatchDetails(IWebDriver driver, List<Match> matches, ScraperSetting scraperSettings, IScraper scraper = null)
         {
+            int TabsInParallel = 10;
             if (scraper == null)
             {
                 var scraperOrig = Activator.CreateInstance(ScraperType);
                 ((ScraperBase)scraperOrig).Init(driver);
                 scraper = (IScraper)scraperOrig;
             }
-            scraper.UpdateMatchDetails(match.MatchData);
-            if (!SAVE_DB_ONLYONCE)
+
+            string origtab = driver.CurrentWindowHandle;
+            for (int tabRound = 0; tabRound < matches.Count/TabsInParallel +1 ; tabRound++)
+            {
+                int ifrom = tabRound * TabsInParallel;
+                int ito = (tabRound + 1) * TabsInParallel;
+                if (ito > matches.Count)
+                {
+                    ito = matches.Count;
+                }
+
+                Message = $"Load Details Pages: {ifrom}-{ito}/{AddedMatches.Count}";
+                for (int i = ifrom; i < ito; i++)
+                {
+                    ((IJavaScriptExecutor)driver).ExecuteScript($"window.open(\"{matches[i].MatchData.Url}\")");
+                }
+                List<string> tabs = new List<string>();
+                
+                tabs.AddRange(driver.WindowHandles.ToList());
+                int t = ito-ifrom;
+                for (int i = ifrom; i < ito; i++)
+                {
+                    driver.SwitchTo().Window(tabs[t]);
+                    t--;
+
+                    scraper.UpdateMatchDetails(matches[i].MatchData);
+                    driver.Close();
+                    
+                    if (!SAVE_DB_ONLYONCE)
+                    {
+                        App.DB.SaveChangesAsync().Wait();
+                    }
+                }
+                driver.SwitchTo().Window(origtab);
+            }
+
+            if (SAVE_DB_ONLYONCE)
             {
                 App.DB.SaveChangesAsync().Wait();
             }
-
+            driver.SwitchTo().Window(origtab);
         }
 
         protected void AddMatch(MatchData matchData, ScraperSetting setting)

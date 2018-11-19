@@ -62,8 +62,7 @@ namespace SalesCrawler.Scrapers
 
         public void UpdateMatchDetails(MatchData md)
         {
-            driver.Navigate().GoToUrl(md.Url);
-            //Waitfor(By.XPath("//div[@class='description']"));
+            Waitfor(By.XPath("//div[@class='description']"));
             md.Description = driver.FindElement(By.XPath("//div[@class='description']")).Text;
             var sell = driver.FindElements(By.XPath("//div[@class='name']"));
             if (sell.Count == 0)

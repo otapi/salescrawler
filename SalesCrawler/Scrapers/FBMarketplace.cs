@@ -66,10 +66,14 @@ namespace SalesCrawler.Scrapers
 
         public By NextPageElement { get; } = null;
 
-        public void UpdateMatchDetails(MatchData md)
+        public void GoToPageMatchDetails(MatchData md)
         {
             driver.Navigate().GoToUrl(md.Url);
+        }
 
+        public void UpdateMatchDetails(MatchData md)
+        {
+        
             if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
             {
                 driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
