@@ -61,7 +61,7 @@ namespace SalesCrawler.Helpers
                 {
                     break;
                 }
-                np[0].Click(); 
+                np[0].SendKeys(Keys.Return);
             }
 
             // If details need to be updated at new Matches...

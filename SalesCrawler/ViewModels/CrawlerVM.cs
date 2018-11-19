@@ -39,11 +39,10 @@ namespace SalesCrawler.ViewModels
         }
         public async Task GetDetailsCommandExecute(object matchObj)
         {
-            var match = matchObj as Match;
-            AddBotsUpdateDetails(new List<Match>()
-            {
-                match
-            });
+            System.Collections.IList items = (System.Collections.IList)matchObj;
+            var matches = items.Cast<Match>();
+
+            AddBotsUpdateDetails(matches.ToList());
         }
 
         Dictionary<string, Type> ScraperClasses;
@@ -56,15 +55,25 @@ namespace SalesCrawler.ViewModels
             {
                 if (_driver == null)
                 {
+                    var chromeDriverService = ChromeDriverService.CreateDefaultService();
+                    chromeDriverService.HideCommandPromptWindow = true;
+                    
+
                     var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Google\\Chrome\\User Data\\";
 
                     ChromeOptions options = new ChromeOptions();
                     options.AddArgument("user-data-dir=" + userProfile);
-                    options.AddArgument("--start-maximized");
+                    options.AddArgument("--start-minimized");
+                    options.AddArgument("--disable - translate");
                     options.AddUserProfilePreference("profile.default_content_setting_values.notifications", 2);
                     //options.AddArgument("--incognito");
-                    _driver = new ChromeDriver(options);
-                    driver.Manage().Window.Minimize();
+                    //_driver = new ChromeDriver(options);
+                    _driver = new ChromeDriver(chromeDriverService, options);
+
+                    _driver.Manage().Window.Minimize();
+
+                    
+                    
                 }
                 return _driver;
 

@@ -7,15 +7,18 @@
         mc:Ignorable="d"
         Title="MatchesWindow" Height="450" Width="800"
         xmlns:ViewModels="clr-namespace:SalesCrawler.ViewModels"
-        DataContext="{StaticResource MatchesVM}">
+        DataContext="{StaticResource MatchesVM}"
+        xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions">
     <Grid>
-        <DataGrid ItemsSource="{Binding Matches}" Margin="0,39,0.333,-0.333" AutoGenerateColumns="False" 
+        <DataGrid
+            x:Name="MatchGrid"
+            ItemsSource="{Binding Matches}" Margin="0,39,0.333,-0.333" AutoGenerateColumns="False" 
                   RowHeight="100"
                   EnableRowVirtualization="True" 
              VirtualizingStackPanel.VirtualizationMode="Standard"
              VirtualizingStackPanel.IsVirtualizing="True"
                   SelectedItem="{Binding SelectedMatch}"
-                  >
+                  dgx:DataGridFilter.IsAutoFilterEnabled="True">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Visible">
                     <DataGridTemplateColumn.CellTemplate>
@@ -58,6 +61,6 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Refresh" Command="{Binding LoadItemsCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
-        <Button Content="Get Details" Command="{Binding GetDetailsCommand, Source={StaticResource CrawlerVM}}" CommandParameter="{Binding SelectedMatch}" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
+        <Button Content="Get Details" Command="{Binding GetDetailsCommand, Source={StaticResource CrawlerVM}}" CommandParameter="{Binding ElementName=MatchGrid, Path=SelectedItems}" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
     </Grid>
 </Window>
