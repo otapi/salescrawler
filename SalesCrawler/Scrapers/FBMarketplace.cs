@@ -66,11 +66,6 @@ namespace SalesCrawler.Scrapers
 
         public By NextPageElement { get; } = null;
 
-        public void GoToPageMatchDetails(MatchData md)
-        {
-            driver.Navigate().GoToUrl(md.Url);
-        }
-
         public void UpdateMatchDetails(MatchData md)
         {
         

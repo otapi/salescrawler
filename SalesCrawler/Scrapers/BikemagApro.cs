@@ -61,10 +61,6 @@ namespace SalesCrawler.Scrapers
 
         public By NextPageElement { get; } = By.XPath("i[@class='fa fa-angle-right d_inline_m']");
 
-        public void GoToPageMatchDetails(MatchData md)
-        {
-        }
-
         public void UpdateMatchDetails(MatchData md)
         {
 

@@ -64,5 +64,19 @@ namespace SalesCrawler.Models
             set { SetProperty(ref _Scraper, value); }
         }
 
+        public TaskTypes _TaskType;
+        public TaskTypes TaskType
+        {
+            get { return _TaskType; }
+            set { SetProperty(ref _TaskType, value); }
+        }
+
+        public List<Match> Matches = new List<Match>();
+
+        public enum TaskTypes
+        {
+            ScrapeList,
+            UpdateDetails
+        }
     }
 }

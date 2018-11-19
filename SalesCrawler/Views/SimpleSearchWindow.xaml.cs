@@ -27,6 +27,7 @@ namespace SalesCrawler.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var view = new MatchesWindow();
+            
             view.Show();
         }
 

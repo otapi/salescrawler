@@ -48,7 +48,7 @@ namespace SalesCrawler.ViewModels
                     Scraper = item,
                     PagesToScrape = 3
                 };
-                CrawlerVM.AddBot(setting);
+                CrawlerVM.AddBotScrapeList(setting);
             }
 
         }
@@ -76,7 +76,7 @@ namespace SalesCrawler.ViewModels
                     DoOnlyTest = true,
                     PagesToScrape = 2
                 };
-                CrawlerVM.AddBot(setting);
+                CrawlerVM.AddBotScrapeList(setting);
             }
 
         }

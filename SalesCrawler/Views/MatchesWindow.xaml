@@ -13,7 +13,9 @@
                   RowHeight="100"
                   EnableRowVirtualization="True" 
              VirtualizingStackPanel.VirtualizationMode="Standard"
-             VirtualizingStackPanel.IsVirtualizing="True">
+             VirtualizingStackPanel.IsVirtualizing="True"
+                  SelectedItem="{Binding SelectedMatch}"
+                  >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Visible">
                     <DataGridTemplateColumn.CellTemplate>
@@ -56,5 +58,6 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Refresh" Command="{Binding LoadItemsCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
+        <Button Content="Get Details" Command="{Binding GetDetailsCommand, Source={StaticResource CrawlerVM}}" CommandParameter="{Binding SelectedMatch}" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
     </Grid>
 </Window>

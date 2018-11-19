@@ -30,6 +30,8 @@ namespace SalesCrawler
             }
         }
 
+        
+
         public static object ServiceLocator { get; private set; }
 
         public static void PrintWarning(string message)

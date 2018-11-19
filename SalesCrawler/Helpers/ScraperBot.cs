@@ -65,7 +65,7 @@ namespace SalesCrawler.Helpers
             }
 
             // If details need to be updated at new Matches...
-            UpdateMatchDetails(driver, AddedMatches, scraperSettings, scraper);
+            //UpdateMatchDetails(driver, AddedMatches, scraperSettings, scraper);
             Message = $"ScrapeList finished, found {AddedMatches.Count} items.";
 
             if (SAVE_DB_ONLYONCE)

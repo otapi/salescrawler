@@ -53,8 +53,15 @@
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
+    <NestedTypes>
+      <Enum Name="SalesCrawler.Models.BotInfo.TaskTypes" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\BotInfo.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAABAAABAAIgQAIAAAAAAAgEAIAMBIAAE=</HashCode>
+      <HashCode>ABAAAAAAAACAABAAABAAIgQAIAAAAAAAhEAIAMBICAE=</HashCode>
       <FileName>Models\BotInfo.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
