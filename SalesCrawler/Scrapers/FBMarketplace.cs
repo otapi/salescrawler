@@ -18,49 +18,77 @@ namespace SalesCrawler.Scrapers
             Name = "FB Marketplace"
         };
 
+        ScraperSetting ScraperSettings;
         public void StartSearch(ScraperSetting scraperSettings)
         {
+            ScraperSettings = scraperSettings;
             if (scraperSettings.IsSearchPatternURL)
             {
                 driver.Navigate().GoToUrl(scraperSettings.SearchPattern);
             }
             else
             {
-                driver.Navigate().GoToUrl("https://www.facebook.com/marketplace/budapest?ref=bookmark");
-                var truck = driver.FindElement(By.XPath("//div[div[@aria-label='„Keresés” gomb']]/span//input"));
-                truck.Click();
-                truck.Clear();
-                truck.SendKeys(scraperSettings.SearchPattern);
-                driver.FindElement(By.XPath("//div[@aria-label='„Keresés” gomb']")).Click();
+                driver.Navigate().GoToUrl($"https://www.facebook.com/marketplace/budapest/search?query={System.Web.HttpUtility.UrlEncode(scraperSettings.SearchPattern)}");
+
             }
 
-            for (int i = 0; i < scraperSettings.PagesToScrape; i++)
-            {
-                ScrollToBottom();
-                Wait();
-            }
+            
+            
         }
 
         public IReadOnlyCollection<IWebElement> GetItemsOnPage()
         {
-            Waitfor(By.XPath("//div[@id='footer_jofogas']"));
-            return driver.FindElements(By.XPath("//a[@data-testid='marketplace_feed_item']"));
+            driver.Manage().Window.Maximize();
+            IReadOnlyCollection<IWebElement> ret = null;
+            for (int i = 0; i < ScraperSettings.PagesToScrape; i++)
+            {
+                ret = WaitForItemsloaded();
+                if (ret.Count == 0)
+                {
+                    break;
+                } else
+                {
+                    ret.ElementAt(0).SendKeys(Keys.PageDown);
+                    ret.ElementAt(0).SendKeys(Keys.PageDown);
+                    ret.ElementAt(0).SendKeys(Keys.PageDown);
+                    ret.ElementAt(0).SendKeys(Keys.PageDown);
+                    ret.ElementAt(0).SendKeys(Keys.PageDown);
+                }
+            }
+            driver.Manage().Window.Minimize();
+            return ret;
+        }
+
+        private IReadOnlyCollection<IWebElement> WaitForItemsloaded()
+        {
+            
+            var list = driver.FindElements(By.XPath("//a[@data-testid='marketplace_feed_item']"));
+            int prevcount = list.Count;
+            int actcount = -1;
+            Wait();
+            for (;prevcount!=actcount;)
+            {
+                prevcount = list.Count;
+                list = driver.FindElements(By.XPath("//a[@data-testid='marketplace_feed_item']"));
+                actcount = list.Count;
+                Wait();
+            }
+            return list;
         }
 
         public void GetItem(IWebElement item, MatchData md)
         {
             md.Seller = null;
-            var link = item.FindElement(By.XPath(".//h3[@class='item-title']/a"));
-            md.Title = link.Text;
-            md.Url = link.GetAttribute("href");
-            var imageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
+            md.Title = item.GetAttribute("title");
+            md.Url = item.GetAttribute("href");
+            var imageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("src");
             md.ImageBinary = GetImage(imageUrl);
-            //md.ImageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
             md.Description = null;
-            md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text);
-            md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text);
+            var price = item.FindElement(By.XPath(".//div[@class='_f3l _4x3g']")).Text;
+            md.ActualPrice = StripToInt(price);
+            md.Currency = GetCurrency(price);
             md.IsAuction = false;
-            md.Location = item.FindElement(By.XPath(".//section[@class='reLiSection cityname']")).Text;
+            md.Location = item.FindElement(By.XPath(".//span[@location]")).Text;
             md.Expire = NEVEREXPIRE;
         }
 
@@ -68,15 +96,13 @@ namespace SalesCrawler.Scrapers
 
         public void UpdateMatchDetails(MatchData md)
         {
-        
-            if (driver.FindElements(By.Id("CybotCookiebotDialogBodyButtonAccept")).Count > 0)
+            Waitfor(By.XPath("//p[@class='_4etw']"), 30);
+            if (driver.FindElements(By.XPath("//a[contains(@title,'Továbbiak')]")).Count == 0)
             {
-                driver.FindElement(By.Id("CybotCookiebotDialogBodyButtonAccept")).Click();
+                driver.FindElement(By.XPath("//a[contains(@title,'Továbbiak')]")).Click();
             }
+            md.Description = driver.FindElement(By.XPath("//p[@class='_4etw']/span")).Text;
 
-            Waitfor(By.XPath("//div[@class='description']"));
-            md.Description = driver.FindElement(By.XPath("//div[@class='description']")).Text;
-            md.Seller = driver.FindElement(By.XPath("//div[@class='name']")).Text;
         }
     }
 }

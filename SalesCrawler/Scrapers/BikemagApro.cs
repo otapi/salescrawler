@@ -26,13 +26,7 @@ namespace SalesCrawler.Scrapers
             }
             else
             {
-                driver.Navigate().GoToUrl("https://apro.bikemag.hu/");
-
-                var search = driver.FindElement(By.Id("SearchForm_needle"));
-                search.Click();
-                search.Clear();
-                search.SendKeys(scraperSettings.SearchPattern);
-                driver.FindElement(By.XPath("//form[@id='clSearch']//button")).Click();
+                driver.Navigate().GoToUrl($"https://apro.bikemag.hu/aprok?q={System.Web.HttpUtility.UrlEncode(scraperSettings.SearchPattern)}");
             }
         }
 
@@ -63,7 +57,15 @@ namespace SalesCrawler.Scrapers
 
         public void UpdateMatchDetails(MatchData md)
         {
-
+            Waitfor(By.XPath("//div[@itemprop='description']"));
+            md.Description = driver.FindElement(By.XPath("//div[@itemprop='description']")).Text;
+            var sell = driver.FindElements(By.XPath("//a[@title='profiloldal']"));
+            if (sell.Count == 0)
+            {
+                md.Status = MatchDataStatus.Sold;
+                return;
+            }
+            md.Seller = sell[0].Text;
         }
     }
 }

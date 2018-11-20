@@ -26,7 +26,7 @@ namespace SalesCrawler.Scrapers
             }
             else
             {
-                driver.Navigate().GoToUrl($"https://www.jofogas.hu/magyarorszag?q={scraperSettings.SearchPattern}");
+                driver.Navigate().GoToUrl($"https://www.jofogas.hu/magyarorszag?q={System.Web.HttpUtility.UrlEncode(scraperSettings.SearchPattern)}");
             }
         }
 

@@ -12,6 +12,7 @@
     <Grid>
         <DataGrid
             x:Name="MatchGrid"
+            CanUserAddRows="False"
             ItemsSource="{Binding Matches}" Margin="0,39,0.333,-0.333" AutoGenerateColumns="False" 
                   RowHeight="100"
                   EnableRowVirtualization="True" 

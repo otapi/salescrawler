@@ -63,8 +63,6 @@ namespace SalesCrawler.ViewModels
 
                     ChromeOptions options = new ChromeOptions();
                     options.AddArgument("user-data-dir=" + userProfile);
-                    options.AddArgument("--start-minimized");
-                    options.AddArgument("--disable - translate");
                     options.AddUserProfilePreference("profile.default_content_setting_values.notifications", 2);
                     //options.AddArgument("--incognito");
                     //_driver = new ChromeDriver(options);
@@ -178,7 +176,7 @@ namespace SalesCrawler.ViewModels
                 var b = GetNextBotFromQueue();
                 if (b==null)
                 {
-                    CloseDriver();
+                    //CloseDriver();
                 } else
                 {
 

@@ -65,8 +65,12 @@ namespace SalesCrawler.Helpers
         protected void Waitfor(By by, int timeout = 10)
         {
             var w = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
-            w.Until(c => c.FindElement(by));
+            w.Until(c => c.FindElements(by).Count != 0);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="timeout">seconds</param>
         protected void Wait(int timeout = 1)
         {
             System.Threading.Thread.Sleep(timeout * 1000);
@@ -86,6 +90,7 @@ namespace SalesCrawler.Helpers
 
         protected void ScrollToBottom()
         {
+            
             ((IJavaScriptExecutor)driver).ExecuteScript($"window.scrollTop = window.scrollHeight;");
         }
 

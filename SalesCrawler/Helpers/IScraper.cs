@@ -11,6 +11,7 @@ namespace SalesCrawler.Helpers
     public interface IScraper
     {
         Scraper Datasheet { get; }
+        
         void StartSearch(ScraperSetting scraperSettings);
         IReadOnlyCollection<IWebElement> GetItemsOnPage();
         void GetItem(IWebElement item, MatchData md);
