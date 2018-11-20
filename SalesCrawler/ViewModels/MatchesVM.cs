@@ -50,7 +50,21 @@ namespace SalesCrawler.ViewModels
             IsBusy = false;
         }
 
-        
+        private ICommand _DeleteMatchesCommand;
+        public ICommand DeleteMatchesCommand
+        {
+            get
+            {
+                return _DeleteMatchesCommand ?? (_DeleteMatchesCommand = new CommandHandler(async (match) => await DeleteMatchesCommandExecute(match), !IsBusy));
+            }
+        }
+        public async Task DeleteMatchesCommandExecute(object matchObj)
+        {
+            System.Collections.IList items = (System.Collections.IList)matchObj;
+            var matches = items.Cast<Match>();
+            App.DB.Matches.RemoveRange(matches);
+        }
+
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

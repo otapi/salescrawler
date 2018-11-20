@@ -32,8 +32,11 @@ namespace SalesCrawler.Scrapers
 
         public IReadOnlyCollection<IWebElement> GetItemsOnPage()
         {
+            driver.Manage().Window.Maximize();
             Waitfor(By.XPath("//div[@id='footer_jofogas']"));
-            return driver.FindElements(By.XPath("//div//div[@class='contentArea']"));
+            var ret = driver.FindElements(By.XPath("//div//div[@class='contentArea']"));
+            driver.Manage().Window.Minimize();
+            return ret;
         }
 
         public void GetItem(IWebElement item, MatchData md)
