@@ -29,7 +29,12 @@ namespace SalesCrawler.Scrapers
             else
             {
                 driver.Navigate().GoToUrl($"https://www.facebook.com/marketplace/budapest/search?query={System.Web.HttpUtility.UrlEncode(scraperSettings.SearchPattern)}");
+                Uri url = new Uri($"https://www.facebook.com/marketplace/budapest/search");
+                AddQuery(ref url, "maxPrice", scraperSettings.MaxPrice);
+                AddQuery(ref url, "minPrice", scraperSettings.MinPrice);
+                AddQuery(ref url, "query", scraperSettings.SearchPattern);
 
+                driver.Navigate().GoToUrl(url);
             }
 
             

@@ -14,6 +14,8 @@ namespace SalesCrawler.Models
         public bool IsSearchPatternURL { get; set; } = false;
         public string SearchPattern { get; set; }
         public int PagesToScrape { get; set; } = 1;
+        public int? MinPrice { get; set; } = null;
+        public int? MaxPrice { get; set; } = null;
 
         public Scraper Scraper { get; set; }
         public CrawlProfile CrawlProfile { get; set; }

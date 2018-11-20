@@ -26,7 +26,14 @@ namespace SalesCrawler.Scrapers
             }
             else
             {
-                driver.Navigate().GoToUrl($"https://www.jofogas.hu/magyarorszag?q={System.Web.HttpUtility.UrlEncode(scraperSettings.SearchPattern)}");
+                Uri url = new Uri($"https://www.jofogas.hu/magyarorszag");
+                AddQuery(ref url, "max_price", scraperSettings.MaxPrice);
+                AddQuery(ref url, "min_price", scraperSettings.MinPrice);
+                AddQuery(ref url, "pf", "b");
+                AddQuery(ref url, "q", scraperSettings.SearchPattern);
+
+                driver.Navigate().GoToUrl(url);
+                driver.Manage().Window.Maximize();
             }
         }
 

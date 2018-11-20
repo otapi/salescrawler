@@ -26,6 +26,18 @@ namespace SalesCrawler.ViewModels
             set { SetProperty(ref _TextToSearch, value); }
         }
 
+        int? _MinPrice;
+        public int? MinPrice
+        {
+            get { return _MinPrice; }
+            set { SetProperty(ref _MinPrice, value); }
+        }
+        int? _MaxPrice;
+        public int? MaxPrice
+        {
+            get { return _MaxPrice; }
+            set { SetProperty(ref _MaxPrice, value); }
+        }
         private ICommand _SearchCommand;
         public ICommand SearchCommand
         {
@@ -46,7 +58,9 @@ namespace SalesCrawler.ViewModels
                     Name = $"SimpleSearch - {item.Name}",
                     SearchPattern = TextToSearch,
                     Scraper = item,
-                    PagesToScrape = 3
+                    PagesToScrape = 5,
+                    MinPrice = MinPrice,
+                    MaxPrice = MaxPrice
                 };
                 CrawlerVM.AddBotScrapeList(setting);
             }
@@ -74,7 +88,9 @@ namespace SalesCrawler.ViewModels
                     SearchPattern = (TextToSearch == null ? "kerékpár" : TextToSearch),
                     Scraper = item,
                     DoOnlyTest = true,
-                    PagesToScrape = 2
+                    PagesToScrape = 2,
+                    MinPrice = MinPrice,
+                    MaxPrice = MaxPrice
                 };
                 CrawlerVM.AddBotScrapeList(setting);
             }
