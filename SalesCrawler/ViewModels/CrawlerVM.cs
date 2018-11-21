@@ -68,7 +68,7 @@ namespace SalesCrawler.ViewModels
                     //_driver = new ChromeDriver(options);
                     _driver = new ChromeDriver(chromeDriverService, options);
 
-                    _driver.Manage().Window.Minimize();
+                    //_driver.Manage().Window.Minimize();
 
                     
                     

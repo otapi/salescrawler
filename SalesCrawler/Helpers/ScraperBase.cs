@@ -97,7 +97,7 @@ namespace SalesCrawler.Helpers
 
         protected Uri AddQuery(ref Uri uri, string name, int? value)
         {
-            if (value == 0)
+            if (value == null || value == 0)
             {
                 return uri;
             }

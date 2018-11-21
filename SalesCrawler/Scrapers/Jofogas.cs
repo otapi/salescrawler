@@ -33,16 +33,13 @@ namespace SalesCrawler.Scrapers
                 AddQuery(ref url, "q", scraperSettings.SearchPattern);
 
                 driver.Navigate().GoToUrl(url);
-                driver.Manage().Window.Maximize();
             }
         }
 
         public IReadOnlyCollection<IWebElement> GetItemsOnPage()
         {
-            driver.Manage().Window.Maximize();
             Waitfor(By.XPath("//div[@id='footer_jofogas']"));
             var ret = driver.FindElements(By.XPath("//div//div[@class='contentArea']"));
-            driver.Manage().Window.Minimize();
             return ret;
         }
 
