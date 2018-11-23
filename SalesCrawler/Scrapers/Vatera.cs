@@ -8,6 +8,7 @@ using SalesCrawler.Models;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 
 namespace SalesCrawler.Scrapers
 {
@@ -60,16 +61,23 @@ namespace SalesCrawler.Scrapers
 
         public void GetItem(IWebElement item, MatchData md)
         {
+            Actions actions = new Actions(driver);
+            actions.MoveToElement(item);
+            actions.Perform();
+
             md.Seller = null;
             md.Title = item.GetAttribute("data-gtm-name");
-            md.Url = item.FindElement(By.XPath(".//a[@class='itemlink'")).GetAttribute("href");
-            var imageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("src");
+            md.Url = item.FindElement(By.XPath(".//a")).GetAttribute("href");
+            var imageUrl = item.FindElement(By.XPath(".//td[@class='listing-item-picture']//img")).GetAttribute("src");
             md.ImageBinary = GetImage(imageUrl);
             md.Description = null;
-            md.ActualPrice = StripToInt(item.GetAttribute("data-gtm-price");
+            md.ActualPrice = StripToInt(item.GetAttribute("data-gtm-price"));
             md.Currency = Currencies.Currency.HUF;
             md.IsAuction = false;
-            md.Location = item.FindElement(By.XPath(".//div[@class='item-location'")).Text.Replace("Termék helye:&nbsp;", "").Trim();
+            if (item.FindElements(By.XPath(".//div[@class='item-location']")).Count != 0)
+            {
+                md.Location = item.FindElement(By.XPath(".//div[@class='item-location']")).Text.Replace("Termék helye:&nbsp;", "").Trim();
+            }
             md.Expire = NEVEREXPIRE; // TODO: enddate
         }
 

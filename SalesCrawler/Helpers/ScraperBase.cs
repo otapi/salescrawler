@@ -216,7 +216,7 @@ namespace SalesCrawler.Helpers
                 case "INGYENES":
                     return Currencies.Currency.HUF;
                 default:
-                    if (text.StartsWith("Ft"))
+                    if (StripToLetters(text).ToLower().StartsWith("ft") || text.ToLower().Contains("ft"))
                     {
                         return Currencies.Currency.HUF;
                     }

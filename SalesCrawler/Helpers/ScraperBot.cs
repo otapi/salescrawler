@@ -61,7 +61,14 @@ namespace SalesCrawler.Helpers
                 {
                     break;
                 }
-                np[0].SendKeys(Keys.Return);
+                try
+                {
+                    np[0].SendKeys(Keys.Return);
+                } catch
+                {
+                    np[0].Click();
+                }
+                
             }
 
             // If details need to be updated at new Matches...
