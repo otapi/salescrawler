@@ -25,7 +25,7 @@
   <Class Name="SalesCrawler.Models.Scraper">
     <Position X="7.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAABAAAIAAAAAAAAAAA=</HashCode>
       <FileName>Models\Scraper.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -52,14 +52,14 @@
   <Class Name="SalesCrawler.Models.BotInfo">
     <Position X="10" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAEAIIIAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAABAAABAAIgQAIBAAAAAAgEAIIMBIAAA=</HashCode>
       <FileName>Models\BotInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="SalesCrawler.Architecture.IScraper">
-    <Position X="10" Y="3.25" Width="1.5" />
+    <Position X="12" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQACAABAAAA=</HashCode>
+      <HashCode>AgAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Architecture\ICrawlerbot.cs</FileName>
     </TypeIdentifier>
   </Interface>

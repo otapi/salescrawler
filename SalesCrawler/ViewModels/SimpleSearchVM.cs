@@ -9,7 +9,7 @@ using SalesCrawler.Models;
 
 namespace SalesCrawler.ViewModels
 {
-    class SimpleSearchVM : BaseVM
+    public class SimpleSearchVM : BaseVM
     {
         CrawlerVM CrawlerVM;
         ObservableCollection<Scraper> _Crawlerbots;
@@ -60,6 +60,9 @@ namespace SalesCrawler.ViewModels
             {
                 Crawlerbots.Add(c);
             }
+        }
+        public SimpleSearchVM()
+        {
         }
     }
 }
