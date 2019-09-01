@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataGridExtensions, Version=1.0.39.0, Culture=neutral, PublicKeyToken=43de855f87de903a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DataGridExtensions.1.0.39\lib\net45\DataGridExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -49,7 +52,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -74,9 +81,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\ScraperBot.cs" />
     <Compile Include="Models\BotInfo.cs" />
+    <Compile Include="Models\MatchData.cs" />
+    <Compile Include="Scrapers\HardverApro.cs" />
+    <Compile Include="Scrapers\Vatera.cs" />
+    <Compile Include="Scrapers\TestBikeBolha.cs" />
+    <Compile Include="Scrapers\BikemagApro.cs" />
     <Compile Include="Scrapers\Jofogas.cs" />
-    <Compile Include="ViewModels\ScraperBase.cs" />
+    <Compile Include="Scrapers\FBMarketplace.cs" />
+    <Compile Include="Helpers\ScraperBase.cs" />
     <Compile Include="ViewModels\CrawlerVM.cs" />
     <Compile Include="ViewModels\MatchesVM.cs" />
     <Compile Include="ViewModels\SimpleSearchVM.cs" />
@@ -101,8 +115,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Architecture\ICrawlerbot.cs" />
-    <Compile Include="Data\Database.cs" />
+    <Compile Include="Helpers\IScraper.cs" />
+    <Compile Include="Helpers\Database.cs" />
     <Compile Include="ViewModels\BaseVM.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">

@@ -5,10 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SalesCrawler.Views"
         mc:Ignorable="d"
-        Title="MatchesWindow" Height="450" Width="800">
+        Title="MatchesWindow" Height="450" Width="800"
+        xmlns:ViewModels="clr-namespace:SalesCrawler.ViewModels"
+        DataContext="{StaticResource MatchesVM}"
+        xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions">
     <Grid>
-        <DataGrid ItemsSource="{Binding Matches}" Margin="0,39,0.333,-0.333" >
+        <DataGrid
+            x:Name="MatchGrid"
+            CanUserAddRows="False"
+            ItemsSource="{Binding Matches}" Margin="0,39,0.333,-0.333" AutoGenerateColumns="False" 
+                  RowHeight="100"
+                  EnableRowVirtualization="True" 
+             VirtualizingStackPanel.VirtualizationMode="Standard"
+             VirtualizingStackPanel.IsVirtualizing="True"
+                  SelectedItem="{Binding SelectedMatch}"
+                  dgx:DataGridFilter.IsAutoFilterEnabled="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Visible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding CrawlerbotSetting.Name}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding MatchData.Status}" />
+                <DataGridTextColumn Header="Title" Binding="{Binding MatchData.Title}" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Description" Binding="{Binding MatchData.Description}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Header="Image">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Hyperlink NavigateUri="{Binding MatchData.Url}" RequestNavigate="Hyperlink_RequestNavigate">
+                                    <Image Source="{Binding MatchData.Image}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Price HUF" Binding="{Binding MatchData.ActualPriceHUF}" />
+                <DataGridTextColumn Header="Location" Binding="{Binding MatchData.Location}" />
+                <DataGridTextColumn Header="Seller" Binding="{Binding MatchData.Seller}" />
+            </DataGrid.Columns>
         </DataGrid>
         <Button Content="Refresh" Command="{Binding LoadItemsCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
+        <Button Content="Get Details" Command="{Binding GetDetailsCommand, Source={StaticResource CrawlerVM}}" CommandParameter="{Binding ElementName=MatchGrid, Path=SelectedItems}" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
+        <Button Content="Remove" Command="{Binding DeleteMatchesCommand}" CommandParameter="{Binding ElementName=MatchGrid, Path=SelectedItems}" HorizontalAlignment="Left" Margin="188,10,0,0" VerticalAlignment="Top" Width="84" Height="24"/>
     </Grid>
 </Window>

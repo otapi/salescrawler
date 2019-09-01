@@ -9,6 +9,13 @@
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{StaticResource CrawlerVM}">
     <Grid>
-        <DataGrid Margin="10,0,10,46" ItemsSource="{Binding Bots}" />
+        <DataGrid Margin="10,0,10,46" ItemsSource="{Binding Bots}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="StatusMessage" Binding="{Binding StatusMessage}" />
+                <DataGridTextColumn Header="Message" Binding="{Binding Scraper.Message}" Width="200" />
+                <DataGridTextColumn Header="Elapsed Minutes" Binding="{Binding ElapsedMinutes}" />
+            </DataGrid.Columns>
+        </DataGrid>  
     </Grid>
 </UserControl>

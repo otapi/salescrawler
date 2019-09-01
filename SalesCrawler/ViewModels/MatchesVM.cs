@@ -16,6 +16,13 @@ namespace SalesCrawler.ViewModels
         // https://blog.tonysneed.com/2014/05/28/real-world-mvvm-with-entity-framework-and-asp-net-web-api/
         public ObservableCollection<Match> Matches { get; }
 
+        Match _SelectedMatch;
+        public Match SelectedMatch
+        {
+            get { return _SelectedMatch; }
+            set { SetProperty(ref _SelectedMatch, value); }
+        }
+
         public MatchesVM()
         {
             Matches = new ObservableCollection<Match>();
@@ -42,6 +49,23 @@ namespace SalesCrawler.ViewModels
             }
             IsBusy = false;
         }
+
+        private ICommand _DeleteMatchesCommand;
+        public ICommand DeleteMatchesCommand
+        {
+            get
+            {
+                return _DeleteMatchesCommand ?? (_DeleteMatchesCommand = new CommandHandler(async (match) => await DeleteMatchesCommandExecute(match), !IsBusy));
+            }
+        }
+        public async Task DeleteMatchesCommandExecute(object matchObj)
+        {
+            System.Collections.IList items = (System.Collections.IList)matchObj;
+            var matches = items.Cast<Match>();
+            App.DB.Matches.RemoveRange(matches);
+        }
+
+
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             RaisePropertyChanged(() => Matches);

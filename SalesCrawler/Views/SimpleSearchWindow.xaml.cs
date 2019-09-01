@@ -27,7 +27,13 @@ namespace SalesCrawler.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var view = new MatchesWindow();
+            
             view.Show();
+        }
+
+        private void LBScrapers_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((ListBox)sender).SelectAll();
         }
     }
 }

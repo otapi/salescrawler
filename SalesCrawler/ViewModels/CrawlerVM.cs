@@ -11,6 +11,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using SalesCrawler.Helpers;
+using System.Windows.Input;
 
 namespace SalesCrawler.ViewModels
 {
@@ -19,21 +21,31 @@ namespace SalesCrawler.ViewModels
         // https://github.com/tom-englert/DataGridExtensions
         // TODO: adapt MVVM best practices? https://blog.rsuter.com/recommendations-best-practices-implementing-mvvm-xaml-net-applications/
 
-        public bool _IsRunning;
-        public bool IsRunning
-        {
-            get { return _IsRunning; }
-            set { SetProperty(ref _IsRunning, value); }
-        }
-
-        ObservableCollection<Scraper> _AvailableScrapers;
-        public ObservableCollection<Scraper> AvailableScrapers
+        
+        ObservableCollection<Models.Scraper> _AvailableScrapers;
+        public ObservableCollection<Models.Scraper> AvailableScrapers
         {
             get { return _AvailableScrapers; }
             set { SetProperty(ref _AvailableScrapers, value); }
         }
 
-        Dictionary<int, Type> ScraperClasses;
+        private ICommand _GetDetailsCommand;
+        public ICommand GetDetailsCommand
+        {
+            get
+            {
+                return _GetDetailsCommand ?? (_GetDetailsCommand = new CommandHandler(async (match) => await GetDetailsCommandExecute(match), !IsBusy));
+            }
+        }
+        public async Task GetDetailsCommandExecute(object matchObj)
+        {
+            System.Collections.IList items = (System.Collections.IList)matchObj;
+            var matches = items.Cast<Match>();
+
+            AddBotsUpdateDetails(matches.ToList());
+        }
+
+        Dictionary<string, Type> ScraperClasses;
         public ObservableCollection<BotInfo> Bots { get; }
 
         IWebDriver _driver;
@@ -43,10 +55,23 @@ namespace SalesCrawler.ViewModels
             {
                 if (_driver == null)
                 {
-                    var options = new ChromeOptions();
-                    options.AddArgument("--incognito");
-                    _driver = new ChromeDriver(options);
-                    return driver;
+                    var chromeDriverService = ChromeDriverService.CreateDefaultService();
+                    chromeDriverService.HideCommandPromptWindow = true;
+                    
+
+                    var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Google\\Chrome\\User Data\\";
+
+                    ChromeOptions options = new ChromeOptions();
+                    options.AddArgument("user-data-dir=" + userProfile);
+                    options.AddUserProfilePreference("profile.default_content_setting_values.notifications", 2);
+                    //options.AddArgument("--incognito");
+                    //_driver = new ChromeDriver(options);
+                    _driver = new ChromeDriver(chromeDriverService, options);
+
+                    //_driver.Manage().Window.Minimize();
+
+                    
+                    
                 }
                 return _driver;
 
@@ -61,62 +86,111 @@ namespace SalesCrawler.ViewModels
             Bots = new ObservableCollection<BotInfo>();
             Bots.CollectionChanged += OnCollectionChanged;
 
-            IsRunning = false;
+            IsBusy = false;
             
         }
 
-        public void AddBot(ScraperSetting crawlerbotSetting)
+        public void AddBotScrapeList(ScraperSetting crawlerbotSetting)
         {
-            var bot = Activator.CreateInstance(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]) as ScraperBase;
+            var bot = new ScraperBot(ScraperClasses[crawlerbotSetting.Scraper.ScraperIdentifier]);
             var bi = new BotInfo()
             {
                 Name = crawlerbotSetting.Name,
-                Message = "",
                 Setting = crawlerbotSetting,
                 Scraper = bot,
                 Task = null,
                 StatusMessage = StatusMessages[TaskStatus.Created],
-                StartTime = DateTime.Now
+                CreatedTime = DateTime.Now,
+                TaskType = BotInfo.TaskTypes.ScrapeList
             };
-            StartBot(bi);
+            StartBotTask(bi);
             Bots.Add(bi);
         }
 
-        private void StartBot(BotInfo bi)
+        public void AddBotsUpdateDetails(List<Match> matches)
         {
-            if (IsRunning)
+            foreach (var scraperSetting in from m in matches
+                                           group m by new
+                                           {
+                                               m.ScraperSetting
+                                           } into gm
+                                           select gm.Key.ScraperSetting)
+
+
+            {
+                
+                var bot = new ScraperBot(ScraperClasses[scraperSetting.Scraper.ScraperIdentifier]);
+                var bi = new BotInfo()
+                {
+                    Name = scraperSetting.Name,
+                    Setting = scraperSetting,
+                    Scraper = bot,
+                    Task = null,
+                    StatusMessage = StatusMessages[TaskStatus.Created],
+                    CreatedTime = DateTime.Now,
+                    TaskType = BotInfo.TaskTypes.UpdateDetails,
+                    Matches = (from m in matches
+                              where m.ScraperSetting == scraperSetting
+                              select m).ToList()
+                };
+                StartBotTask(bi);
+                Bots.Add(bi);
+            }
+        }
+
+
+        private void StartBotTask(BotInfo bi)
+        {
+            
+            if (IsBusy)
             {
                 App.PrintNote("Only one bot is allowed to run at once.");
                 return;
             }
-            IsRunning = true;
-            bi.Scraper.Init(bi.Setting, driver);
-            bi.Task = Task.Factory.StartNew(bi.Scraper.StartBase, TaskCreationOptions.LongRunning);
+            IsBusy = true;
+            bi.StartTime = DateTime.Now;
+            switch (bi.TaskType)
+            {
+                case BotInfo.TaskTypes.ScrapeList:
+                    bi.Task = Task.Factory.StartNew(() => bi.Scraper.ScrapeListBase(driver, bi.Setting), TaskCreationOptions.LongRunning);
+                    break;
+                case BotInfo.TaskTypes.UpdateDetails:
+                    bi.Task = Task.Factory.StartNew(() => bi.Scraper.UpdateMatchDetails(driver, bi.Matches, bi.Setting), TaskCreationOptions.LongRunning);
+                    break;
+                default:
+                    throw new Exception("Unkown tasktype");
+            }
             bi.StatusMessage = StatusMessages[TaskStatus.Running];
             bi.Task.ContinueWith((t) => {
                 bi.FinishedTime = DateTime.Now;
                 bi.StatusMessage = StatusMessages[t.Status];
                 if (t.IsFaulted)
                 {
-                    bi.Message = t.Exception.Message;
+                    App.PrintWarning($"[{bi.Name}] {t.Exception.Message}");
                 }
                 bi.ElapsedMinutes = ((int)((bi.FinishedTime - bi.StartTime).TotalMinutes) * 10) / 10;
                 RaisePropertyChanged(() => Bots);
-                IsRunning = false;
-                Thread.Sleep(1000);
+
+                IsBusy = false;
                 
                 var b = GetNextBotFromQueue();
                 if (b==null)
                 {
-                    // queue is done
+                    //CloseDriver();
                 } else
                 {
 
-                    StartBot(b);
+                    StartBotTask(b);
                 }
             });
         }
         
+        private void CloseDriver()
+        {
+            driver.Quit();
+            driver.Dispose();
+            _driver = null;
+        }
         private BotInfo GetNextBotFromQueue()
         {
             foreach (var b in Bots)
@@ -131,12 +205,13 @@ namespace SalesCrawler.ViewModels
 
         void ScanScraperClasses()
         {
-            ScraperClasses = new Dictionary<int, Type>();
-            AvailableScrapers = new ObservableCollection<Scraper>();
+            ScraperClasses = new Dictionary<string, Type>();
+            AvailableScrapers = new ObservableCollection<Models.Scraper>();
             var theList = Assembly.GetExecutingAssembly().GetTypes().ToList().Where(t => t.Namespace == "SalesCrawler.Scrapers" && !t.FullName.Contains("+")).ToList();
             foreach (Type t in theList)
             {
-                var b = Activator.CreateInstance(t) as Architecture.IScraper;
+                var b = Activator.CreateInstance(t) as Helpers.IScraper;
+                b.Datasheet.ScraperIdentifier = t.FullName;
                 ScraperClasses.Add(b.Datasheet.ScraperIdentifier, t);
                 AvailableScrapers.Add(b.Datasheet);
             }
@@ -147,7 +222,7 @@ namespace SalesCrawler.ViewModels
             RaisePropertyChanged(() => Bots);
         }
 
-        static Dictionary<TaskStatus, string> StatusMessages = new Dictionary<TaskStatus, string>()
+        static readonly Dictionary<TaskStatus, string> StatusMessages = new Dictionary<TaskStatus, string>()
         {
             {TaskStatus.Canceled, "Canceled" },
             {TaskStatus.Created, "Waiting" },

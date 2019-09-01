@@ -8,18 +8,29 @@
         mc:Ignorable="d"
         Title="Simple Search" Height="450" Width="800" WindowState="Maximized">
     <Window.DataContext>
-        <ViewModels:SimpleSearchVM/>
+        <ObjectDataProvider ObjectType="ViewModels:SimpleSearchVM">
+            <ObjectDataProvider.ConstructorParameters>
+                <StaticResource ResourceKey="CrawlerVM"/>
+            </ObjectDataProvider.ConstructorParameters>
+        </ObjectDataProvider>
     </Window.DataContext>
     <Grid>
-        <ListBox x:Name="LBScrapers" HorizontalAlignment="Left" Margin="10,31,0,9.667" Width="177" SelectionMode="Extended" ItemsSource="{Binding Crawlerbots}"/>
+        <ListBox x:Name="LBScrapers" HorizontalAlignment="Left" Margin="10,31,0,9.667" Width="177" SelectionMode="Extended" ItemsSource="{Binding Crawlerbots}" Loaded="LBScrapers_Loaded"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Scrapers:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="192,10,0,0" TextWrapping="Wrap" Text="Text to search:" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="192,31,0,0" TextWrapping="Wrap" Text="{Binding TextToSearch}" VerticalAlignment="Top" Width="591"/>
-        
+        <TextBlock HorizontalAlignment="Left" Margin="192,59,0,0" TextWrapping="Wrap" Text="Price:" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="226,59,0,0" TextWrapping="Wrap" Text="{Binding MinPrice}" VerticalAlignment="Top" Width="130"/>
+        <TextBlock HorizontalAlignment="Left" Margin="361,62,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="371,59,0,0" TextWrapping="Wrap" Text="{Binding MaxPrice}" VerticalAlignment="Top" Width="145"/>
+
         <Button Command="{Binding SearchCommand}"
-        CommandParameter="{Binding ElementName=LBScrapers, Path=SelectedItems}" Margin="192,59,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="95">Start crawling</Button>
-        <local:CrawlerMonitorUC Margin="192,89,0.333,-0.333"/>
-        <Button Content="Open Matches" HorizontalAlignment="Right" Margin="0,64,10.333,0" VerticalAlignment="Top" Width="99" Click="Button_Click"/>
+        CommandParameter="{Binding ElementName=LBScrapers, Path=SelectedItems}" Margin="192,87,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="95">Start crawling</Button>
+        <Button Command="{Binding SearchTestCommand}"
+        CommandParameter="{Binding ElementName=LBScrapers, Path=SelectedItems}" Margin="292,87,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="95">Test it</Button>
+
+        <local:CrawlerMonitorUC Margin="192,117,0.333,-0.333"/>
+        <Button Content="Open Matches" HorizontalAlignment="Right" Margin="0,92,10.333,0" VerticalAlignment="Top" Width="99" Click="Button_Click"/>
 
     </Grid>
 </Window>

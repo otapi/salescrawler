@@ -1,4 +1,4 @@
-﻿using SalesCrawler.Architecture;
+﻿using SalesCrawler.Helpers;
 using SalesCrawler.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,12 @@ namespace SalesCrawler.Models
             set { SetProperty(ref _Setting, value); }
         }
 
+        DateTime _CreatedTime;
+        public DateTime CreatedTime
+        {
+            get { return _CreatedTime; }
+            set { SetProperty(ref _CreatedTime, value); }
+        }
 
         DateTime _StartTime;
         public DateTime StartTime
@@ -49,20 +55,28 @@ namespace SalesCrawler.Models
             get { return _StatusMessage; }
             set { SetProperty(ref _StatusMessage, value); }
         }
-        string _Message;
-        public string Message
-        {
-            get { return _Message; }
-            set { SetProperty(ref _Message, value); }
-        }
         public Task Task { get; set; }
 
-        ScraperBase _Scraper;
-        public ScraperBase Scraper
+        Helpers.ScraperBot _Scraper;
+        public ScraperBot Scraper
         {
             get { return _Scraper; }
             set { SetProperty(ref _Scraper, value); }
         }
 
+        public TaskTypes _TaskType;
+        public TaskTypes TaskType
+        {
+            get { return _TaskType; }
+            set { SetProperty(ref _TaskType, value); }
+        }
+
+        public List<Match> Matches = new List<Match>();
+
+        public enum TaskTypes
+        {
+            ScrapeList,
+            UpdateDetails
+        }
     }
 }

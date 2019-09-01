@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SalesCrawler.Models;
 
-namespace SalesCrawler.Data
+namespace SalesCrawler.Helpers
 {
     using System;
     using System.Collections.ObjectModel;
@@ -26,9 +26,10 @@ namespace SalesCrawler.Data
         }
 
         public virtual DbSet<CrawlProfile> CrawlProfiles { get; set; }
-        public virtual DbSet<ScraperSetting> CrawlerbotSettings { get; set; }
-        public virtual DbSet<Scraper> Crawlerbots { get; set; }
+        public virtual DbSet<ScraperSetting> ScraperSettings { get; set; }
+        public virtual DbSet<Scraper> Scrapers { get; set; }
         public virtual DbSet<Match> Matches { get; set; }
+        public virtual DbSet<MatchData> MatchData { get; set; }
         public virtual DbSet<PriceHistory> PriceHistories { get; set; }
 
         async public Task<List<Match>> GetMatches()

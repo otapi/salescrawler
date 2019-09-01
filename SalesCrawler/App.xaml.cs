@@ -13,36 +13,8 @@ namespace SalesCrawler
     /// </summary>
     public partial class App : Application
     {
-        static ViewModels.MatchesVM _MatchesVM;
-        public static ViewModels.MatchesVM MatchesVM
-        {
-            get
-            {
-                if (_MatchesVM == null)
-                {
-                    _MatchesVM = new ViewModels.MatchesVM();
-                }
-                return _MatchesVM;
-            }
-        }
-        /*
-        static ViewModels.CrawlerVM _CrawlerVM;
-        public static ViewModels.CrawlerVM CrawlerVM
-        {
-            get
-            {
-                if (_CrawlerVM == null)
-                {
-                    _CrawlerVM = new ViewModels.CrawlerVM();
-                }
-                return _CrawlerVM;
-            }
-        }
-        */
-        
-
-        static Data.Database _DB;
-        public static Data.Database DB
+        static Helpers.Database _DB;
+        public static Helpers.Database DB
         {
             get
             {
@@ -50,12 +22,15 @@ namespace SalesCrawler
                 {
                     App.PrintNote($"[DatabaseHelper] start");
 
-                    _DB = new Data.Database();
-                    _DB.Database.Delete(); _DB = new Data.Database();
+                    _DB = new Helpers.Database();
+                    _DB.Database.Delete();
+                    _DB = new Helpers.Database();
                 }
                 return _DB;
             }
         }
+
+        
 
         public static object ServiceLocator { get; private set; }
 

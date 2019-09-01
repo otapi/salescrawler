@@ -8,13 +8,12 @@
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="ScraperSettings" />
-      <Property Name="Matches" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="SalesCrawler.Models.ScraperSetting">
     <Position X="4.25" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AACEAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAIQACAAAA=</HashCode>
+      <HashCode>AACEgAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAIQACAAAA=</HashCode>
       <FileName>Models\ScraperSetting.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -32,35 +31,55 @@
   <Class Name="SalesCrawler.Models.Match">
     <Position X="4.25" Y="3" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>IAAgQABAAAAgAGAAAAAAAAAACAgAAAQICAAAAAAASAA=</HashCode>
+      <HashCode>AAAoAAAAAAAAACAAAAAAAAAAAAgAAAQIBAAAAAAAAAA=</HashCode>
       <FileName>Models\Match.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="CrawlerbotSetting" />
+      <Property Name="MatchData" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="PriceHistories" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="SalesCrawler.Models.PriceHistory">
-    <Position X="7.25" Y="2.5" Width="1.5" />
+    <Position X="7.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAAAAAAAI=</HashCode>
       <FileName>Models\PriceHistory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SalesCrawler.Models.BotInfo">
-    <Position X="10" Y="0.5" Width="1.5" />
+    <Position X="12" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="SalesCrawler.Models.BotInfo.TaskTypes" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\BotInfo.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAAABAAIgQAIBAAAAAAgEAIIMBIAAA=</HashCode>
+      <HashCode>ABAAAAAAAACAABAAABAAIgQAIAAAAAAAhEAIAMBICAE=</HashCode>
       <FileName>Models\BotInfo.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Setting" />
+    </ShowAsAssociation>
   </Class>
-  <Interface Name="SalesCrawler.Architecture.IScraper">
-    <Position X="12" Y="0.5" Width="1.5" />
+  <Class Name="SalesCrawler.Models.MatchData">
+    <Position X="1.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Architecture\ICrawlerbot.cs</FileName>
+      <HashCode>IEAAAABEAAAgAEAAAAIQAAAACAAAgBAACAAEAAAACAA=</HashCode>
+      <FileName>Models\MatchData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="SalesCrawler.Helpers.IScraper">
+    <Position X="9.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgAAAAACAAAAAEAAAAAAAAAAAAAAAAACAAAAIAAAAAA=</HashCode>
+      <FileName>Helpers\IScraper.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
