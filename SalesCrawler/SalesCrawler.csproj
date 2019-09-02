@@ -84,6 +84,7 @@
     <Compile Include="Helpers\ScraperBot.cs" />
     <Compile Include="Models\BotInfo.cs" />
     <Compile Include="Models\MatchData.cs" />
+    <Compile Include="Scrapers\FBGroupFilesDownload.cs" />
     <Compile Include="Scrapers\HardverApro.cs" />
     <Compile Include="Scrapers\Vatera.cs" />
     <Compile Include="Scrapers\TestBikeBolha.cs" />

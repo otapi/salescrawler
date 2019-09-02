@@ -59,7 +59,7 @@ namespace SalesCrawler.Helpers
         }
 
         /// <summary>
-        /// 
+        /// Wait for an element
         /// </summary>
         /// <param name="by"></param>
         /// <param name="timeout">seconds</param>
@@ -67,6 +67,17 @@ namespace SalesCrawler.Helpers
         {
             var w = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
             w.Until(c => c.FindElements(by).Count != 0);
+        }
+        /// <summary>
+        /// Wait until an element is visible
+        /// </summary>
+        /// <param name="by"></param>
+        /// <param name="timeout">seconds</param>
+        protected void Waituntil(By by, int timeout = 10)
+        {
+            Wait();
+            var w = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+            w.Until(c => c.FindElements(by).Count == 0);
         }
         /// <summary>
         /// 
@@ -185,6 +196,11 @@ namespace SalesCrawler.Helpers
                 b = ms.ToArray();
             }
             return b;
+        }
+
+        protected void DownloadFile(string url, string filepath)
+        {
+            File.WriteAllBytes(filepath, GetImage(url));
         }
         protected byte[] TakeScreenshot(IWebElement element)
         {
