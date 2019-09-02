@@ -21,8 +21,7 @@ namespace SalesCrawler.Scrapers
             
         };
         // https://www.facebook.com/groups/269900133521924/files/
-        const string DOWNLOADFOLDER = @"c:\i\FBDownload\";
-
+        
         ScraperSetting ScraperSettings;
         public void StartSearch(ScraperSetting scraperSettings)
         {
@@ -36,7 +35,7 @@ namespace SalesCrawler.Scrapers
             IReadOnlyCollection<IWebElement> ret = null;
 
             // Let's show all files on the page
-            for (; 1==2;)
+            for (; true;)
             {
                 var continuebuttons = driver.FindElements(By.XPath("//a[@class='pam uiBoxLightblue uiMorePagerPrimary']"));
                 if (continuebuttons.Count == 0)
@@ -55,8 +54,15 @@ namespace SalesCrawler.Scrapers
 
         public void GetItem(IWebElement item, MatchData md)
         {
+            driver.Manage().Window.Maximize();
             md.Seller = null;
-            md.Title = item.FindElement(By.XPath(".//a")).Text;
+            var titles = item.FindElements(By.XPath(".//a"));
+            if (titles.Count == 0)
+            {
+                md.Expire = NEVEREXPIRE;
+                return;
+            }
+            md.Title = titles[0].Text;
             md.Url = item.FindElement(By.XPath(".//a")).GetAttribute("href");
             md.ImageBinary = null;
             md.Description = null;
@@ -71,19 +77,18 @@ namespace SalesCrawler.Scrapers
             if (md.Title != "Dokumentum létrehozása")
             {
                 var elem = item.FindElement(By.XPath(".//i[@class='img sp_S8pk_WlQaUU sx_7e1fad']"));
-                
-                driver.ExecuteScript("arguments[0].click()", element);
-
-                /*
-                Actions actions = new Actions(driver);
-                actions.MoveToElement(item.FindElement(By.XPath(".//i[@class='img sp_S8pk_WlQaUU sx_7e1fad']"))).Click().Build().Perform();
-                */
-
+                elem.Click();
 
                 Waitfor(By.XPath("//ul[@role='menu']"));
                 var download = driver.FindElements(By.XPath("//ul[@role='menu']//a"))[1];
+                download.Click();
 
-                DownloadFile(@"https://www.facebook.com" + download.GetAttribute("href"), DOWNLOADFOLDER + md.Title);
+                foreach (var element in driver.FindElements(By.XPath("//ul[@role='menu']//a"))) {
+                    IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor) driver;
+                    jsExecutor.ExecuteScript(
+                        "arguments[0].parentNode.removeChild(arguments[0])", element);
+                }
+                driver.FindElement(By.XPath("//div")).Click();
             }
         }
 

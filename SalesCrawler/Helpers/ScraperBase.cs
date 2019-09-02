@@ -198,10 +198,6 @@ namespace SalesCrawler.Helpers
             return b;
         }
 
-        protected void DownloadFile(string url, string filepath)
-        {
-            File.WriteAllBytes(filepath, GetImage(url));
-        }
         protected byte[] TakeScreenshot(IWebElement element)
         {
 
