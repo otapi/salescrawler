@@ -63,6 +63,9 @@ namespace SalesCrawler.Scrapers
                 return;
             }
             md.Title = titles[0].Text;
+
+            // TODO: skip if the files was already downloaded earlier
+
             md.Url = item.FindElement(By.XPath(".//a")).GetAttribute("href");
             md.ImageBinary = null;
             md.Description = null;
@@ -77,10 +80,19 @@ namespace SalesCrawler.Scrapers
             if (md.Title != "Dokumentum létrehozása")
             {
                 var elem = item.FindElement(By.XPath(".//i[@class='img sp_S8pk_WlQaUU sx_7e1fad']"));
+                Actions actions = new Actions(driver);
+                actions.MoveToElement(elem);
+                actions.Perform();
+
                 elem.Click();
 
                 Waitfor(By.XPath("//ul[@role='menu']"));
                 var download = driver.FindElements(By.XPath("//ul[@role='menu']//a"))[1];
+                // TODO: create a shared method from this
+                actions = new Actions(driver);
+                actions.MoveToElement(download);
+                actions.Perform();
+                
                 download.Click();
 
                 foreach (var element in driver.FindElements(By.XPath("//ul[@role='menu']//a"))) {
