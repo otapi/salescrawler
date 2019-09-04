@@ -12,6 +12,7 @@ using System.Net;
 using System.IO;
 using SalesCrawler.ViewModels;
 using System.Web;
+using OpenQA.Selenium.Interactions;
 
 namespace SalesCrawler.Helpers
 {
@@ -98,6 +99,17 @@ namespace SalesCrawler.Helpers
         {
             ((IJavaScriptExecutor)driver).ExecuteScript($"window.scroll(0, {element.Location.Y+offsetY});");
             return element.Location.Y;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        protected void MoveTo(IWebElement element)
+        {
+            Actions actions = new Actions(driver);
+            actions.MoveToElement(element);
+            actions.Perform();
         }
 
         protected void ScrollToBottom()

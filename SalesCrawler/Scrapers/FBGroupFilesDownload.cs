@@ -10,6 +10,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Windows.Forms;
 using OpenQA.Selenium.Interactions;
+using System.IO;
 
 namespace SalesCrawler.Scrapers
 {
@@ -62,10 +63,14 @@ namespace SalesCrawler.Scrapers
                 md.Expire = NEVEREXPIRE;
                 return;
             }
-            md.Title = titles[0].Text;
 
-            // TODO: skip if the files was already downloaded earlier
-
+            md.Title = titles[0].GetAttribute("data-tooltip-content");
+            if (md.Title == null || File.Exists(@"C:\Users\otapi\Downloads\" + md.Title))
+            {
+                md.Expire = NEVEREXPIRE;
+                return;
+            }
+            
             md.Url = item.FindElement(By.XPath(".//a")).GetAttribute("href");
             md.ImageBinary = null;
             md.Description = null;
@@ -77,31 +82,22 @@ namespace SalesCrawler.Scrapers
             {
                 md.Expire = NEVEREXPIRE;
             }
-            if (md.Title != "Dokumentum létrehozása")
-            {
-                var elem = item.FindElement(By.XPath(".//i[@class='img sp_S8pk_WlQaUU sx_7e1fad']"));
-                Actions actions = new Actions(driver);
-                actions.MoveToElement(elem);
-                actions.Perform();
+            var elem = item.FindElement(By.XPath(".//i[@class='img sp_S8pk_WlQaUU sx_7e1fad']"));
+            MoveTo(elem);
+            elem.Click();
 
-                elem.Click();
+            Waitfor(By.XPath("//ul[@role='menu']"));
+            var download = driver.FindElements(By.XPath("//ul[@role='menu']//a"))[1];
+            // TODO: create a shared method from this
+            MoveTo(download);
+            download.Click();
 
-                Waitfor(By.XPath("//ul[@role='menu']"));
-                var download = driver.FindElements(By.XPath("//ul[@role='menu']//a"))[1];
-                // TODO: create a shared method from this
-                actions = new Actions(driver);
-                actions.MoveToElement(download);
-                actions.Perform();
-                
-                download.Click();
-
-                foreach (var element in driver.FindElements(By.XPath("//ul[@role='menu']//a"))) {
-                    IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor) driver;
-                    jsExecutor.ExecuteScript(
-                        "arguments[0].parentNode.removeChild(arguments[0])", element);
-                }
-                driver.FindElement(By.XPath("//div")).Click();
+            foreach (var element in driver.FindElements(By.XPath("//ul[@role='menu']//a"))) {
+                IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor) driver;
+                jsExecutor.ExecuteScript(
+                    "arguments[0].parentNode.removeChild(arguments[0])", element);
             }
+            driver.FindElement(By.XPath("//div")).Click();
         }
 
         public By NextPageElement { get; } = null;
