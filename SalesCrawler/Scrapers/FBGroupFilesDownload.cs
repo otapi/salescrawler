@@ -32,6 +32,22 @@ namespace SalesCrawler.Scrapers
 
         public IReadOnlyCollection<IWebElement> GetItemsOnPage()
         {
+            for (var i=0; true;)
+            {
+                i++;
+                try
+                {
+                    var ret = GetItemsOnPageImpl();
+                    return ret;
+                }
+                catch
+                {
+                    StartSearch(ScraperSettings);
+                }
+            }
+        }
+        public IReadOnlyCollection<IWebElement> GetItemsOnPageImpl()
+        {
             driver.Manage().Window.Maximize();
             IReadOnlyCollection<IWebElement> ret = null;
 
@@ -43,6 +59,7 @@ namespace SalesCrawler.Scrapers
                 {
                     break;
                 }
+                Wait(1);
                 continuebuttons[0].Click();
                 Waituntil(By.XPath("//div[@class='clearfix uiMorePager stat_elem _52jv async_saving']"));
             }
@@ -65,7 +82,11 @@ namespace SalesCrawler.Scrapers
             }
 
             md.Title = titles[0].GetAttribute("data-tooltip-content");
-            if (md.Title == null || File.Exists(@"C:\Users\otapi\Downloads\" + md.Title))
+            if (md.Title == null)
+            {
+                md.Title = titles[0].Text;
+            }
+            if (md.Title == null || md.Title == "" || md.Title == "Név" || File.Exists(@"C:\Users\otapi\Downloads\" + md.Title))
             {
                 md.Expire = NEVEREXPIRE;
                 return;
@@ -82,16 +103,29 @@ namespace SalesCrawler.Scrapers
             {
                 md.Expire = NEVEREXPIRE;
             }
-            var elem = item.FindElement(By.XPath(".//i[@class='img sp_S8pk_WlQaUU sx_7e1fad']"));
+            var elems = item.FindElements(By.XPath(".//i[@class='img sp_S8pk_WlQaUU sx_7e1fad']"));
+            if (elems.Count == 0)
+            {
+                elems = item.FindElements(By.XPath(".//i[@class='img sp_nUm-Frhgfk0 sx_ae104b']"));
+                if (elems.Count == 0)
+                {
+                    return;
+                }
+            }
+
+
+            var elem = elems[0];
             MoveTo(elem);
             elem.Click();
 
             Waitfor(By.XPath("//ul[@role='menu']"));
-            var download = driver.FindElements(By.XPath("//ul[@role='menu']//a"))[1];
-            // TODO: create a shared method from this
-            MoveTo(download);
-            download.Click();
-
+            var downloads = driver.FindElements(By.XPath("//ul[@role='menu']//a/span/span[text()='Letöltés']"));
+            if (downloads.Count > 0)
+            {
+                var download = downloads[0];
+                MoveTo(download);
+                download.Click();
+            }
             foreach (var element in driver.FindElements(By.XPath("//ul[@role='menu']//a"))) {
                 IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor) driver;
                 jsExecutor.ExecuteScript(

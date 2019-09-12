@@ -64,7 +64,7 @@ namespace SalesCrawler.Helpers
         /// </summary>
         /// <param name="by"></param>
         /// <param name="timeout">seconds</param>
-        protected void Waitfor(By by, int timeout = 10)
+        protected void Waitfor(By by, int timeout = 100)
         {
             var w = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
             w.Until(c => c.FindElements(by).Count != 0);
@@ -74,7 +74,7 @@ namespace SalesCrawler.Helpers
         /// </summary>
         /// <param name="by"></param>
         /// <param name="timeout">seconds</param>
-        protected void Waituntil(By by, int timeout = 10)
+        protected void Waituntil(By by, int timeout = 100)
         {
             Wait();
             var w = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
