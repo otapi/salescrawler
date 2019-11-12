@@ -8,6 +8,7 @@ using SalesCrawler.Models;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 
 namespace SalesCrawler.Scrapers
 {
@@ -45,13 +46,19 @@ namespace SalesCrawler.Scrapers
 
         public void GetItem(IWebElement item, MatchData md)
         {
+            Actions actions = new Actions(driver);
+            actions.MoveToElement(item);
+            actions.Perform();
+
             md.Seller = null;
             var link = item.FindElement(By.XPath(".//h3[@class='item-title']/a"));
             md.Title = link.Text;
             md.Url = link.GetAttribute("href");
-            var imageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
-            md.ImageBinary = GetImage(imageUrl);
-            //md.ImageUrl = item.FindElement(By.XPath(".//img")).GetAttribute("style").Replace("background-image: url(\"", "").Replace("\");", "");
+            var imageUrl = item.FindElement(By.XPath(".//picture/img")).GetAttribute("src");
+            if (imageUrl != null)
+            {
+                md.ImageBinary = GetImage(imageUrl);
+            }
             md.Description = null;
             md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//h3[@class='item-price']")).Text);
             md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='currency']")).Text);
