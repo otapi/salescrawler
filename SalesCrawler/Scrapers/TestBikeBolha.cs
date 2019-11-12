@@ -34,7 +34,7 @@ namespace SalesCrawler.Scrapers
         public IReadOnlyCollection<IWebElement> GetItemsOnPage()
         {
             Waitfor(By.XPath("//h5"));
-            return driver.FindElements(By.XPath("//figure"));
+            return driver.FindElements(By.XPath("//figure[descendant::a]"));
         }
 
         public void GetItem(IWebElement item, MatchData md)
