@@ -54,8 +54,8 @@ namespace SalesCrawler.Scrapers
 
         public IReadOnlyCollection<IWebElement> GetItemsOnPage()
         {
-            Waitfor(By.XPath("//p[@id='footer-copyright']"));
-            var ret = driver.FindElements(By.XPath("//tr[@data-gtm-name]"));
+            Waitfor(By.XPath("//div[@id='social_icons']"));
+            var ret = driver.FindElements(By.XPath("//div[@class='gtm-impression prod']"));
             return ret;
         }
 
@@ -68,20 +68,20 @@ namespace SalesCrawler.Scrapers
             md.Seller = null;
             md.Title = item.GetAttribute("data-gtm-name");
             md.Url = item.FindElement(By.XPath(".//a")).GetAttribute("href");
-            var imageUrl = item.FindElement(By.XPath(".//td[@class='listing-item-picture']//img")).GetAttribute("src");
+            var imageUrl = item.FindElement(By.XPath(".//div[@class='picbox']/img")).GetAttribute("src");
             md.ImageBinary = GetImage(imageUrl);
             md.Description = null;
             md.ActualPrice = StripToInt(item.GetAttribute("data-gtm-price"));
             md.Currency = Currencies.Currency.HUF;
             md.IsAuction = false;
-            if (item.FindElements(By.XPath(".//div[@class='item-location']")).Count != 0)
+            if (item.FindElements(By.XPath(".//div[contains(text(),'Termék helye:')]")).Count != 0)
             {
-                md.Location = item.FindElement(By.XPath(".//div[@class='item-location']")).Text.Replace("Termék helye:&nbsp;", "").Trim();
+                md.Location = item.FindElement(By.XPath(".//div[contains(text(),'Termék helye:')]")).Text.Replace("Termék helye:", "").Trim();
             }
             md.Expire = NEVEREXPIRE; // TODO: enddate
         }
 
-        public By NextPageElement { get; } = By.XPath("//a[img[@src='https://img-ssl.vatera.hu/images/search/arw_frw.gif']]");
+        public By NextPageElement { get; } = By.XPath("//a[span[@aria-label='Következő oldal']]");
 
         public void UpdateMatchDetails(MatchData md)
         {
