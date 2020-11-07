@@ -13,3 +13,5 @@ echo Paste the content into your GitHub/BitBucket account on the SSH key section
 read -p "Press any key to resume ..."
 echo First clone
 git clone git@github.com:otapi/salescrawler.git
+sudo apt install python3-pip
+pip3 install scrapy
