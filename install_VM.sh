@@ -20,5 +20,21 @@ echo Create virtual env
 python3 -m venv env
 echo Activate your env: 
 source env/bin/activate
-echo istall Scrapy with pip
+echo install Scrapy with pip
 pip3 install scrapy
+
+echo install MySQL
+sudo apt install mysql-server
+echo secure the MySQL
+sudo mysql_secure_installation
+echo 
+echo Enter sql user details
+echo CREATE USER 'salescrawler'@'localhost' IDENTIFIED BY 'password';
+echo Then grant access
+echo GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'salescrawler'@'localhost' WITH GRANT OPTION;
+echo then flush
+echo FLUSH PRIVILEGES;
+echo then exit
+mysql -u root -p
+echo Check status
+systemctl status mysql.service
