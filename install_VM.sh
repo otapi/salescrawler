@@ -38,3 +38,6 @@ echo then exit
 mysql -u root -p
 echo Check status
 systemctl status mysql.service
+echo Install MySQL Workbench
+sudo snap install mysql-workbench-community
+echo 
