@@ -1,3 +1,4 @@
+# cd ~/ ; rm -rf salescrawler ; git clone git@github.com:otapi/salescrawler.git ; cd salescrawler ; scrapy crawl blogspider
 cd ~/
 
 echo Stop the server
