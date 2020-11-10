@@ -10,9 +10,9 @@ class Hardverapro(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        for item in response.xpath('//li[@class='media']'):
+        for item in response.xpath("//li[@class='media']"):
             yield {
-                'title': item.css('//h1/a/text()').get()
+                'title': item.css("//h1/a/text()").get()
                 }
 
         #for next_page in response.css('a.next-posts-link'):
