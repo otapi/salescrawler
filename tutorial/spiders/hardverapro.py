@@ -12,7 +12,14 @@ class Hardverapro(scrapy.Spider):
     def parse(self, response):
         for item in response.xpath("//li[@class='media']"):
             yield {
-                'title': item.xpath(".//h1/a/text()").get()
+                'title': item.xpath(".//h1/a/text()").get(),
+                'seller': item.xpath(".//div[@class='uad-misc']/div[0]/a/text()").get(),
+                'imageUrl': item.xpath(".//h1/a/text()").get(),
+                'url': item.xpath(".//h1/a/text()").get(),
+                'description': item.xpath(".//h1/a/text()").get(),
+                'price': item.xpath(".//h1/a/text()").get(),
+                'currency': "HUF",
+                'location': item.xpath(".//h1/a/text()").get(),
                 }
 
         #for next_page in response.css('a.next-posts-link'):
