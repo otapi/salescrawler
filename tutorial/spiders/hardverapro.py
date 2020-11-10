@@ -16,11 +16,11 @@ class Hardverapro(scrapy.Spider):
                 'seller': item.xpath(".//div[@class='uad-misc']/div[0]/a/text()").get(),
                 'imageUrl': item.xpath("./a/img/@src").get(),
                 'url': item.xpath(".//h1/a/@href").get(),
-                'description': "",
+                ##'description': "",
                 'price': item.xpath(".//div[@class='uad-info']/div[@class='uad-price']/text()").get(),
                 'currency': "HUF",
                 'location': item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get(),
                 }
 
-        #for next_page in response.css('a.next-posts-link'):
-        #    yield response.follow(next_page, self.parse)
+        response.follow(response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href"), self.parse)
+        
