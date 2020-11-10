@@ -11,6 +11,4 @@ echo run
 cd salescrawler
 scrapy crawl blogspider
 read -p "Press any key to resume ..."
-
-# enter sql
-mysql -u salescrawler -p
+run.sh

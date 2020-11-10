@@ -64,6 +64,29 @@
             "id": "7da730e5-4a08-51a4-3f10-721a3fc95396"
           },
           {
+            "name": "active",
+            "comment": "Should it run?",
+            "dataType": "BOOL",
+            "default": "True",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 82,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "e03d2668-1098-9ecb-0917-3d4c14d22b9f"
+          },
+          {
             "name": "name",
             "comment": "",
             "dataType": "TEXT",
@@ -110,10 +133,10 @@
             "id": "e31c1e96-8a39-36c6-2477-92c41ae9a0cb"
           },
           {
-            "name": "active",
-            "comment": "Should it run?",
-            "dataType": "BOOL",
-            "default": "True",
+            "name": "lastRun",
+            "comment": "When run last time?",
+            "dataType": "DATETIME",
+            "default": "",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
@@ -126,18 +149,18 @@
               "fk": false,
               "pfk": false,
               "widthName": 60,
-              "widthComment": 82,
-              "widthDataType": 60,
+              "widthComment": 118,
+              "widthDataType": 67,
               "widthDefault": 60
             },
-            "id": "e03d2668-1098-9ecb-0917-3d4c14d22b9f"
+            "id": "9b2d50ad-b8c4-3c43-8bd2-69f6f773f74b"
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 94,
           "top": 210,
-          "zIndex": 420,
+          "zIndex": 485,
           "widthName": 60,
           "widthComment": 433
         },
@@ -672,7 +695,7 @@
             "7da730e5-4a08-51a4-3f10-721a3fc95396"
           ],
           "x": 356.5,
-          "y": 361,
+          "y": 381.5,
           "direction": "bottom"
         },
         "end": {
@@ -695,7 +718,7 @@
             "7da730e5-4a08-51a4-3f10-721a3fc95396"
           ],
           "x": 619,
-          "y": 285.5,
+          "y": 295.75,
           "direction": "right"
         },
         "end": {
