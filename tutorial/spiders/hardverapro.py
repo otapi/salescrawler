@@ -22,5 +22,7 @@ class Hardverapro(scrapy.Spider):
                 'location': item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get(),
                 }
 
-        response.follow(response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get(), self.parse)
+        next_page = response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get()
+        if next_page:
+            yield response.follow(response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get(), self.parse)
         
