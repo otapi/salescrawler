@@ -5,13 +5,13 @@ from tutorial.items import ProductItem
 
 class Hardverapro(scrapy.Spider):
     name = 'hardverapro'
-    def start_requests(self):
-        urls = [
-            'https://hardverapro.hu/aprok/keres.php?stext=RX470&county=&stcid=&settlement=&stmid=&minprice=&maxprice=&company=&cmpid=&user=&usrid=&selling=1&buying=1&stext_none=',
-        ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
-
+    def __init__(self, searchterm=None, fullink=None, *args, **kwargs):
+        super(Hardverapro, self).__init__(*args, **kwargs)
+        if searchterm:
+            self.start_urls = [f'https://hardverapro.hu/aprok/keres.php?stext={searchterm}&county=&stcid=&settlement=&stmid=&minprice=&maxprice=&company=&cmpid=&user=&usrid=&selling=1&buying=1&stext_none=']
+        if fullink:
+            self.start_urls = [f'{fullink}']
+    
     def parse(self, response):
         for item in response.xpath("//li[@class='media']"):
             yield ProductItem(
