@@ -1,5 +1,7 @@
 import scrapy
 
+from tutorial.helpers import Helpers
+
 class Hardverapro(scrapy.Spider):
     name = 'hardverapro'
     def start_requests(self):
@@ -17,7 +19,7 @@ class Hardverapro(scrapy.Spider):
                 'imageUrl': item.xpath("./a/img/@src").get(),
                 'url': item.xpath(".//h1/a/@href").get(),
                 ##'description': "",
-                'price': item.xpath(".//div[@class='uad-info']/div[@class='uad-price']/text()").get(),
+                'price': Helpers.getNumber(item.xpath(".//div[@class='uad-info']/div[@class='uad-price']/text()").get()),
                 'currency': "HUF",
                 'location': item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get(),
                 }

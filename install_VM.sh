@@ -21,7 +21,7 @@ python3 -m venv env
 echo Activate your env: 
 source env/bin/activate
 echo install Scrapy with pip
-pip3 install scrapy
+pip3 install scrapy Pillow
 
 echo install MySQL
 sudo apt install mysql-server
