@@ -6,7 +6,16 @@
 import scrapy
 
 
-class TutorialItem(scrapy.Item):
+class ProductItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    title  = scrapy.Field()
+    seller = scrapy.Field()
+    url = scrapy.Field()
+    description = scrapy.Field()
+    price = scrapy.Field()
+    currency = scrapy.Field()
+    location = scrapy.Field()
+    images = scrapy.Field()
+    image_urls = scrapy.Field()
     pass
