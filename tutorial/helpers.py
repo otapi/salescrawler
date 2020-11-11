@@ -69,13 +69,6 @@ class Helpers:
         
         return 'HUF'
 
-    @staticmethod
-    def getImageUrlToBlob(imageurl):
-        # Convert digital data to binary format
-        with open(filename, 'rb') as file:
-            binaryData = file.read()
-        return binaryData
-
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
