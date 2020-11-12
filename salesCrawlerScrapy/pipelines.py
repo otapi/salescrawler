@@ -8,6 +8,7 @@
 from itemadapter import ItemAdapter
 import MySQLdb
 import os
+from pathlib import Path
 
 class DatabasePipeline:
 
@@ -38,7 +39,7 @@ class DatabasePipeline:
         
         if item['images']:
             composed_sql = composed_sql.replace('@@IMAGE@@', '%s')
-            imgfile = item['images'][0]['path']
+            imgfile = os.path.join(Path.home(),'salescrawler', item['images'][0]['path']) 
             with open(imgfile, 'rb') as file:
                 binaryData = file.read()
             
