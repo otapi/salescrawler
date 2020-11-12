@@ -2,6 +2,7 @@ import click
 import os
 import shutil
 from pathlib import Path
+import scrapy
 
 @click.group()
 def cli():
@@ -9,8 +10,10 @@ def cli():
 
 @cli.command()
 def run():
-    """Run all active spiderBots"""
-    click.echo('Running spiderBots...')
+    """Run hardverapro spider"""
+    click.echo('Run hardverapro with RX470...')
+    os.chdir(Path.home())
+    os.system("scrapy crawl hardverapro -a searchterm=RX470")
 
 @cli.command()
 def update():

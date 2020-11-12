@@ -1,4 +1,5 @@
-# python3 sc-cli.py update
+# python3 salescrawler/sc-cli.py update
+
 # cd ~/ ; rm -rf salescrawler ; git clone git@github.com:otapi/salescrawler.git ; cd salescrawler ; scrapy crawl blogspider
 cd ~/
 
