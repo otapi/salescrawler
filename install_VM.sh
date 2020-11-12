@@ -15,13 +15,14 @@ echo First clone
 git clone git@github.com:otapi/salescrawler.git
 sudo apt install python3-pip
 sudo apt-get install python3 python3-venv python3-dev python3-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
+sudo apt install default-libmysqlclient-dev
 
-echo Create virtual env
-python3 -m venv env
-echo Activate your env: 
-source env/bin/activate
+#echo Create virtual env
+#python3 -m venv env
+#echo Activate your env: 
+#source env/bin/activate
 echo install Scrapy with pip
-pip3 install scrapy Pillow mysqlclient
+pip3 install scrapy Pillow mysqlclient Click
 
 echo install MySQL
 sudo apt install mysql-server
