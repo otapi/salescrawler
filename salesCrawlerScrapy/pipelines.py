@@ -45,6 +45,7 @@ class DatabasePipeline:
             
             os.remove(imgfile) 
             insert_blob_tuple = (binaryData)
+            print(composed_sql)
             self.cursor.execute(composed_sql, insert_blob_tuple)
         else:
             self.cursor.execute(composed_sql)
