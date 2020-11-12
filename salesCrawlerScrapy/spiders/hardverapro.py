@@ -16,7 +16,7 @@ class Hardverapro(scrapy.Spider):
         for item in response.xpath("//li[@class='media']"):
             yield ProductItem(
                 title = item.xpath(".//h1/a/text()").get(),
-                seller = item.xpath(".//div[@class='uad-misc']/div[0]/a/text()").get(),
+                seller = item.xpath(".//div[@class='uad-misc']/div/a/text()").get(),
                 image_urls = [response.urljoin(item.xpath("./a/img/@src").get())],
                 url = response.urljoin(item.xpath(".//h1/a/@href").get()),
                 price = Helpers.getNumber(item.xpath(".//div[@class='uad-info']/div[@class='uad-price']/text()").get()),

@@ -3,10 +3,31 @@ import os
 import shutil
 from pathlib import Path
 import scrapy
+from salesCrawlerScrapy.settings import DB_SETTINGS
+import MySQLdb
+
+conn = None
+cursor = None
+def openDB():
+    global conn, cursor
+    conn = MySQLdb.connect(db=DB_SETTINGS['db'],
+                            user=DB_SETTINGS['user'], passwd=DB_SETTINGS['passwd'],
+                            host=DB_SETTINGS['host'],
+                            charset='utf8', use_unicode=True)
+    cursor = conn.cursor()
 
 @click.group()
 def cli():
     1
+
+@cli.command()
+def clear():
+    """Clear matches table"""
+    click.echo('Clearing matches...')
+    openDB()
+    cursor.execute("DELETE FROM matches")
+    conn.commit()
+    conn.close()
 
 @cli.command()
 def run():

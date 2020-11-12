@@ -158,9 +158,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 94,
-          "top": 210,
-          "zIndex": 485,
+          "left": 31,
+          "top": 98,
+          "zIndex": 500,
           "widthName": 60,
           "widthComment": 433
         },
@@ -540,10 +540,10 @@
           }
         ],
         "ui": {
-          "active": false,
-          "left": 730,
-          "top": 88,
-          "zIndex": 474,
+          "active": true,
+          "left": 642,
+          "top": 329,
+          "zIndex": 505,
           "widthName": 60,
           "widthComment": 235
         },
@@ -693,10 +693,10 @@
           }
         ],
         "ui": {
-          "active": true,
-          "left": 130,
-          "top": 483,
-          "zIndex": 497,
+          "active": false,
+          "left": 26,
+          "top": 362,
+          "zIndex": 502,
           "widthName": 62,
           "widthComment": 324
         },
@@ -717,8 +717,8 @@
           "columnIds": [
             "7da730e5-4a08-51a4-3f10-721a3fc95396"
           ],
-          "x": 356.5,
-          "y": 381.5,
+          "x": 293.5,
+          "y": 269.5,
           "direction": "bottom"
         },
         "end": {
@@ -726,8 +726,8 @@
           "columnIds": [
             "4290e61e-14d1-6664-faa9-1e36d770a375"
           ],
-          "x": 400,
-          "y": 483,
+          "x": 296,
+          "y": 362,
           "direction": "top"
         },
         "id": "8b32a4d2-cde8-4213-3b0b-861a2bed95e0",
@@ -740,8 +740,8 @@
           "columnIds": [
             "7da730e5-4a08-51a4-3f10-721a3fc95396"
           ],
-          "x": 619,
-          "y": 295.75,
+          "x": 556,
+          "y": 183.75,
           "direction": "right"
         },
         "end": {
@@ -749,8 +749,8 @@
           "columnIds": [
             "c97576a3-3679-77f6-0de8-1024bb4d15c4"
           ],
-          "x": 730,
-          "y": 286.5,
+          "x": 642,
+          "y": 527.5,
           "direction": "left"
         },
         "id": "cdd6adbc-18a7-f6ff-8c59-352d094cc871",
