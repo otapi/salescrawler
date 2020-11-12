@@ -12,7 +12,7 @@ BOT_NAME = 'salesCrawlerScrapy'
 SPIDER_MODULES = ['salesCrawlerScrapy.spiders']
 NEWSPIDER_MODULE = 'salesCrawlerScrapy.spiders'
 
-IMAGES_STORE = '~/salescrawler/ImagesStore'
+IMAGES_STORE = 'ImagesStore'
 
 DB_SETTINGS = {
     'db': "salescrawler",
