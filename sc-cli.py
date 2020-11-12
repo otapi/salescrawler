@@ -1,8 +1,11 @@
 import click
+import os
+import shutil
+from pathlib import Path
 
 @click.group()
 def cli():
-    a=1
+    1
 
 @cli.command()
 def run():
@@ -13,6 +16,9 @@ def run():
 def update():
     """Check for tool updates: re-clone tool, but keep DB and run crawlers"""
     click.echo('Update the tool...')
+    shutil.rmtree(os.path.join(Path.home(),'salescrawler'))
+    os.chdir(Path.home())
+    os.system('git clone git@github.com:otapi/salescrawler.git')
 
 if __name__ == '__main__':
     click.echo('SalesCrawler - Program to run regular searches on websites')
