@@ -20,37 +20,31 @@ class DatabasePipeline:
         self.host = host
 
     ignoreFields = [
-        'image_urls'
+        'image_urls',
+        'images'
     ]
 
     def process_item(self, item, spider):
         # Inserts fields only of assigned ones - to use default from SQL DB.
         sql = 'INSERT INTO table_name ({fields}) VALUES ({values})'
+        # keep only non-empty fields
         data = {}
         for field in item:
             if item[field] and field not in DatabasePipeline.ignoreFields:
-                if field == 'images':
-                    data[field] = '@@IMAGE@@'
-                else:
-                    data[field] = item[field]
-        
-        fields = ', '.join(data.keys())
-        values = ', '.join(['"{0}"'.format(value) for value in data.values()])
-        composed_sql = sql.format(fields=fields, values=values)
+                data[field] = item[field]
         
         if item['images']:
-            composed_sql = composed_sql.replace('"@@IMAGE@@"', '%s').replace(", images)", ", image)")
             imgfile = os.path.join(Path.home(),'salescrawler/ImagesStore', item['images'][0]['path']) 
             with open(imgfile, 'rb') as file:
                 binaryData = file.read()
-            
             os.remove(imgfile) 
-            insert_blob_tuple = (binaryData)
-            logging.warning(composed_sql)
-            self.cursor.execute(composed_sql, insert_blob_tuple)
-        else:
-            self.cursor.execute(composed_sql)
+            data['image'] = binaryData
+
+        fields = ', '.join(data.keys())
+        values = ', '.join(["%s" for value in data.values()])
+        composed_sql = sql.format(fields=fields, values=values)
         
+        self.cursor.execute(composed_sql, data.values())
         self.conn.commit()
         return item
 
