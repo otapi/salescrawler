@@ -12,7 +12,7 @@ def cli():
 def run():
     """Run hardverapro spider"""
     click.echo('Run hardverapro with RX470...')
-    os.chdir(Path.home())
+    os.chdir(os.path.join(Path.home(),'salescrawler'))
     os.system("scrapy crawl hardverapro -a searchterm=RX470")
 
 @cli.command()
