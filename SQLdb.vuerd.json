@@ -623,6 +623,29 @@
             "id": "2db696c1-e036-f639-b293-45d83fe4ebe2"
           },
           {
+            "name": "fullink",
+            "comment": "Full url for search (instead of searchTerm)",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 243,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "18b7beb8-71ab-4db8-a47b-08a501c2bc19"
+          },
+          {
             "name": "spider",
             "comment": "Name of the spider",
             "dataType": "TEXT",
@@ -670,10 +693,10 @@
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 130,
           "top": 483,
-          "zIndex": 464,
+          "zIndex": 497,
           "widthName": 62,
           "widthComment": 324
         },
@@ -703,7 +726,7 @@
           "columnIds": [
             "4290e61e-14d1-6664-faa9-1e36d770a375"
           ],
-          "x": 355,
+          "x": 400,
           "y": 483,
           "direction": "top"
         },

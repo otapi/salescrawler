@@ -1,7 +1,7 @@
 import scrapy
 
-from tutorial.helpers import Helpers
-from tutorial.items import ProductItem
+from salesCrawlerScrapy.helpers import Helpers
+from salesCrawlerScrapy.items import ProductItem
 
 class Hardverapro(scrapy.Spider):
     name = 'hardverapro'
