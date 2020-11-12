@@ -9,6 +9,7 @@ from itemadapter import ItemAdapter
 import MySQLdb
 import os
 from pathlib import Path
+import logging
 
 class DatabasePipeline:
 
@@ -45,7 +46,7 @@ class DatabasePipeline:
             
             os.remove(imgfile) 
             insert_blob_tuple = (binaryData)
-            print(composed_sql)
+            logging.debug(composed_sql)
             self.cursor.execute(composed_sql, insert_blob_tuple)
         else:
             self.cursor.execute(composed_sql)
