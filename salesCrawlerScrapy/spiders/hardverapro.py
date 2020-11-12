@@ -21,7 +21,7 @@ class Hardverapro(scrapy.Spider):
                 url = response.urljoin(item.xpath(".//h1/a/@href").get()),
                 price = Helpers.getNumber(item.xpath(".//div[@class='uad-info']/div[@class='uad-price']/text()").get()),
                 currency = 'HUF',
-                location = item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get()
+                location = item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get(),
             )
 
         next_page = response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get()

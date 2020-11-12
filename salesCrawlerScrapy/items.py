@@ -18,4 +18,6 @@ class ProductItem(scrapy.Item):
     location = scrapy.Field()
     images = scrapy.Field()
     image_urls = scrapy.Field()
+    extraID = scrapy.Field()
+    hash = scrapy.Field()
     pass

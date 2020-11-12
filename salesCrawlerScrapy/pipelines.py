@@ -10,6 +10,7 @@ import MySQLdb
 import os
 from pathlib import Path
 import logging
+import hashlib
 
 class DatabasePipeline:
 
@@ -18,6 +19,15 @@ class DatabasePipeline:
         self.user = user
         self.passwd = passwd
         self.host = host
+
+    def getHash(self, *args):
+        """Get hash of the contained arguments. Empty/None arguments skipped.
+        """
+        text = ""
+        for elem in args :
+            if elem:
+                text = text+"_"+elem
+        return hashlib.md5(bytes(text, 'utf-8') )
 
     ignoreFields = [
         'image_urls',
@@ -29,6 +39,8 @@ class DatabasePipeline:
         sql = 'INSERT INTO matches ({fields}) VALUES ({values})'
         # keep only non-empty fields
         data = {}
+        data['hash'] = self.getHash(item['title'], item['seller'], item['extraID'])
+
         for field in item:
             if item[field] and field not in DatabasePipeline.ignoreFields:
                 data[field] = item[field]
