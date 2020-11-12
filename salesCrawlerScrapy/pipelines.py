@@ -39,7 +39,7 @@ class DatabasePipeline:
         composed_sql = sql.format(fields=fields, values=values)
         
         if item['images']:
-            composed_sql = composed_sql.replace('@@IMAGE@@', '%s')
+            composed_sql = composed_sql.replace("'@@IMAGE@@'", '%s')
             imgfile = os.path.join(Path.home(),'salescrawler/ImagesStore', item['images'][0]['path']) 
             with open(imgfile, 'rb') as file:
                 binaryData = file.read()
