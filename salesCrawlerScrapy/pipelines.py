@@ -26,7 +26,7 @@ class DatabasePipeline:
 
     def process_item(self, item, spider):
         # Inserts fields only of assigned ones - to use default from SQL DB.
-        sql = 'INSERT INTO table_name ({fields}) VALUES ({values})'
+        sql = 'INSERT INTO matches ({fields}) VALUES ({values})'
         # keep only non-empty fields
         data = {}
         for field in item:
