@@ -20,4 +20,5 @@ class ProductItem(scrapy.Item):
     image_urls = scrapy.Field()
     extraID = scrapy.Field()
     hash = scrapy.Field()
+    spiderbotID = scrapy.Field()
     pass

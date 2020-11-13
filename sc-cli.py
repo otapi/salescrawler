@@ -52,12 +52,20 @@ def clear():
     conn.commit()
 
 @cli.command()
-def run():
-    """Run hardverapro spider"""
-    click.echo('Run hardverapro with RX470...')
+def runAll():
+    """Run all active crawlers"""
+    click.echo('Run all active crawlers...')
     os.chdir(os.path.join(Path.home(),'salescrawler'))
     #os.system("cd salescrawler ; scrapy crawl hardverapro -a searchterm=RX470")
     os.system("scrapy crawl hardverapro -a searchterm=RX470")
+
+@cli.command()
+def runSpider(spider, searchTerm = None, fullink = None, spiderbotID = -1):
+    """Run a spider"""
+    click.echo(f'Run spider: {spider}')
+    os.chdir(os.path.join(Path.home(),'salescrawler'))
+    #os.system("cd salescrawler ; scrapy crawl hardverapro -a searchterm=RX470")
+    os.system("scrapy crawl hardverapro -a searchterm=RX470 spiderbotID=2")
 
 @cli.command()
 def update():

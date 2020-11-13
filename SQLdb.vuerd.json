@@ -587,9 +587,9 @@
         ],
         "ui": {
           "active": true,
-          "left": 657,
-          "top": 216,
-          "zIndex": 541,
+          "left": 30,
+          "top": 519,
+          "zIndex": 543,
           "widthName": 60,
           "widthComment": 235
         },
@@ -740,9 +740,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 0,
-          "top": 459,
-          "zIndex": 532,
+          "left": 27,
+          "top": 303,
+          "zIndex": 542,
           "widthName": 62,
           "widthComment": 324
         },
@@ -772,8 +772,8 @@
           "columnIds": [
             "4290e61e-14d1-6664-faa9-1e36d770a375"
           ],
-          "x": 270,
-          "y": 459,
+          "x": 297,
+          "y": 303,
           "direction": "top"
         },
         "id": "8b32a4d2-cde8-4213-3b0b-861a2bed95e0",
@@ -786,18 +786,18 @@
           "columnIds": [
             "447f1801-043f-3c0d-713c-118d02be2156"
           ],
-          "x": 540,
-          "y": 555,
-          "direction": "right"
+          "x": 297,
+          "y": 495,
+          "direction": "bottom"
         },
         "end": {
           "tableId": "99d557f1-7124-bb33-6dcd-bccfd2adaf49",
           "columnIds": [
             "312fe492-e67c-5544-4d37-b70c7e320b48"
           ],
-          "x": 657,
-          "y": 435,
-          "direction": "left"
+          "x": 304.5,
+          "y": 519,
+          "direction": "top"
         },
         "id": "287dec3d-5dec-7591-9fc7-fa5209c35da6",
         "relationshipType": "OneN"
