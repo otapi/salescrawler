@@ -80,14 +80,14 @@ def crawlerDelete(crawlerid):
     """Delete a crawler with CRAWLERID, and also delete it's spiderbots and matches"""
 
 @click.group()
+@click.option('-s', '--searchTerm', help="Search term", type=int)
+@click.option('-l', '--fullink', help="Full link instead of a search term", type=int)
 def spiderbot():
     pass
 
 @spiderbot.command()
 @click.argument('spider')
 @click.argument('crawlerid')
-@spiderbot.option('-s', '--searchTerm', help="Search term", type=int)
-@spiderbot.option('-l', '--fullink', help="Full link instead of a search term", type=int)
 def spiderbotAdd(spider, crawlerid, searchTerm='', fullink=''):
     """Add a new spiderbot of SPIDER to crawler of CRAWLERID and return it's ID. Either searchTerm or fullink should be specified."""
     if not spider:
