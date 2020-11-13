@@ -6,6 +6,7 @@ import scrapy
 from salesCrawlerScrapy.settings import DB_SETTINGS
 from salesCrawlerScrapy.settings import SPIDERS
 import MySQLdb
+import datetime
 
 # -------
 # Helpers
@@ -36,6 +37,16 @@ def insertDB(table, data):
     conn.commit()
     return cursor.lastrowid
 
+def selectDB(selectSQL):
+    # return a dict from a select SQL
+    openDB()
+    cursor.execute(selectSQL)
+    desc = cursor.description
+    column_names = [col[0] for col in desc]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    return data
+
 # ----------------
 # General commands
 # ----------------
@@ -52,20 +63,40 @@ def clear():
     conn.commit()
 
 @cli.command()
-def runAll():
+def run():
     """Run all active crawlers"""
     click.echo('Run all active crawlers...')
-    os.chdir(os.path.join(Path.home(),'salescrawler'))
-    #os.system("cd salescrawler ; scrapy crawl hardverapro -a searchterm=RX470")
-    os.system("scrapy crawl hardverapro -a searchterm=RX470")
+    for crawler in selectDB(f"SELECT * FROM crawlers WHERE active=True"):
+        click.echo(f"Run crawler: {crawler['name']} ({crawler['crawlerID']})")
+        runCrawler(crawler['crawlerID'])
 
 @cli.command()
+@click.argument('crawlerID')
+def runCrawler(crawlerID):
+    """Run all active spiderbots owned by CRAWLERID"""
+    click.echo(f'Run all active spiders of crawler {crawlerID}...')
+    for spiderbot in selectDB(f"SELECT * FROM spiderbots WHERE crawlerID={crawlerID} and active=True"):
+        click.echo(f"Run spiderbot: {spiderbot['spiderbotID']}")
+        click.echo(f"   SearchTerm: {spiderbot['searchTerm']}")
+        click.echo(f"      Fullink: {spiderbot['fullink']}")
+        runSpider(spiderbot['spider'], spiderbot['searchTerm'], spiderbot['fullink'], spiderbot['spiderbotID'])
+    cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerID={crawlerID}", datetime.datetime.now())
+
+@cli.command()
+@click.argument('spider')
+@click.argument('spiderbotID')
+@click.option('-s', '--searchTerm', help="Search term")
+@click.option('-l', '--fullink', help="Full link instead of a search term")
 def runSpider(spider, searchTerm = None, fullink = None, spiderbotID = -1):
-    """Run a spider"""
+    """Run a SPIDER owned by SPIDERBOTID"""
     click.echo(f'Run spider: {spider}')
+    if searchTerm:
+        search=f"searchTerm={searchTerm}"
+    else:
+        search=f"fullink={fullink}"
+    
     os.chdir(os.path.join(Path.home(),'salescrawler'))
-    #os.system("cd salescrawler ; scrapy crawl hardverapro -a searchterm=RX470")
-    os.system("scrapy crawl hardverapro -a searchterm=RX470 spiderbotID=2")
+    os.system(f"scrapy crawl {spider} -a {search} -a spiderbotID={str(spiderbotID)}")
 
 @cli.command()
 def update():
