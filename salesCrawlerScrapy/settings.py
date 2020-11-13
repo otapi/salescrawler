@@ -12,6 +12,8 @@ BOT_NAME = 'salesCrawlerScrapy'
 SPIDER_MODULES = ['salesCrawlerScrapy.spiders']
 NEWSPIDER_MODULE = 'salesCrawlerScrapy.spiders'
 
+SPIDERS = ['hardverapro']
+
 IMAGES_STORE = 'ImagesStore'
 
 DB_SETTINGS = {

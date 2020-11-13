@@ -4,8 +4,12 @@ import shutil
 from pathlib import Path
 import scrapy
 from salesCrawlerScrapy.settings import DB_SETTINGS
+from salesCrawlerScrapy.settings import SPIDERS
 import MySQLdb
 
+# -------
+# Helpers
+# -------
 conn = None
 cursor = None
 def openDB():
@@ -32,6 +36,9 @@ def insertDB(table, data):
     conn.commit()
     return cursor.lastrowid
 
+# ----------------
+# General commands
+# ----------------
 @click.group()
 def cli():
     pass
@@ -61,6 +68,16 @@ def update():
     os.system('git clone git@github.com:otapi/salescrawler.git')
 
 @cli.command()
+def getSpiders():
+    """List available spiders"""
+    click.echo('Available spiders:')
+    click.echo(SPIDERS)
+    return SPIDERS
+
+# ----------------
+# Crawler commands
+# ----------------
+@cli.command()
 @click.argument('name')
 def crawlerAdd(name):
     """Add a new crawler with NAME and return it's ID"""
@@ -75,6 +92,9 @@ def crawlerAdd(name):
 def crawlerDelete(crawlerid):
     """Delete a crawler with CRAWLERID, and also delete it's spiderbots and matches"""
 
+# ------------------
+# Spiderbot commands
+# ------------------
 @cli.command()
 @click.argument('spider')
 @click.argument('crawlerid')
