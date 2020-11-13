@@ -60,14 +60,9 @@ def update():
     os.chdir(Path.home())
     os.system('git clone git@github.com:otapi/salescrawler.git')
 
-@cli.group()
-def crawler():
-    """Commands related to crawlers"""
-    pass
-
-@crawler.command()
+@cli.command()
 @click.argument('name')
-def addCrawler(name):
+def crawlerAdd(name):
     """Add a new crawler with NAME and return it's ID"""
     id = insertDB("crawlers", {
         "name": name
@@ -75,22 +70,17 @@ def addCrawler(name):
     click.echo(f"Crawler inserted, ID: {id}")
     return id
 
-@crawler.command()
+@cli.command()
 @click.argument('crawlerid')
-def deleteCrawler(crawlerid):
+def crawlerDelete(crawlerid):
     """Delete a crawler with CRAWLERID, and also delete it's spiderbots and matches"""
 
-@cli.group()
-def spiderbot():
-    """Commands related to spiderbots"""
-    pass
-
-@spiderbot.command()
+@cli.command()
 @click.argument('spider')
 @click.argument('crawlerid')
 @click.option('-s', '--searchTerm', help="Search term")
 @click.option('-l', '--fullink', help="Full link instead of a search term")
-def addSpiderbot(spider, crawlerid, searchTerm='', fullink=''):
+def spiderbotAdd(spider, crawlerid, searchTerm='', fullink=''):
     """Add a new spiderbot of SPIDER to crawler of CRAWLERID and return it's ID. Either searchTerm or fullink should be specified."""
     if not spider:
         raise Exception("A spider should be specified.")
@@ -114,12 +104,10 @@ def addSpiderbot(spider, crawlerid, searchTerm='', fullink=''):
     click.echo(f"Spiderbot inserted, ID: {id}")
     return id
 
-@spiderbot.command()
+@cli.command()
 @click.argument('crawlerid')
-def deleteSpiderbot(spiderbotid):
+def spiderbotDelete(spiderbotid):
     """Delete a spiderbot with SPIDERBOTID, and also delete it's matches"""
-
-
 
 if __name__ == '__main__':
     click.echo('SalesCrawler - Program to run regular searches on websites')
