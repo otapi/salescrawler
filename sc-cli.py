@@ -10,11 +10,16 @@ conn = None
 cursor = None
 def openDB():
     global conn, cursor
-    conn = MySQLdb.connect(db=DB_SETTINGS['db'],
-                            user=DB_SETTINGS['user'], passwd=DB_SETTINGS['passwd'],
-                            host=DB_SETTINGS['host'],
-                            charset='utf8', use_unicode=True)
-    cursor = conn.cursor()
+    if not conn:
+        conn = MySQLdb.connect(db=DB_SETTINGS['db'],
+                                user=DB_SETTINGS['user'], passwd=DB_SETTINGS['passwd'],
+                                host=DB_SETTINGS['host'],
+                                charset='utf8', use_unicode=True)
+        cursor = conn.cursor()
+
+def closeDB():
+    if conn:
+        conn.close()
 
 @click.group()
 def cli():
@@ -27,7 +32,6 @@ def clear():
     openDB()
     cursor.execute("DELETE FROM matches")
     conn.commit()
-    conn.close()
 
 @cli.command()
 def run():
@@ -48,3 +52,4 @@ def update():
 if __name__ == '__main__':
     click.echo('SalesCrawler - Program to run regular searches on websites')
     cli()
+    closeDB()
