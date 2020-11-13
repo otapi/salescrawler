@@ -46,7 +46,7 @@ class DatabasePipeline:
                 data[field] = item[field]
         
         # common fields
-        data['hash'] = self.getHash(item['crawlerID'], item['title'], item['seller'], item['extraID'])
+        data['hash'] = self.getHash(item['spiderbotID'], item['title'], item['seller'], item['extraID'])
         data['updated'] = datetime.datetime.now()
 
         # load images into blob

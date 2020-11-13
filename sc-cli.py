@@ -21,11 +21,22 @@ def closeDB():
     if conn:
         conn.close()
 
-@click.group()
-def cli():
-    1
+def insertDB(table, data):
+    # insert a record into SQL based on a dict and returns the ID.
+    openDB()
+    sql = 'INSERT INTO {table} ({fields}) VALUES ({values})'
+    fields = ', '.join(data.keys())
+    values = ', '.join(["%s" for value in data.values()])
+    composed_sql = sql.format(fields=fields, values=values)
+    cursor.execute(composed_sql, data.values())
+    conn.commit()
+    return cursor.lastrowid
 
-@cli.command()
+@click.group()
+def general():
+    pass
+
+@general.command()
 def clear():
     """Clear matches table"""
     click.echo('Clearing matches...')
@@ -33,7 +44,7 @@ def clear():
     cursor.execute("DELETE FROM matches")
     conn.commit()
 
-@cli.command()
+@general.command()
 def run():
     """Run hardverapro spider"""
     click.echo('Run hardverapro with RX470...')
@@ -41,13 +52,35 @@ def run():
     #os.system("cd salescrawler ; scrapy crawl hardverapro -a searchterm=RX470")
     os.system("scrapy crawl hardverapro -a searchterm=RX470")
 
-@cli.command()
+@general.command()
 def update():
     """Check for tool updates: re-clone tool, but keep DB and run crawlers"""
     click.echo('Update the tool...')
     shutil.rmtree(os.path.join(Path.home(),'salescrawler'))
     os.chdir(Path.home())
     os.system('git clone git@github.com:otapi/salescrawler.git')
+
+@click.group()
+def crawler():
+    pass
+
+@crawler.command()
+@click.argument('name')
+def crawlerAdd(name):
+    """Add a new crawler with NAME and return it's ID"""
+    id = insertDB("crawlers", {
+        "name": name
+    })
+    click.echo(f"Crawler inserted, ID: {id}")
+    return id
+
+@crawler.command()
+@click.argument('crawlerid')
+def crawlerDelete(crawlerid):
+    """Delete a crawler with CRAWLERID, and also delete it's spiderbots and matches"""
+    
+
+cli = click.CommandCollection(sources=[general, crawler])
 
 if __name__ == '__main__':
     click.echo('SalesCrawler - Program to run regular searches on websites')

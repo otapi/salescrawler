@@ -194,8 +194,8 @@
             "id": "316e46ed-d1f8-83f9-1519-61286fcfa175"
           },
           {
-            "name": "crawlerID",
-            "comment": "Which crawler found this?",
+            "name": "spiderbotID",
+            "comment": "Which spiderbot found it?",
             "dataType": "INT",
             "default": "",
             "option": {
@@ -209,12 +209,12 @@
               "pk": false,
               "fk": true,
               "pfk": false,
-              "widthName": 60,
-              "widthComment": 151,
+              "widthName": 68,
+              "widthComment": 149,
               "widthDataType": 60,
               "widthDefault": 60
             },
-            "id": "c97576a3-3679-77f6-0de8-1024bb4d15c4"
+            "id": "312fe492-e67c-5544-4d37-b70c7e320b48"
           },
           {
             "name": "title",
@@ -587,9 +587,9 @@
         ],
         "ui": {
           "active": true,
-          "left": 642,
-          "top": 329,
-          "zIndex": 527,
+          "left": 657,
+          "top": 216,
+          "zIndex": 541,
           "widthName": 60,
           "widthComment": 235
         },
@@ -740,9 +740,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 26,
-          "top": 362,
-          "zIndex": 502,
+          "left": 0,
+          "top": 459,
+          "zIndex": 532,
           "widthName": 62,
           "widthComment": 324
         },
@@ -772,8 +772,8 @@
           "columnIds": [
             "4290e61e-14d1-6664-faa9-1e36d770a375"
           ],
-          "x": 296,
-          "y": 362,
+          "x": 270,
+          "y": 459,
           "direction": "top"
         },
         "id": "8b32a4d2-cde8-4213-3b0b-861a2bed95e0",
@@ -782,24 +782,24 @@
       {
         "identification": false,
         "start": {
-          "tableId": "41c3c8a4-7e5b-00e0-fccf-24ea7f8d7c69",
+          "tableId": "bc981b5e-81a6-7d88-3711-e9f15e90bbd0",
           "columnIds": [
-            "7da730e5-4a08-51a4-3f10-721a3fc95396"
+            "447f1801-043f-3c0d-713c-118d02be2156"
           ],
-          "x": 556,
-          "y": 183.75,
+          "x": 540,
+          "y": 555,
           "direction": "right"
         },
         "end": {
           "tableId": "99d557f1-7124-bb33-6dcd-bccfd2adaf49",
           "columnIds": [
-            "c97576a3-3679-77f6-0de8-1024bb4d15c4"
+            "312fe492-e67c-5544-4d37-b70c7e320b48"
           ],
-          "x": 642,
-          "y": 548,
+          "x": 657,
+          "y": 435,
           "direction": "left"
         },
-        "id": "cdd6adbc-18a7-f6ff-8c59-352d094cc871",
+        "id": "287dec3d-5dec-7591-9fc7-fa5209c35da6",
         "relationshipType": "OneN"
       }
     ]
