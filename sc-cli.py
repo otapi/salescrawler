@@ -33,10 +33,10 @@ def insertDB(table, data):
     return cursor.lastrowid
 
 @click.group()
-def general():
+def cli():
     pass
 
-@general.command()
+@cli.command()
 def clear():
     """Clear matches table"""
     click.echo('Clearing matches...')
@@ -44,7 +44,7 @@ def clear():
     cursor.execute("DELETE FROM matches")
     conn.commit()
 
-@general.command()
+@cli.command()
 def run():
     """Run hardverapro spider"""
     click.echo('Run hardverapro with RX470...')
@@ -52,7 +52,7 @@ def run():
     #os.system("cd salescrawler ; scrapy crawl hardverapro -a searchterm=RX470")
     os.system("scrapy crawl hardverapro -a searchterm=RX470")
 
-@general.command()
+@cli.command()
 def update():
     """Check for tool updates: re-clone tool, but keep DB and run crawlers"""
     click.echo('Update the tool...')
@@ -60,13 +60,14 @@ def update():
     os.chdir(Path.home())
     os.system('git clone git@github.com:otapi/salescrawler.git')
 
-@click.group()
+@cli.group()
 def crawler():
+    """Commands related to crawlers"""
     pass
 
 @crawler.command()
 @click.argument('name')
-def crawlerAdd(name):
+def addCrawler(name):
     """Add a new crawler with NAME and return it's ID"""
     id = insertDB("crawlers", {
         "name": name
@@ -76,11 +77,12 @@ def crawlerAdd(name):
 
 @crawler.command()
 @click.argument('crawlerid')
-def crawlerDelete(crawlerid):
+def deleteCrawler(crawlerid):
     """Delete a crawler with CRAWLERID, and also delete it's spiderbots and matches"""
 
-@click.group()
+@cli.group()
 def spiderbot():
+    """Commands related to spiderbots"""
     pass
 
 @spiderbot.command()
@@ -88,7 +90,7 @@ def spiderbot():
 @click.argument('crawlerid')
 @click.option('-s', '--searchTerm', help="Search term")
 @click.option('-l', '--fullink', help="Full link instead of a search term")
-def spiderbotAdd(spider, crawlerid, searchTerm='', fullink=''):
+def addSpiderbot(spider, crawlerid, searchTerm='', fullink=''):
     """Add a new spiderbot of SPIDER to crawler of CRAWLERID and return it's ID. Either searchTerm or fullink should be specified."""
     if not spider:
         raise Exception("A spider should be specified.")
@@ -114,10 +116,10 @@ def spiderbotAdd(spider, crawlerid, searchTerm='', fullink=''):
 
 @spiderbot.command()
 @click.argument('crawlerid')
-def spiderBotDelete(spiderbotid):
+def deleteSpiderbot(spiderbotid):
     """Delete a spiderbot with SPIDERBOTID, and also delete it's matches"""
 
-cli = click.CommandCollection(sources=[general, crawler, spiderbot])
+
 
 if __name__ == '__main__':
     click.echo('SalesCrawler - Program to run regular searches on websites')
