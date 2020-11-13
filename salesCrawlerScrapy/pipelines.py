@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import logging
 import hashlib
+import datetime
 
 class DatabasePipeline:
 
@@ -37,14 +38,18 @@ class DatabasePipeline:
     def process_item(self, item, spider):
         # Inserts fields only of assigned ones - to use default from SQL DB.
         sql = 'INSERT INTO matches ({fields}) VALUES ({values})'
-        # keep only non-empty fields
         data = {}
-        data['hash'] = self.getHash(item['title'], item['seller'], item['extraID'])
-
+        
+        # keep only non-empty fields
         for field in item:
             if item[field] and field not in DatabasePipeline.ignoreFields:
                 data[field] = item[field]
         
+        # common fields
+        data['hash'] = self.getHash(item['crawlerID'], item['title'], item['seller'], item['extraID'])
+        data['updated'] = datetime.datetime.now()
+
+        # load images into blob
         if item['images']:
             imgfile = os.path.join(Path.home(),'salescrawler/ImagesStore', item['images'][0]['path']) 
             with open(imgfile, 'rb') as file:
@@ -52,10 +57,21 @@ class DatabasePipeline:
             os.remove(imgfile) 
             data['image'] = binaryData
 
+        # check for already existing matches
+        self.cursor.execute(f"SELECT price, shown, hide, hidedAt FROM matches WHERE hash='{data['hash']}'")
+        olddata = self.cursor.fetchall()
+        if len(olddata>0):
+            if data['price'] == olddata[0][0]:
+                data['shown'] = olddata[0][1]
+                data['hide'] = olddata[0][2]
+                data['hidedAt'] = olddata[0][3]
+            self.cursor.execute(f"DELETE FROM matches WHERE hash='{data['hash']}")
+            self.conn.commit()
+
+        # wrap up and commit the insert
         fields = ', '.join(data.keys())
         values = ', '.join(["%s" for value in data.values()])
         composed_sql = sql.format(fields=fields, values=values)
-        
         self.cursor.execute(composed_sql, data.values())
         self.conn.commit()
         return item
