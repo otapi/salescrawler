@@ -80,7 +80,9 @@ def runCrawler(crawlerID):
         click.echo(f"   SearchTerm: {spiderbot['searchTerm']}")
         click.echo(f"      Fullink: {spiderbot['fullink']}")
         runSpider(spiderbot['spider'], spiderbot['searchTerm'], spiderbot['fullink'], spiderbot['spiderbotID'])
+    openDB()
     cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerID={crawlerID}", datetime.datetime.now())
+    conn.commit()
 
 @cli.command()
 @click.argument('spider')
@@ -127,9 +129,14 @@ def crawlerAdd(name):
     return id
 
 @cli.command()
-@click.argument('crawlerid')
-def crawlerDelete(crawlerid):
-    """Delete a crawler with CRAWLERID, and also delete it's spiderbots and matches"""
+@click.argument('crawlerID')
+def crawlerDelete(crawlerID):
+    """Delete the crawler with CRAWLERID, and also delete it's spiderbots and matches"""
+    click.echo(f"Delete crawler: {crawlerID}")
+    for spiderbot in selectDB(f"SELECT spiderbotID FROM spiderbots WHERE crawlerID={crawlerID}"):
+        spiderbotDelete(spiderbot['spiderbotID'])
+    cursor.execute(f"DELETE FROM crawlers WHERE crawlerID={crawlerID}")
+    conn.commit()
 
 # ------------------
 # Spiderbot commands
@@ -164,9 +171,14 @@ def spiderbotAdd(spider, crawlerid, searchTerm='', fullink=''):
     return id
 
 @cli.command()
-@click.argument('crawlerid')
-def spiderbotDelete(spiderbotid):
+@click.argument('spiderbotID')
+def spiderbotDelete(spiderbotID):
     """Delete a spiderbot with SPIDERBOTID, and also delete it's matches"""
+    click.echo(f"Delete spiderbot, ID: {spiderbotID}")
+    openDB()
+    cursor.execute(f"DELETE FROM matches WHERE spiderbotID={spiderbotID}")
+    cursor.execute(f"DELETE FROM spiderbots WHERE spiderbotID={spiderbotID}")
+    conn.commit()
 
 if __name__ == '__main__':
     click.echo('SalesCrawler - Program to run regular searches on websites')
