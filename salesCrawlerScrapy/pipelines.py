@@ -27,7 +27,7 @@ class DatabasePipeline:
         text = ""
         for elem in args :
             if elem:
-                text = text+"_"+elem
+                text = text+"_"+str(elem)
         return hashlib.md5(bytes(text, 'utf-8') )
 
     ignoreFields = [
