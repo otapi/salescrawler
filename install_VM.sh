@@ -41,6 +41,7 @@ echo Check status
 systemctl status mysql.service
 echo Install MySQL Workbench
 sudo snap install mysql-workbench-community
+
 echo Copy and Run SQL query generated from 'SQLdb.vuerd.json' to create database scheme
 echo start with 'USE salescrawler;'
 mysql -u salescrawler -p

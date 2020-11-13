@@ -17,7 +17,7 @@
     },
     "database": "MySQL",
     "databaseName": "salescrawler",
-    "canvasType": "ERD",
+    "canvasType": "SQL",
     "language": "GraphQL",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",

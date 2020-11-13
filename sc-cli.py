@@ -24,7 +24,7 @@ def closeDB():
 def insertDB(table, data):
     # insert a record into SQL based on a dict and returns the ID.
     openDB()
-    sql = 'INSERT INTO {table} ({fields}) VALUES ({values})'
+    sql = 'INSERT INTO "+table+" ({fields}) VALUES ({values})'
     fields = ', '.join(data.keys())
     values = ', '.join(["%s" for value in data.values()])
     composed_sql = sql.format(fields=fields, values=values)
