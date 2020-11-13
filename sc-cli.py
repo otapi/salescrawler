@@ -117,7 +117,7 @@ def spiderbotAdd(spider, crawlerid, searchTerm, fullink):
 def spiderBotDelete(spiderbotid):
     """Delete a spiderbot with SPIDERBOTID, and also delete it's matches"""
 
-cli = click.CommandCollection(sources=[general, crawler])
+cli = click.CommandCollection(sources=[general, crawler, spiderbot])
 
 if __name__ == '__main__':
     click.echo('SalesCrawler - Program to run regular searches on websites')
