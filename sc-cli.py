@@ -84,8 +84,8 @@ def spiderbot():
     pass
 
 @spiderbot.command()
-@spiderbot.argument('spider')
-@spiderbot.argument('crawlerid')
+@click.argument('spider')
+@click.argument('crawlerid')
 @spiderbot.option('-s', '--searchTerm', help="Search term", type=int)
 @spiderbot.option('-l', '--fullink', help="Full link instead of a search term", type=int)
 def spiderbotAdd(spider, crawlerid, searchTerm='', fullink=''):
