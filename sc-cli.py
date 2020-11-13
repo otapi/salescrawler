@@ -93,7 +93,7 @@ def spiderbotAdd(spider, crawlerid, searchTerm, fullink):
     if not spider:
         raise Exception("A spider should be specified.")
     if not crawlerid:
-        raise Exception("The owner clawlerid shoudl be specified.")
+        raise Exception("The owner clawlerid should be specified.")
     if searchTerm and searchTerm == "":
         searchTerm = None
     if fullink and fullink == "":
@@ -105,7 +105,7 @@ def spiderbotAdd(spider, crawlerid, searchTerm, fullink):
 
     id = insertDB("spiderbots", {
         "spider": spider,
-        "crawlerID": crawlerid,
+        "crawlerID": int(crawlerid),
         "searchTerm": searchTerm,
         "fullink": fullink
     })
