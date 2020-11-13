@@ -78,7 +78,44 @@ def crawlerAdd(name):
 @click.argument('crawlerid')
 def crawlerDelete(crawlerid):
     """Delete a crawler with CRAWLERID, and also delete it's spiderbots and matches"""
-    
+
+@click.group()
+def spiderbot():
+    pass
+
+@spiderbot.command()
+@click.option('-s', '--searchTerm', 'string', help="Search term")
+@click.option('-l', '--fullink', 'string', help="Full link instead of a search term")
+@click.argument('spider')
+@click.argument('crawlerid')
+def spiderbotAdd(spider, crawlerid, searchTerm, fullink):
+    """Add a new spiderbot of SPIDER to crawler of CRAWLERID and return it's ID. Either searchTerm or fullink should be specified."""
+    if not spider:
+        raise Exception("A spider should be specified.")
+    if not crawlerid:
+        raise Exception("The owner clawlerid shoudl be specified.")
+    if searchTerm and searchTerm == "":
+        searchTerm = None
+    if fullink and fullink == "":
+        searchTerm = None
+    if not searchTerm and not fullink:
+        raise Exception("Either searchTerm or fullink should be specified.")
+    if searchTerm:
+        fullink = None
+
+    id = insertDB("spiderbots", {
+        "spider": spider,
+        "crawlerID": crawlerid,
+        "searchTerm": searchTerm,
+        "fullink": fullink
+    })
+    click.echo(f"Spiderbot inserted, ID: {id}")
+    return id
+
+@spiderbot.command()
+@click.argument('crawlerid')
+def spiderBotDelete(spiderbotid):
+    """Delete a spiderbot with SPIDERBOTID, and also delete it's matches"""
 
 cli = click.CommandCollection(sources=[general, crawler])
 
