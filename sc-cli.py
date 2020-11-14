@@ -70,7 +70,7 @@ def run(ctx):
     click.echo('Run all active crawlers...')
     for crawler in selectDB(f"SELECT * FROM crawlers WHERE active=True"):
         click.echo(f"Run crawler: {crawler['name']} ({crawler['crawlerID']})")
-        ctx.invoke(runCrawler, crawledid = crawler['crawlerID'])
+        ctx.invoke(runCrawler, crawlerid = crawler['crawlerID'])
 
 @cli.command()
 @click.argument('crawlerid')
