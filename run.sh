@@ -1,4 +1,7 @@
 # python3 salescrawler/sc-cli.py update
+# cd ~/ ; python3 salescrawler/sc-cli.py update ; cd salescrawler
+# scrapy crawl hardverapro -a searchTerm=RX470 -a spiderbotID=7
+
 
 # cd ~/ ; rm -rf salescrawler ; git clone git@github.com:otapi/salescrawler.git ; cd salescrawler
 cd ~/

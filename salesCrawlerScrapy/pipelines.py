@@ -72,8 +72,7 @@ class DatabasePipeline:
         fields = ', '.join(data.keys())
         values = ', '.join(["%s" for value in data.values()])
         composed_sql = sql.format(fields=fields, values=values)
-        print(f"Componsed_SQL: {composed_sql}")
-        print(f"  data: {data}")
+        print(f"SpiderbotID: {data['spiderbotID']}")
         self.cursor.execute(composed_sql, data.values())
         self.conn.commit()
         return item
