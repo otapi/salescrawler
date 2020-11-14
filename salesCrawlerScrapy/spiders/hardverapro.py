@@ -18,7 +18,6 @@ class Hardverapro(scrapy.Spider):
 
     
     def parse(self, response):
-        print(f"hardverapro SpiderbotID: {self.spiderbotID}")
         for item in response.xpath("//li[@class='media']"):
             yield ProductItem(
                 title = item.xpath(".//h1/a/text()").get(),
