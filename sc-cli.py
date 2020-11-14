@@ -68,18 +68,19 @@ def run():
     click.echo('Run all active crawlers...')
     for crawler in selectDB(f"SELECT * FROM crawlers WHERE active=True"):
         click.echo(f"Run crawler: {crawler['name']} ({crawler['crawlerID']})")
-        runCrawler(crawler['crawlerID'])
+        #runCrawler(crawler['crawlerID'])
 
 @cli.command()
 @click.argument('crawlerid')
-def runCrawler(crawlerid):
+@click.pass_context
+def runCrawler(ctx, crawlerid):
     """Run all active spiderbots owned by CRAWLERID"""
     click.echo(f'Run all active spiders of crawler {crawlerid}...')
     for spiderbot in selectDB(f"SELECT * FROM spiderbots WHERE crawlerID={crawlerid} and active=True"):
         click.echo(f"Run spiderbot: {spiderbot['spiderbotID']}")
         click.echo(f"   SearchTerm: {spiderbot['searchTerm']}")
         click.echo(f"      Fullink: {spiderbot['fullink']}")
-        runSpider(spider = spiderbot['spider'], searchterm = spiderbot['searchTerm'], fullink = spiderbot['fullink'], spiderbotid = spiderbot['spiderbotID'])
+        ctx.invoke(runSpider, spider = spiderbot['spider'], searchterm = spiderbot['searchTerm'], fullink = spiderbot['fullink'], spiderbotid = spiderbot['spiderbotID'])
     openDB()
     cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerID={crawlerid}", datetime.datetime.now())
     conn.commit()
