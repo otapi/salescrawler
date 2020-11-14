@@ -28,7 +28,7 @@ class DatabasePipeline:
         for elem in args :
             if elem:
                 text = text+"_"+str(elem)
-        return hashlib.md5(bytes(text, 'utf-8') )
+        return hashlib.md5(bytes(text, 'utf-8')).hexdigest()
 
     ignoreFields = [
         'image_urls',
