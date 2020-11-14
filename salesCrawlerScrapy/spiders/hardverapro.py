@@ -5,16 +5,16 @@ from salesCrawlerScrapy.items import ProductItem
 
 class Hardverapro(scrapy.Spider):
     name = 'hardverapro'
-    def __init__(self, searchterm=None, fullink=None, spiderbotID = -1, *args, **kwargs):
+    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, *args, **kwargs):
         super(Hardverapro, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [f'https://hardverapro.hu/aprok/keres.php?stext={searchterm}&county=&stcid=&settlement=&stmid=&minprice=&maxprice=&company=&cmpid=&user=&usrid=&selling=1&buying=1&stext_none=']
         if fullink:
             self.start_urls = [f'{fullink}']
-        if type(spiderbotID) == str:
-            self.spiderbotID = int(spiderbotID)
+        if type(spiderbotid) == str:
+            self.spiderbotID = int(spiderbotid)
         else: 
-            self.spiderbotID = spiderbotID
+            self.spiderbotID = spiderbotid
 
     
     def parse(self, response):
