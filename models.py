@@ -9,9 +9,9 @@ class Crawler(db.Model):
     active = db.Column(db.Boolean)
     name = db.Column(db.String)
     # hours - How frequent should it run?
-    runCadence = db.Column(db.Integer()
+    runCadence = db.Column(db.Integer())
     # When run last time?
-    lastRun = db.Column(db.String)
+    lastRun = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<Crawler %r>' % self.name
@@ -56,7 +56,7 @@ class Match(db.Model):
     # If the matched item expire
     expire = db.Column(db.String)
     # When updated this record last time?
-    updated = db.Column(db.String)
+    updated = db.Column(db.DateTime)
     # Was already show to user?
     shown = db.Column(db.Boolean)
     # Hide this match from the user
