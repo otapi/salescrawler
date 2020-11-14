@@ -71,34 +71,34 @@ def run():
         runCrawler(crawler['crawlerID'])
 
 @cli.command()
-@click.argument('crawlerID')
-def runCrawler(crawlerID):
+@click.argument('crawlerid')
+def runCrawler(crawlerid):
     """Run all active spiderbots owned by CRAWLERID"""
-    click.echo(f'Run all active spiders of crawler {crawlerID}...')
-    for spiderbot in selectDB(f"SELECT * FROM spiderbots WHERE crawlerID={crawlerID} and active=True"):
+    click.echo(f'Run all active spiders of crawler {crawlerid}...')
+    for spiderbot in selectDB(f"SELECT * FROM spiderbots WHERE crawlerID={crawlerid} and active=True"):
         click.echo(f"Run spiderbot: {spiderbot['spiderbotID']}")
         click.echo(f"   SearchTerm: {spiderbot['searchTerm']}")
         click.echo(f"      Fullink: {spiderbot['fullink']}")
         runSpider(spiderbot['spider'], spiderbot['searchTerm'], spiderbot['fullink'], spiderbot['spiderbotID'])
     openDB()
-    cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerID={crawlerID}", datetime.datetime.now())
+    cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerID={crawlerid}", datetime.datetime.now())
     conn.commit()
 
 @cli.command()
 @click.argument('spider')
-@click.argument('spiderbotID')
-@click.option('-s', '--searchTerm', help="Search term")
+@click.argument('spiderbotid')
+@click.option('-s', '--searchterm', help="Search term")
 @click.option('-l', '--fullink', help="Full link instead of a search term")
-def runSpider(spider, searchTerm = None, fullink = None, spiderbotID = -1):
+def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
     """Run a SPIDER owned by SPIDERBOTID"""
     click.echo(f'Run spider: {spider}')
-    if searchTerm:
-        search=f"searchTerm={searchTerm}"
+    if searchterm:
+        search=f"searchTerm={searchterm}"
     else:
         search=f"fullink={fullink}"
     
     os.chdir(os.path.join(Path.home(),'salescrawler'))
-    os.system(f"scrapy crawl {spider} -a {search} -a spiderbotID={str(spiderbotID)}")
+    os.system(f"scrapy crawl {spider} -a {search} -a spiderbotID={str(spiderbotid)}")
 
 @cli.command()
 def update():
@@ -129,13 +129,13 @@ def crawlerAdd(name):
     return id
 
 @cli.command()
-@click.argument('crawlerID')
-def crawlerDelete(crawlerID):
+@click.argument('crawlerid')
+def crawlerDelete(crawlerid):
     """Delete the crawler with CRAWLERID, and also delete it's spiderbots and matches"""
-    click.echo(f"Delete crawler: {crawlerID}")
-    for spiderbot in selectDB(f"SELECT spiderbotID FROM spiderbots WHERE crawlerID={crawlerID}"):
+    click.echo(f"Delete crawler: {crawlerid}")
+    for spiderbot in selectDB(f"SELECT spiderbotID FROM spiderbots WHERE crawlerID={crawlerid}"):
         spiderbotDelete(spiderbot['spiderbotID'])
-    cursor.execute(f"DELETE FROM crawlers WHERE crawlerID={crawlerID}")
+    cursor.execute(f"DELETE FROM crawlers WHERE crawlerID={crawlerid}")
     conn.commit()
 
 # ------------------
@@ -148,6 +148,10 @@ def crawlerDelete(crawlerID):
 @click.option('-f', '--fullink', default='', help="Full link instead of a search term")
 def spiderbotAdd(spider, crawlerid, searchterm, fullink):
     """Add a new spiderbot of SPIDER to crawler of CRAWLERID and return it's ID. Either searchTerm or fullink should be specified."""
+    
+    # call as:
+    #   sc-cli.py spiderbotadd hardverapro 3 -f"testlink"
+    #   sc-cli.py spiderbotadd hardverapro 3 -s"RX470"
     if not spider:
         raise Exception("A spider should be specified.")
     if not crawlerid:
@@ -171,13 +175,13 @@ def spiderbotAdd(spider, crawlerid, searchterm, fullink):
     return id
 
 @cli.command()
-@click.argument('spiderbotID')
-def spiderbotDelete(spiderbotID):
+@click.argument('spiderbotid')
+def spiderbotDelete(spiderbotid):
     """Delete a spiderbot with SPIDERBOTID, and also delete it's matches"""
-    click.echo(f"Delete spiderbot, ID: {spiderbotID}")
+    click.echo(f"Delete spiderbot, ID: {spiderbotid}")
     openDB()
-    cursor.execute(f"DELETE FROM matches WHERE spiderbotID={spiderbotID}")
-    cursor.execute(f"DELETE FROM spiderbots WHERE spiderbotID={spiderbotID}")
+    cursor.execute(f"DELETE FROM matches WHERE spiderbotID={spiderbotid}")
+    cursor.execute(f"DELETE FROM spiderbots WHERE spiderbotID={spiderbotid}")
     conn.commit()
 
 if __name__ == '__main__':
