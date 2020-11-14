@@ -7,8 +7,8 @@ sudo apt-get install git
 
 # Generate the SSH key 
 ssh-keygen -t rsa -b 4096
-echo Copy the content of your public SSH key, it is the file /home/otapi/.ssh/id_rsa.pub by default
-cat /home/otapi/.ssh/id_rsa.pub
+echo Copy the content of your public SSH key, it is the file ~/.ssh/id_rsa.pub by default
+cat ~/.ssh/id_rsa.pub
 echo Paste the content into your GitHub/BitBucket account on the SSH key section
 read -p "Press any key to resume ..."
 echo First clone
@@ -22,7 +22,7 @@ sudo apt install default-libmysqlclient-dev
 #echo Activate your env: 
 #source env/bin/activate
 echo install Scrapy with pip
-pip3 install scrapy Pillow mysqlclient Click
+pip3 install scrapy Pillow mysqlclient Click flask
 
 echo install MySQL
 sudo apt install mysql-server
@@ -45,3 +45,7 @@ sudo snap install mysql-workbench-community
 echo Copy and Run SQL query generated from 'SQLdb.vuerd.json' to create database scheme
 echo start with 'USE salescrawler;'
 mysql -u salescrawler -p
+
+echo Flask setup
+cd ~/salescrawler
+FLASK_APP=fl.py flask run
