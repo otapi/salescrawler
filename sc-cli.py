@@ -145,7 +145,7 @@ def crawlerDelete(crawlerID):
 @click.argument('spider')
 @click.argument('crawlerid')
 @click.option('-s', '--searchterm', default='', help="Search term")
-@click.option('-l', '--fullink', default='', help="Full link instead of a search term")
+@click.option('-f', '--fullink', default='', help="Full link instead of a search term")
 def spiderbotAdd(spider, crawlerid, searchterm, fullink):
     """Add a new spiderbot of SPIDER to crawler of CRAWLERID and return it's ID. Either searchTerm or fullink should be specified."""
     if not spider:
