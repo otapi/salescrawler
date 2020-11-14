@@ -79,7 +79,7 @@ def runCrawler(crawlerid):
         click.echo(f"Run spiderbot: {spiderbot['spiderbotID']}")
         click.echo(f"   SearchTerm: {spiderbot['searchTerm']}")
         click.echo(f"      Fullink: {spiderbot['fullink']}")
-        runSpider(spiderbot['spider'], spiderbot['searchTerm'], spiderbot['fullink'], spiderbot['spiderbotID'])
+        runSpider(spider = spiderbot['spider'], searchterm = spiderbot['searchTerm'], fullink = spiderbot['fullink'], spiderbotid = spiderbot['spiderbotID'])
     openDB()
     cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerID={crawlerid}", datetime.datetime.now())
     conn.commit()
