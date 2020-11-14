@@ -144,27 +144,27 @@ def crawlerDelete(crawlerID):
 @cli.command()
 @click.argument('spider')
 @click.argument('crawlerid')
-@click.option('-s', '--searchTerm', default='', help="Search term")
+@click.option('-s', '--searchterm', default='', help="Search term")
 @click.option('-l', '--fullink', default='', help="Full link instead of a search term")
-def spiderbotAdd(spider, crawlerid, searchTerm, fullink):
+def spiderbotAdd(spider, crawlerid, searchterm, fullink):
     """Add a new spiderbot of SPIDER to crawler of CRAWLERID and return it's ID. Either searchTerm or fullink should be specified."""
     if not spider:
         raise Exception("A spider should be specified.")
     if not crawlerid:
         raise Exception("The owner clawlerid should be specified.")
-    if searchTerm and searchTerm == "":
-        searchTerm = None
+    if searchterm and searchterm == "":
+        searchterm = None
     if fullink and fullink == "":
-        searchTerm = None
-    if not searchTerm and not fullink:
+        searchterm = None
+    if not searchterm and not fullink:
         raise Exception("Either searchTerm or fullink should be specified.")
-    if searchTerm:
+    if searchterm:
         fullink = None
 
     id = insertDB("spiderbots", {
         "spider": spider,
         "crawlerID": int(crawlerid),
-        "searchTerm": searchTerm,
+        "searchTerm": searchterm,
         "fullink": fullink
     })
     click.echo(f"Spiderbot inserted, ID: {id}")
