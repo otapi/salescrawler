@@ -1,0 +1,13 @@
+<doctype html="">
+    <title>SalesCrawler</title>
+<h2>SalesCrawler</h2>
+{% from "_formhelpers.html" import render_field %}
+<form method="post">
+  <dl>
+    {{ render_field(form.select) }}
+    <p>
+    {{ render_field(form.search) }}
+  </p></dl>
+  <p><input type="submit" value="Search">
+</p></form>
+</doctype>

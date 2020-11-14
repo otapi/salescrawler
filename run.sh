@@ -2,6 +2,9 @@
 # cd ~/ ; python3 salescrawler/sc-cli.py update ; cd salescrawler
 # scrapy crawl hardverapro -a searchterm=RX470 -a spiderbotid=7
 
+# cd ~/ ; python3 salescrawler/sc-cli.py update ; cd ~/salescrawler ; FLASK_APP=fl.py flask run
+
+
 
 # cd ~/ ; rm -rf salescrawler ; git clone git@github.com:otapi/salescrawler.git ; cd salescrawler
 cd ~/

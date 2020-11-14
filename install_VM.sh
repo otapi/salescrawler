@@ -22,7 +22,7 @@ sudo apt install default-libmysqlclient-dev
 #echo Activate your env: 
 #source env/bin/activate
 echo install Scrapy with pip
-pip3 install scrapy Pillow mysqlclient Click flask
+pip3 install scrapy Pillow mysqlclient Click flask flask-sqlalchemy Flask-WTF
 
 echo install MySQL
 sudo apt install mysql-server
@@ -46,6 +46,3 @@ echo Copy and Run SQL query generated from 'SQLdb.vuerd.json' to create database
 echo start with 'USE salescrawler;'
 mysql -u salescrawler -p
 
-echo Flask setup
-cd ~/salescrawler
-FLASK_APP=fl.py flask run
