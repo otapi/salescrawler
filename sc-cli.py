@@ -93,14 +93,14 @@ def runCrawler(ctx, crawlerid):
 @click.option('-l', '--fullink', help="Full link instead of a search term")
 def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
     """Run a SPIDER owned by SPIDERBOTID"""
-    click.echo(f'Run spider: {spider}')
+    click.echo(f'Run spider: {spider} of spiderbot {str(spiderbotid)}')
     if searchterm:
         search=f"searchTerm={searchterm}"
     else:
         search=f"fullink={fullink}"
     
     os.chdir(os.path.join(Path.home(),'salescrawler'))
-    os.system(f"scrapy crawl {spider} -a {search} -a spiderbotID={str(spiderbotid)}")
+    os.system(f"scrapy crawl {spider} -a {search} -a spiderbotID {str(spiderbotid)}")
 
 @cli.command()
 def update():
