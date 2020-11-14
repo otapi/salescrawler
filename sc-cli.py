@@ -63,12 +63,13 @@ def clear():
     conn.commit()
 
 @cli.command()
-def run():
+@click.pass_context
+def run(ctx):
     """Run all active crawlers"""
     click.echo('Run all active crawlers...')
     for crawler in selectDB(f"SELECT * FROM crawlers WHERE active=True"):
         click.echo(f"Run crawler: {crawler['name']} ({crawler['crawlerID']})")
-        #runCrawler(crawler['crawlerID'])
+        ctx.invoke(runCrawler, crawledid = crawler['crawlerID'])
 
 @cli.command()
 @click.argument('crawlerid')
@@ -131,11 +132,12 @@ def crawlerAdd(name):
 
 @cli.command()
 @click.argument('crawlerid')
-def crawlerDelete(crawlerid):
+@click.pass_context
+def crawlerDelete(ctx, crawlerid):
     """Delete the crawler with CRAWLERID, and also delete it's spiderbots and matches"""
     click.echo(f"Delete crawler: {crawlerid}")
     for spiderbot in selectDB(f"SELECT spiderbotID FROM spiderbots WHERE crawlerID={crawlerid}"):
-        spiderbotDelete(spiderbot['spiderbotID'])
+        ctx.invoke(spiderbotDelete, spiderbotid = spiderbot['spiderbotID'])
     cursor.execute(f"DELETE FROM crawlers WHERE crawlerID={crawlerid}")
     conn.commit()
 
