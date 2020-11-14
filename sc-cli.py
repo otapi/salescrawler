@@ -7,6 +7,7 @@ from salesCrawlerScrapy.settings import DB_SETTINGS
 from salesCrawlerScrapy.settings import SPIDERS
 import MySQLdb
 import datetime
+import urllib.parse
 
 # -------
 # Helpers
@@ -97,7 +98,7 @@ def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
     if searchterm:
         search=f"searchterm={searchterm}"
     else:
-        search=f"fullink={fullink}"
+        search=f"fullink={urllib.parse.quote(fullink)}"
     
     os.chdir(os.path.join(Path.home(),'salescrawler'))
     os.system(f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)}")
