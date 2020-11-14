@@ -9,7 +9,7 @@ class Crawler(db.Model):
     active = db.Column(db.Boolean)
     name = db.Column(db.String)
     # hours - How frequent should it run?
-    runCadence: Int
+    runCadence = db.Column(db.Integer()
     # When run last time?
     lastRun = db.Column(db.String)
 
