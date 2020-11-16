@@ -18,7 +18,7 @@
         {% for match in matches %}
           <tr>
             <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
-            <td><img src="/static{{match.image}}" loading="lazy" alt="..." width="200" height="200"></td>
+            <td><img src="/static{{match.image}}" loading="lazy" alt="..." width="150"></td>
             <td><a href="{{match.url}}">{{match.title}}</a></td>
             <td>{{match.seller}}</td>
             <td>{{match.price}}</td>
