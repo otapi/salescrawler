@@ -11,8 +11,12 @@
   {% endif %}
 {% endwith %}
 {% from "_formhelpers.html" import render_field %}
-
-<input type="submit" name="run" value="Run active crawlers">
-<input type="submit" name="update" value="Update the tool">
-
+<form method="post">
+  <dl>
+    {{ render_field(form.select) }}
+    <p>
+    {{ render_field(form.search) }}
+  </p></dl>
+  <p><input type="submit" value="Search">
+</p></form>
 </doctype>

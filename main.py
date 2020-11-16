@@ -1,29 +1,31 @@
+from flask import flash, render_template, request, redirect
 from app import app
 from app import db
 
-from flask import flash, render_template, request, redirect
-
-from forms import SpidersForm
-
-from models import Match
-
-from tables import Results
+import forms
+import models
+import tables
 
 @app.route('/')
 def index():
-    return "Welcome to Flask!"
+    if form.validate_on_submit():
+        if 'run' in request.form:
+            pass # do something
+        elif 'update' in request.form:
+            pass # do something else
+    return render_template('index.html')
 
 @app.route('/searchform', methods=['GET', 'POST'])
 def searchfrom():
-    spider = SpidersForm(request.form)
+    spider = forms.SpidersForm(request.form)
     if request.method == 'POST':
         return spider_results(spider)
-    return render_template('index.html', form=spider)
+    return render_template('search.html', form=spider)
     
 
 @app.route('/results')
 def results():
-    qry = db.session.query(Match)
+    qry = db.session.query(models.Match)
     results = qry.all()
         
     if not results:
@@ -31,7 +33,7 @@ def results():
         return redirect('/')
     else:
         # display results
-        table = Results(results)
+        table = tables.Results(results)
         table.border = True
         return render_template('results.html', table=table)
 
