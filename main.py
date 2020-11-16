@@ -86,17 +86,19 @@ def matches2():
     return render_template('example.html', form=form)
 
 
-
+from formencode import variabledecode
 @app.route('/matches', methods=['GET', 'POST'])
 def matches():
   matches = models.Match.query.all()
   
   if request.method == 'POST':    
+    
     postvars = variabledecode.variable_decode(request.form, dict_char='_')
     for k, v in postvars.iteritems():
-        member = [m for m in matches if m["matchid"] == int(k)][0]
-        member['hide'] = v["hide"]
-    
+        match = Matches.query.filter_by(matchid=int(k)).first()
+        match.hide = v["hide"]
+        #member = [m for m in matches if m["matchid"] == int(k)][0]
+        #member['hide'] = v["hide"]    
     db.session.commit()
   return render_template('matches.html', matches=matches) 
 
