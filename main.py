@@ -26,7 +26,7 @@ def index():
                 match.hide = False
         db.session.commit()
 
-    matches = models.Match.query.all()
+    matches = models.Match.query.filter_by(hide=False)
     return render_template('matches.html', matches=matches) 
 
 @app.route('/searchform', methods=['GET', 'POST'])
