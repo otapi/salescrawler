@@ -10,6 +10,8 @@ import models
 def index():
     if "run" in request.args:
         flash('run!')
+        app.cli.runall(user_cli)
+        flash('run finished!')
     elif "update" in request.args:
         flash('update!')
 
