@@ -96,7 +96,10 @@ def matches():
     postvars = variabledecode.variable_decode(request.form, dict_char='_')
     for k, v in postvars.items():
         match = models.Match.query.filter_by(matchid=int(k)).first()
-        match.hide = v["hide"]
+        if v["hide"] == 'on':
+            match.hide = True
+        else:
+            match.hide = False
         #member = [m for m in matches if m["matchid"] == int(k)][0]
         #member['hide'] = v["hide"]    
     db.session.commit()

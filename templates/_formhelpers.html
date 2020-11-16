@@ -11,7 +11,12 @@
     </dd>
 {% endmacro %}
 
-{% macro render_input(id, fieldname, value) %}
-    <input type="checkbox" name="{{ id  }}_{{ fieldname }}" checked="{{ value }}" />
+{% macro render_bool(id, fieldname, value) %}
+{% if value == True %}
+    <input type="checkbox" name="{{ id  }}_{{ fieldname }}" checked="on" />
+{% else %}
+    <input type="checkbox" name="{{ id  }}_{{ fieldname }}" checked="off" />
+{% endif %}
+
 {% endmacro %}
 
