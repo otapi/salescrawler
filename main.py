@@ -9,11 +9,17 @@ import tables
 @app.route('/')
 def index():
     if "run" in request.form:
-        flash('run!')
+        print('run!')
         pass
     elif "update" in request.form:
-        flash('update!')
+        print('update!')
         pass
+
+    qry = db.session.query(models.Match)
+    results = qry.all()
+    table = tables.Results(results)
+    table.border = True
+    
     return render_template('index.html')
 
 @app.route('/searchform', methods=['GET', 'POST'])
