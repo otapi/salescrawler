@@ -9,7 +9,7 @@ import models
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if "run" in request.args:
-        flash('run!')
+        flash('run...')
         app.cli.runall(user_cli)
         flash('run finished!')
     elif "update" in request.args:
@@ -110,7 +110,7 @@ def clear():
     cursor.execute("DELETE FROM matches")
     conn.commit()
 
-@app.cli.command("runall")
+@app.cli.command()
 @click.pass_context
 def runall(ctx):
     """Run all active crawlers"""
