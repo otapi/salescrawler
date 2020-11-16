@@ -1,5 +1,4 @@
 {% from "_formhelpers.html" import render_input_bool %}
-{% from "_formhelpers.html" import render_input %}
 
 {% extends "layout.html" %}
 {% block body %}
@@ -17,12 +16,10 @@
       </tr>
       {% for match in matches %}
       <tr>
-        <td>{{match.title}}</td>
-        <td>{{match['seller']}}</td>
-        <td>{{match['url']}}</td>
-        <td>{{match['description']}}</td>
-        <td>{{match['price']}}</td>
-        <td>{{match['location']}}</td>
+        <td><a href="{{match.url}}">{{match.title}}</a></td>
+        <td>{{match.seller}}</td>
+        <td>{{match.price}}</td>
+        <td>{{match.location}}</td>
         <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
         <input type="text" name="{{ match.matchid }}_{{ dummy }}" value="dummy" hidden="true"/>
       </tr>

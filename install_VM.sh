@@ -22,7 +22,7 @@ sudo apt install default-libmysqlclient-dev
 #echo Activate your env: 
 #source env/bin/activate
 echo install Scrapy with pip
-pip3 install scrapy Pillow mysqlclient Click flask flask-sqlalchemy Flask-WTF flask_table formencode
+pip3 install scrapy Pillow mysqlclient Click flask flask-sqlalchemy Flask-WTF formencode
 
 echo install MySQL
 sudo apt install mysql-server
