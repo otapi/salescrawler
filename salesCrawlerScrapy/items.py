@@ -18,7 +18,7 @@ class ProductItem(scrapy.Item):
     location = scrapy.Field()
     images = scrapy.Field()
     image_urls = scrapy.Field()
-    extraID = scrapy.Field()
+    extraid = scrapy.Field()
     hash = scrapy.Field()
-    spiderbotID = scrapy.Field()
+    spiderbotid = scrapy.Field()
     pass

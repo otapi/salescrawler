@@ -92,7 +92,7 @@ namespace SalesCrawler.Scrapers
             var price = item.FindElement(By.XPath(".//div[@class='_f3l _4x3g']")).Text;
             md.ActualPrice = StripToInt(price);
             md.Currency = GetCurrency(price);
-            md.IsAuction = false;
+            md.isauction = false;
             md.Location = item.FindElement(By.XPath(".//span[@location]")).Text;
             md.Expire = NEVEREXPIRE;
         }

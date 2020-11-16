@@ -46,7 +46,7 @@ class DatabasePipeline:
                 data[field] = item[field]
         
         # common fields
-        data['hash'] = self.getHash(item['spiderbotID'], item['title'], item['seller'], item['extraID'])
+        data['hash'] = self.getHash(item['spiderbotid'], item['title'], item['seller'], item['extraid'])
         data['updated'] = self.updateDateTime
 
         # load images into blob
@@ -74,7 +74,8 @@ class DatabasePipeline:
         composed_sql = sql.format(fields=fields, values=values)
         self.cursor.execute(composed_sql, data.values())
         self.conn.commit()        
-        self.spiderbotID = data['spiderbotID']
+        if data['spiderbotid'] not in self.spiderbotids:
+            self.spiderbotids.append(data['spiderbotid'])
         return item
 
     def open_spider(self, spider):
@@ -84,10 +85,11 @@ class DatabasePipeline:
                                     charset='utf8', use_unicode=True)
         self.cursor = self.conn.cursor()
         self.updateDateTime = datetime.datetime.now()
-        self.spiderbotID = []
+        self.spiderbotids = []
 
     def close_spider(self, spider):
-        self.cursor.execute("DELETE FROM matches WHERE updated <> %s AND spiderbotID = %s", (self.updateDateTime, self.spiderbotID))
+        for spiderbotid in self.spiderbotids:
+            self.cursor.execute("DELETE FROM matches WHERE updated <> %s AND spiderbotid = %s", (self.updateDateTime, spiderbotid))
         self.conn.commit()
         self.conn.close()
 

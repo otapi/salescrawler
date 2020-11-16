@@ -47,7 +47,7 @@ namespace SalesCrawler.Scrapers
             md.Description = null;
             md.ActualPrice = StripToInt(item.FindElement(By.XPath(".//span[@class='d_block']")).Text);
             md.Currency = GetCurrency(item.FindElement(By.XPath(".//span[@class='d_block']")).Text);
-            md.IsAuction = false;
+            md.isauction = false;
             md.Location = item.FindElement(By.XPath(".//span[@class='d_block fw_bold color_light']")).Text;
 
             md.Expire = NEVEREXPIRE;

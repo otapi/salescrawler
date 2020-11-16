@@ -8,7 +8,7 @@ namespace SalesCrawler.Models
 {
     public class Match
     {
-        public int MatchId { get; set; }
+        public int matchid { get; set; }
         public DateTime LastScannedDate { get; set; }
 
         public ScraperSetting ScraperSetting { get; set; }

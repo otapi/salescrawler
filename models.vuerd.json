@@ -41,7 +41,7 @@
         "comment": "Crawlers are the set up of batch of spiders for searching an item (key term)",
         "columns": [
           {
-            "name": "crawlerID",
+            "name": "crawlerid",
             "comment": "",
             "dataType": "INT",
             "default": "",
@@ -110,7 +110,7 @@
             "id": "97bf2346-b9f1-ee7b-3a11-7db7ad61e9bd"
           },
           {
-            "name": "runCadence",
+            "name": "runcadence",
             "comment": "hours - How frequent should it run?",
             "dataType": "INT",
             "default": "1",
@@ -133,7 +133,7 @@
             "id": "e31c1e96-8a39-36c6-2477-92c41ae9a0cb"
           },
           {
-            "name": "lastRun",
+            "name": "lastrun",
             "comment": "When run last time?",
             "dataType": "DATETIME",
             "default": "",
@@ -171,7 +171,7 @@
         "comment": "This is where the results go from spiders",
         "columns": [
           {
-            "name": "matchID",
+            "name": "matchid",
             "comment": "",
             "dataType": "INT",
             "default": "",
@@ -194,7 +194,7 @@
             "id": "316e46ed-d1f8-83f9-1519-61286fcfa175"
           },
           {
-            "name": "spiderbotID",
+            "name": "spiderbotid",
             "comment": "Which spiderbot found it?",
             "dataType": "INT",
             "default": "",
@@ -378,7 +378,7 @@
             "id": "0f14f2a2-d0ec-25c9-c8cc-0edc87b3e285"
           },
           {
-            "name": "isAuction",
+            "name": "isauction",
             "comment": "",
             "dataType": "BOOL",
             "default": "False",
@@ -562,7 +562,7 @@
             "id": "cd33cda6-6452-cf6a-16eb-f14d368c464a"
           },
           {
-            "name": "extraID",
+            "name": "extraid",
             "comment": "Extra ID field to identify the match",
             "dataType": "TEXT",
             "default": "",
@@ -600,7 +600,7 @@
         "comment": "Spiders with specified search term and owner of crawler",
         "columns": [
           {
-            "name": "spiderbotID",
+            "name": "spiderbotid",
             "comment": "",
             "dataType": "INT",
             "default": "",
@@ -623,7 +623,7 @@
             "id": "447f1801-043f-3c0d-713c-118d02be2156"
           },
           {
-            "name": "crawlerID",
+            "name": "crawlerid",
             "comment": "Owner crawler",
             "dataType": "INT",
             "default": "",
@@ -646,7 +646,7 @@
             "id": "4290e61e-14d1-6664-faa9-1e36d770a375"
           },
           {
-            "name": "searchTerm",
+            "name": "searchterm",
             "comment": "Item or key term to search",
             "dataType": "TEXT",
             "default": "",
@@ -670,7 +670,7 @@
           },
           {
             "name": "fullink",
-            "comment": "Full url for search (instead of searchTerm)",
+            "comment": "Full url for search (instead of searchterm)",
             "dataType": "TEXT",
             "default": "",
             "option": {

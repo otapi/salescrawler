@@ -12,9 +12,9 @@ class Hardverapro(scrapy.Spider):
         if fullink:
             self.start_urls = [f'{fullink}']
         if type(spiderbotid) == str:
-            self.spiderbotID = int(spiderbotid)
+            self.spiderbotid = int(spiderbotid)
         else: 
-            self.spiderbotID = spiderbotid
+            self.spiderbotid = spiderbotid
 
     
     def parse(self, response):
@@ -27,8 +27,8 @@ class Hardverapro(scrapy.Spider):
                 price = Helpers.getNumber(item.xpath(".//div[@class='uad-info']/div[@class='uad-price']/text()").get()),
                 currency = 'HUF',
                 location = item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get(),
-                spiderbotID = self.spiderbotID,
-                extraID = None
+                spiderbotid = self.spiderbotid,
+                extraid = None
             )
 
         next_page = response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get()

@@ -73,7 +73,7 @@ namespace SalesCrawler.Scrapers
             md.Description = null;
             md.ActualPrice = StripToInt(item.GetAttribute("data-gtm-price"));
             md.Currency = Currencies.Currency.HUF;
-            md.IsAuction = false;
+            md.isauction = false;
             if (item.FindElements(By.XPath(".//div[contains(text(),'Termék helye:')]")).Count != 0)
             {
                 md.Location = item.FindElement(By.XPath(".//div[contains(text(),'Termék helye:')]")).Text.Replace("Termék helye:", "").Trim();

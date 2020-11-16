@@ -50,7 +50,7 @@ namespace SalesCrawler.Models
             }
         }
 
-        public bool IsAuction { get; set; }
+        public bool isauction { get; set; }
         public string Location { get; set; }
         public DateTime Expire { get; set; }
         public MatchDataStatus Status { get; set; } = MatchDataStatus.Active;

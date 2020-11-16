@@ -69,22 +69,22 @@ def run(ctx):
     """Run all active crawlers"""
     click.echo('Run all active crawlers...')
     for crawler in selectDB(f"SELECT * FROM crawlers WHERE active=True"):
-        click.echo(f"Run crawler: {crawler['name']} ({crawler['crawlerID']})")
-        ctx.invoke(runCrawler, crawlerid = crawler['crawlerID'])
+        click.echo(f"Run crawler: {crawler['name']} ({crawler['crawlerid']})")
+        ctx.invoke(runCrawler, crawlerid = crawler['crawlerid'])
 
 @cli.command()
 @click.argument('crawlerid')
 @click.pass_context
 def runCrawler(ctx, crawlerid):
-    """Run all active spiderbots owned by CRAWLERID"""
+    """Run all active spiderbots owned by crawlerid"""
     click.echo(f'Run all active spiders of crawler {crawlerid}...')
-    for spiderbot in selectDB(f"SELECT * FROM spiderbots WHERE crawlerID={crawlerid} and active=True"):
-        click.echo(f"Run spiderbot: {spiderbot['spiderbotID']}")
-        click.echo(f"   SearchTerm: {spiderbot['searchTerm']}")
+    for spiderbot in selectDB(f"SELECT * FROM spiderbots WHERE crawlerid={crawlerid} and active=True"):
+        click.echo(f"Run spiderbot: {spiderbot['spiderbotid']}")
+        click.echo(f"   searchterm: {spiderbot['searchterm']}")
         click.echo(f"      Fullink: {spiderbot['fullink']}")
-        ctx.invoke(runSpider, spider = spiderbot['spider'], searchterm = spiderbot['searchTerm'], fullink = spiderbot['fullink'], spiderbotid = spiderbot['spiderbotID'])
+        ctx.invoke(runSpider, spider = spiderbot['spider'], searchterm = spiderbot['searchterm'], fullink = spiderbot['fullink'], spiderbotid = spiderbot['spiderbotid'])
     openDB()
-    cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerID={crawlerid}", datetime.datetime.now())
+    cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerid={crawlerid}", datetime.datetime.now())
     conn.commit()
 
 @cli.command()
@@ -93,7 +93,7 @@ def runCrawler(ctx, crawlerid):
 @click.option('-s', '--searchterm', help="Search term")
 @click.option('-l', '--fullink', help="Full link instead of a search term")
 def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
-    """Run a SPIDER owned by SPIDERBOTID"""
+    """Run a SPIDER owned by spiderbotid"""
     click.echo(f'Run spider: {spider} of spiderbot {str(spiderbotid)}')
     if searchterm:
         search=f"searchterm={searchterm}"
@@ -135,11 +135,11 @@ def crawlerAdd(name):
 @click.argument('crawlerid')
 @click.pass_context
 def crawlerDelete(ctx, crawlerid):
-    """Delete the crawler with CRAWLERID, and also delete it's spiderbots and matches"""
+    """Delete the crawler with crawlerid, and also delete it's spiderbots and matches"""
     click.echo(f"Delete crawler: {crawlerid}")
-    for spiderbot in selectDB(f"SELECT spiderbotID FROM spiderbots WHERE crawlerID={crawlerid}"):
-        ctx.invoke(spiderbotDelete, spiderbotid = spiderbot['spiderbotID'])
-    cursor.execute(f"DELETE FROM crawlers WHERE crawlerID={crawlerid}")
+    for spiderbot in selectDB(f"SELECT spiderbotid FROM spiderbots WHERE crawlerid={crawlerid}"):
+        ctx.invoke(spiderbotDelete, spiderbotid = spiderbot['spiderbotid'])
+    cursor.execute(f"DELETE FROM crawlers WHERE crawlerid={crawlerid}")
     conn.commit()
 
 # ------------------
@@ -151,7 +151,7 @@ def crawlerDelete(ctx, crawlerid):
 @click.option('-s', '--searchterm', default='', help="Search term")
 @click.option('-f', '--fullink', default='', help="Full link instead of a search term")
 def spiderbotAdd(spider, crawlerid, searchterm, fullink):
-    """Add a new spiderbot of SPIDER to crawler of CRAWLERID and return it's ID. Either searchTerm or fullink should be specified."""
+    """Add a new spiderbot of SPIDER to crawler of crawlerid and return it's ID. Either searchterm or fullink should be specified."""
     
     # call as:
     #   sc-cli.py spiderbotadd hardverapro 3 -f"testlink"
@@ -165,14 +165,14 @@ def spiderbotAdd(spider, crawlerid, searchterm, fullink):
     if fullink and fullink == "":
         searchterm = None
     if not searchterm and not fullink:
-        raise Exception("Either searchTerm or fullink should be specified.")
+        raise Exception("Either searchterm or fullink should be specified.")
     if searchterm:
         fullink = None
 
     id = insertDB("spiderbots", {
         "spider": spider,
-        "crawlerID": int(crawlerid),
-        "searchTerm": searchterm,
+        "crawlerid": int(crawlerid),
+        "searchterm": searchterm,
         "fullink": fullink
     })
     click.echo(f"Spiderbot inserted, ID: {id}")
@@ -181,11 +181,11 @@ def spiderbotAdd(spider, crawlerid, searchterm, fullink):
 @cli.command()
 @click.argument('spiderbotid')
 def spiderbotDelete(spiderbotid):
-    """Delete a spiderbot with SPIDERBOTID, and also delete it's matches"""
+    """Delete a spiderbot with spiderbotid, and also delete it's matches"""
     click.echo(f"Delete spiderbot, ID: {spiderbotid}")
     openDB()
-    cursor.execute(f"DELETE FROM matches WHERE spiderbotID={spiderbotid}")
-    cursor.execute(f"DELETE FROM spiderbots WHERE spiderbotID={spiderbotid}")
+    cursor.execute(f"DELETE FROM matches WHERE spiderbotid={spiderbotid}")
+    cursor.execute(f"DELETE FROM spiderbots WHERE spiderbotid={spiderbotid}")
     conn.commit()
 
 if __name__ == '__main__':
