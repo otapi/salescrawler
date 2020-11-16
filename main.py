@@ -8,14 +8,15 @@ import models
 
 import sclogic
 
+hidematches = True
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    self.showhidden = False
+    hidematches = True
     return index_engine()
 
 @app.route('/all', methods=['GET', 'POST'])
 def index_all():
-    self.showhidden = True
+    showhidden = False
     return index_engine()
 
 def index_engine():
@@ -43,7 +44,10 @@ def index_engine():
                 match.hide = False
         db.session.commit()
 
-    matches = models.Match.query.filter_by(hide=False)
+    if hidematches:
+        matches = models.Match.query.filter_by(hide=True)
+    else:
+        matches = models.Match.query.all()
     return render_template('matches.html', matches=matches) 
 
 @app.route('/searchform', methods=['GET', 'POST'])
