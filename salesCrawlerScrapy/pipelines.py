@@ -47,7 +47,7 @@ class DatabasePipeline:
         
         # common fields
         data['hash'] = self.getHash(item['spiderbotID'], item['title'], item['seller'], item['extraID'])
-        data['updated'] = datetime.datetime.now()
+        data['updated'] = self.updateDateTime
 
         # load images into blob
         if item['images']:
@@ -72,9 +72,9 @@ class DatabasePipeline:
         fields = ', '.join(data.keys())
         values = ', '.join(["%s" for value in data.values()])
         composed_sql = sql.format(fields=fields, values=values)
-        print(f"SpiderbotID: {data['spiderbotID']}")
         self.cursor.execute(composed_sql, data.values())
-        self.conn.commit()
+        self.conn.commit()        
+        self.spiderbotID = data['spiderbotID']
         return item
 
     def open_spider(self, spider):
@@ -83,15 +83,19 @@ class DatabasePipeline:
                                     host=self.host,
                                     charset='utf8', use_unicode=True)
         self.cursor = self.conn.cursor()
+        self.updateDateTime = datetime.datetime.now()
+        self.spiderbotID = []
 
     def close_spider(self, spider):
+        self.cursor.execute("DELETE FROM matches WHERE updated <> %s AND spiderbotID = %s", (self.updateDateTime, self.spiderbotID))
+        self.conn.commit()
         self.conn.close()
 
     @classmethod
     def from_crawler(cls, crawler):
         db_settings = crawler.settings.getdict("DB_SETTINGS")
         if not db_settings: # if we don't define db config in settings
-            raise Exception('MySQL DB settings are missing from settings.py') # then reaise error
+            raise Exception('MySQL DB settings are missing from settings.py') # then raise error
         db = db_settings['db']
         user = db_settings['user']
         passwd = db_settings['passwd']
