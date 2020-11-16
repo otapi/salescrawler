@@ -12,9 +12,10 @@
 {% endwith %}
 {% from "_formhelpers.html" import render_field %}
 
-<input type="submit" name="run" value="Run active crawlers">
-<input type="submit" name="update" value="Update the tool">
-
+<form>
+  <input type="submit" name="run" value="Run active crawlers">
+  <input type="submit" name="update" value="Update the tool">
+</form>
 <h3>Matches</h3>
 {{ table }}
 </doctype>
