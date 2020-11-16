@@ -89,15 +89,15 @@ def matches2():
 
 @app.route('/matches', methods=['GET', 'POST'])
 def matches():
-  matches = db.get('matches')
-
+  matches = models.Match.query.all()
+  
   if request.method == 'POST':    
     postvars = variabledecode.variable_decode(request.form, dict_char='_')
     for k, v in postvars.iteritems():
         member = [m for m in matches if m["matchid"] == int(k)][0]
         member['hide'] = v["hide"]
-    db.set('matches', matches)
-    db.dump()
+    
+    db.session.commit()
   return render_template('matches.html', matches=matches) 
 
 @app.route('/searchform', methods=['GET', 'POST'])
