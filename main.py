@@ -8,14 +8,11 @@ import tables
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    print("itt")
-
     if "run" in request.args:
-        print('run!')
-        pass
+        flash('run!')
+
     elif "update" in request.args:
-        print('update!')
-        pass
+        flash('update!')
 
     qry = db.session.query(models.Match)
     results = qry.all()
