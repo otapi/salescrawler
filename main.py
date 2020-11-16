@@ -16,7 +16,9 @@ def index():
         sclogic.closeDB()
         flash('run finished!')
     elif "update" in request.args:
-        flash('update!')
+        flash('update...')
+        sclogic.update()
+        flash('updated!')
 
     if request.method == 'POST':    
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
