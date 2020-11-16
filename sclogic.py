@@ -1,5 +1,2 @@
-
-
-def runall(){
+def runall():
     print("This is")
-}
