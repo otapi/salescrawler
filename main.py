@@ -13,6 +13,7 @@ hidematches = True
 def index():
     global hidematches
     hidematches = True
+
     return index_engine()
 
 @app.route('/all', methods=['GET', 'POST'])
