@@ -32,6 +32,10 @@ def index_engine():
         flash('update...')
         sclogic.update()
         flash('updated!')
+    elif "clear" in request.args:
+        flash('update...')
+        sclogic.clear()
+        flash('updated!')
     elif "showall" in request.args:
         return redirect(url_for('index_all'))
     elif "refresh" in request.args:
