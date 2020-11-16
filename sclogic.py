@@ -64,6 +64,7 @@ def runall():
     for crawler in selectDB(f"SELECT * FROM crawlers WHERE active=True"):
         click.echo(f"Run crawler: {crawler['name']} ({crawler['crawlerid']})")
         runCrawler(crawlerid = crawler['crawlerid'])
+    closeDB()
 
 def runCrawler(crawlerid):
     """Run all active spiderbots owned by crawlerid"""
@@ -76,6 +77,7 @@ def runCrawler(crawlerid):
     openDB()
     cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerid={crawlerid}", (datetime.datetime.now(),))
     conn.commit()
+    closeDB()
 
 def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
     """Run a SPIDER owned by spiderbotid"""
@@ -133,6 +135,7 @@ def crawlerAdd(name):
         "name": name
     })
     click.echo(f"Crawler inserted, ID: {id}")
+    closeDB()
     return id
 
 def crawlerDelete(crawlerid):
@@ -142,6 +145,7 @@ def crawlerDelete(crawlerid):
         spiderbotDelete(spiderbotid = spiderbot['spiderbotid'])
     cursor.execute(f"DELETE FROM crawlers WHERE crawlerid={crawlerid}")
     conn.commit()
+    closeDB()
 
 # ------------------
 # Spiderbot commands
@@ -172,6 +176,7 @@ def spiderbotAdd(spider, crawlerid, searchterm, fullink):
         "fullink": fullink
     })
     click.echo(f"Spiderbot inserted, ID: {id}")
+    closeDB()
     return id
 
 def spiderbotDelete(spiderbotid):
@@ -181,3 +186,4 @@ def spiderbotDelete(spiderbotid):
     cursor.execute(f"DELETE FROM matches WHERE spiderbotid={spiderbotid}")
     cursor.execute(f"DELETE FROM spiderbots WHERE spiderbotid={spiderbotid}")
     conn.commit()
+    closeDB()
