@@ -1,0 +1,32 @@
+{% from "_formhelpers.html" import render_input %}
+
+{% extends "layout.html" %}
+{% block body %}
+
+  <form action="/matches" method="post">
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Seller</th>
+        <th>Url</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Location</th>
+        <th>Hidden</th>
+      </tr>
+      {% for match in matches %}
+      <tr>
+        <td>{{match['title']}}</td>
+        <td>{{match['seller']}}</td>
+        <td>{{match['url']}}</td>
+        <td>{{match['description']}}</td>
+        <td>{{match['price']}}</td>
+        <td>{{match['location']}}</td>
+        <td>{{ render_input(match['matchid'], 'hide', match['hide']) }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <button type="submit">Send</button>
+  </form>
+
+{% endblock %}

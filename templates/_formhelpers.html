@@ -10,3 +10,8 @@
     {% endif %}
     </dd>
 {% endmacro %}
+
+{% macro render_input(id, fieldname, value) %}
+    <input type="checkbox" name="{{ id  }}_{{ fieldname }}" checked="{{ value }}" />
+{% endmacro %}
+
