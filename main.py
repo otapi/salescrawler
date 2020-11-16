@@ -9,7 +9,9 @@ import tables
 @app.route('/', methods=['GET', 'POST'])
 def index():
     print("itt")
-    print(request.form)
+
+    for k in request.form.keys:
+        print(k)
     if "run" in request.form:
         print('run!')
         pass
