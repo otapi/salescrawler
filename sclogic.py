@@ -53,6 +53,7 @@ def selectDB(selectSQL):
 # ----------------
 def clear():
     """Clear matches table"""
+    click.echo('Delete all matches...')
     openDB()
     cursor.execute("DELETE FROM matches")
     conn.commit()
