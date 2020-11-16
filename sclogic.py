@@ -109,11 +109,13 @@ def update():
     source_dir = '~/salescrawler/static/ImagesStore'
     target_dir = '~/savedImagesStore'
     movetree(source_dir, target_dir)
+    input("Press Enter to continue...")
 
     click.echo('Get from github...')
     shutil.rmtree(os.path.join(Path.home(),'salescrawler'))
     os.chdir(Path.home())
     os.system('git clone git@github.com:otapi/salescrawler.git')
+    input("Press Enter to continue...")
 
     click.echo('Restore ImagesStore folder...')
     movetree(source_dir, target_dir)
