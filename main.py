@@ -8,11 +8,12 @@ import tables
 
 @app.route('/')
 def index():
-    if form.validate_on_submit():
-        if 'run' in request.form:
-            pass # do something
-        elif 'update' in request.form:
-            pass # do something else
+    if "run" in request.form:
+        flash('run!')
+        pass
+    elif "update" in request.form:
+        flash('update!')
+        pass
     return render_template('index.html')
 
 @app.route('/searchform', methods=['GET', 'POST'])
