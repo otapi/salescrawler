@@ -6,11 +6,13 @@ from app import db
 import forms
 import models
 
+import sclogic
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if "run" in request.args:
         flash('run...')
-        app.cli.runall(user_cli)
+        sclogic.runall()
         flash('run finished!')
     elif "update" in request.args:
         flash('update!')

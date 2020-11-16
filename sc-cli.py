@@ -65,7 +65,7 @@ def clear():
 
 @cli.command()
 @click.pass_context
-def run(ctx):
+def runall(ctx):
     """Run all active crawlers"""
     click.echo('Run all active crawlers...')
     for crawler in selectDB(f"SELECT * FROM crawlers WHERE active=True"):
