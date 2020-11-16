@@ -62,16 +62,16 @@ def runall():
     click.echo('Run all active crawlers...')
     for crawler in selectDB(f"SELECT * FROM crawlers WHERE active=True"):
         click.echo(f"Run crawler: {crawler['name']} ({crawler['crawlerid']})")
-        ctx.invoke(runCrawler, crawlerid = crawler['crawlerid'])
+        runCrawler(crawlerid = crawler['crawlerid'])
 
-def runCrawler(ctx, crawlerid):
+def runCrawler(crawlerid):
     """Run all active spiderbots owned by crawlerid"""
     click.echo(f'Run all active spiders of crawler {crawlerid}...')
     for spiderbot in selectDB(f"SELECT * FROM spiderbots WHERE crawlerid={crawlerid} and active=True"):
         click.echo(f"Run spiderbot: {spiderbot['spiderbotid']}")
         click.echo(f"   searchterm: {spiderbot['searchterm']}")
         click.echo(f"      Fullink: {spiderbot['fullink']}")
-        ctx.invoke(runSpider, spider = spiderbot['spider'], searchterm = spiderbot['searchterm'], fullink = spiderbot['fullink'], spiderbotid = spiderbot['spiderbotid'])
+        runSpider(spider = spiderbot['spider'], searchterm = spiderbot['searchterm'], fullink = spiderbot['fullink'], spiderbotid = spiderbot['spiderbotid'])
     openDB()
     cursor.execute(f"UPDATE crawlers SET lastrun = %s WHERE crawlerid={crawlerid}", datetime.datetime.now())
     conn.commit()
@@ -111,11 +111,11 @@ def crawlerAdd(name):
     click.echo(f"Crawler inserted, ID: {id}")
     return id
 
-def crawlerDelete(ctx, crawlerid):
+def crawlerDelete(crawlerid):
     """Delete the crawler with crawlerid, and also delete it's spiderbots and matches"""
     click.echo(f"Delete crawler: {crawlerid}")
     for spiderbot in selectDB(f"SELECT spiderbotid FROM spiderbots WHERE crawlerid={crawlerid}"):
-        ctx.invoke(spiderbotDelete, spiderbotid = spiderbot['spiderbotid'])
+        spiderbotDelete(spiderbotid = spiderbot['spiderbotid'])
     cursor.execute(f"DELETE FROM crawlers WHERE crawlerid={crawlerid}")
     conn.commit()
 
