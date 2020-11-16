@@ -3,18 +3,17 @@
 {% extends "layout.html" %}
 {% block body %}
 
-  <script type="text/javascript"
-         src="{{ url_for('static', filename='sorttable.js') }}"></script>
+  
   <form action="/" method="post">
     <table class="sortable">
-      <thead>
+      <tr>
         <th>Hide</th>
         <th>Title</th>
         <th>Seller</th>
         <th>Price</th>
         <th>Location</th>
-      </thead>
-      <tbody>
+      </tr>
+
         {% for match in matches %}
           <tr>
             <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
@@ -25,7 +24,6 @@
             <input type="text" name="{{ match.matchid }}_{{ dummy }}" value="dummy" hidden="true"/>
           </tr>
         {% endfor %}
-      </tbody>
     </table>
     <button type="submit">Send</button>
   </form>
