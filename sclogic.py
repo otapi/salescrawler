@@ -93,12 +93,12 @@ def movetree(root_src_dir, root_target_dir):
         if not os.path.exists(dst_dir):
             os.mkdir(dst_dir)
 
-    for file_ in files:
-        src_file = os.path.join(src_dir, file_)
-        dst_file = os.path.join(dst_dir, file_)
-        if os.path.exists(dst_file):
-            os.remove(dst_file)
-            shutil.move(src_file, dst_dir)
+        for file_ in files:
+            src_file = os.path.join(src_dir, file_)
+            dst_file = os.path.join(dst_dir, file_)
+            if os.path.exists(dst_file):
+                os.remove(dst_file)
+                shutil.move(src_file, dst_dir)
 
 def update():
     """Check for tool updates: re-clone tool, but keep DB and run crawlers"""
