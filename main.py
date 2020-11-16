@@ -95,7 +95,7 @@ def matches():
     
     postvars = variabledecode.variable_decode(request.form, dict_char='_')
     for k, v in postvars.items():
-        match = models.Matches.query.filter_by(matchid=int(k)).first()
+        match = models.Match.query.filter_by(matchid=int(k)).first()
         match.hide = v["hide"]
         #member = [m for m in matches if m["matchid"] == int(k)][0]
         #member['hide'] = v["hide"]    
