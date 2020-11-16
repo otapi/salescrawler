@@ -18,7 +18,7 @@ def searchfrom():
 
 @app.route('/results')
 def results():
-    qry = db_session.query(Match)
+    qry = db.session.query(Match)
     results = qry.all()
         
     if not results:
