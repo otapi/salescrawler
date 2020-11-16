@@ -58,13 +58,13 @@ class DatabasePipeline:
             data['image'] = binaryData
 
         # check for already existing matches
-        self.cursor.execute(f"SELECT price, shown, hide, hidedAt FROM matches WHERE hash='{data['hash']}'")
+        self.cursor.execute(f"SELECT price, shown, hide, hidedat FROM matches WHERE hash='{data['hash']}'")
         olddata = self.cursor.fetchall()
         if len(olddata)>0:
             if data['price'] == olddata[0][0]:
                 data['shown'] = olddata[0][1]
                 data['hide'] = olddata[0][2]
-                data['hidedAt'] = olddata[0][3]
+                data['hidedat'] = olddata[0][3]
             self.cursor.execute(f"DELETE FROM matches WHERE hash='{data['hash']}")
             self.conn.commit()
 

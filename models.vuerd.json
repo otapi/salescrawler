@@ -516,7 +516,7 @@
             "id": "f7fa87e8-a3f4-5066-da84-0bcfe4e5f460"
           },
           {
-            "name": "hidedAt",
+            "name": "hidedat",
             "comment": "When did user hided this match?",
             "dataType": "DATETIME",
             "default": "",

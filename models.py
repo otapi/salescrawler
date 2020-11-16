@@ -62,7 +62,7 @@ class Match(db.Model):
     # Hide this match from the user
     hide = db.Column(db.Boolean)
     # When did user hided this match?
-    hidedAt = db.Column(db.String)
+    hidedat = db.Column(db.String)
     # Hash code of the match (filled via pipeline)
     hash = db.Column(db.String)
     # Extra ID field to identify the match
