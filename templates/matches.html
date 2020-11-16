@@ -10,9 +10,9 @@
         <th>Hide</th>
         <th>Image</th>
         <th>Title</th>
-        <th>Seller</th>
         <th>Price</th>
         <th>Location</th>
+        <th>Seller</th>
       </tr>
 
         {% for match in matches %}
@@ -20,9 +20,9 @@
             <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
             <td><img src="/static{{match.image}}" loading="lazy" alt="..." width="150"></td>
             <td><a href="{{match.url}}">{{match.title}}</a></td>
-            <td>{{match.seller}}</td>
             <td>{{match.price}}</td>
             <td>{{match.location}}</td>
+            <td>{{match.seller}}</td>
             <input type="text" name="{{ match.matchid }}_{{ dummy }}" value="dummy" hidden="true"/>
           </tr>
         {% endfor %}
