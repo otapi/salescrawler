@@ -6,14 +6,14 @@ import forms
 import models
 import tables
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     print("itt")
     if "run" in request.form:
-        flash('run!')
+        print('run!')
         pass
     elif "update" in request.form:
-        flash('update!')
+        print('update!')
         pass
 
     qry = db.session.query(models.Match)
