@@ -13,6 +13,7 @@ def index():
     if "run" in request.args:
         flash('run...')
         sclogic.runall()
+        sclogic.closeDB()
         flash('run finished!')
     elif "update" in request.args:
         flash('update!')
