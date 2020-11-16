@@ -12,11 +12,11 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
  </head>
  <body>
-    {{ form.test1(pk=5, value="blahtest") }}
-    {{ form.test2(pk=6, value="blahtest2") }}
+    {{ form.title(pk=5, value="blahtest") }}
+    {{ form.url(pk=6, value="blahtest2") }}
     <script>
     $(document).ready(function() {
-        $('#test1').editable({
+        $('#title').editable({
             placement: 'bottom',
             params: function(params) {
                 // make x-editable act like a normal form field
@@ -25,7 +25,7 @@
                 return newParams;
             }
         });
-        $('#test2').editable({
+        $('#url').editable({
             placement: 'bottom',
             params: function(params) {
                 // make x-editable's POST act like a normal form field

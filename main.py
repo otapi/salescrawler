@@ -83,8 +83,6 @@ def matches2():
     elif (request.method == "POST") and not form.validate():
         print("Errors", form.errors)
         
-    for x in models.Match.query.all():
-        print(x.test1, x.test2)
     return render_template('example.html', form=form)
 
 
