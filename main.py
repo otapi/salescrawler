@@ -11,18 +11,20 @@ def index():
         return spider_results(spider)
     return render_template('index.html', form=spider)
     
+
 @app.route('/results')
-def spider_results(spider):
-    results = []
-    spider_string = spider.data['spider']
-    if spider.data['spider'] == '':
-        qry = db.session.query(Album)
-        results = qry.all()
+def results():
+    qry = db_session.query(Match)
+    results = qry.all()
+        
     if not results:
         flash('No results found!')
         return redirect('/')
     else:
         # display results
-        return render_template('results.html', results=results)
+        table = Results(results)
+        table.border = True
+        return render_template('results.html', table=table)
+
 if __name__ == '__main__':
     app.run()
