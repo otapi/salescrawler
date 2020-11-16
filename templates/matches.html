@@ -3,7 +3,8 @@
 {% extends "layout.html" %}
 {% block body %}
 
-  <script src="sorttable.js"></script>
+  <script type="text/javascript"
+         src="{{ url_for('static', filename='sorttable.js') }}"></script>
   <form action="/" method="post">
     <table class="sortable">
       <tr>
