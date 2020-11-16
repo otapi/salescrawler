@@ -49,10 +49,9 @@ def index_engine():
 
     
     if hidematches:
-        matches = models.Match.query.filter_by(hide=False)
+        matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price)
     else:
-        matches = models.Match.query.all()
-    matches.order_by(models.Match.price)
+        matches = models.Match.query.all().order_by(models.Match.price)
     return render_template('matches.html', matches=matches) 
 
 @app.route('/searchform', methods=['GET', 'POST'])
