@@ -68,7 +68,7 @@ class Match(db.Model):
     # Extra ID field to identify the match
     extraid = db.Column(db.String)
     # foreign key to spiderbot
-    spiderbotid = db.Column(db.Integer, db.ForeignKey("spiders.spiderbotid"))
+    spiderbotid = db.Column(db.Integer, db.ForeignKey("spiderbots.spiderbotid"))
     spiderbot = db.relationship("Spiderbot", backref=db.backref(
         "spiderbots"), lazy=True)
 
