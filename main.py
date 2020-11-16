@@ -18,8 +18,8 @@ def index():
 
 @app.route('/all', methods=['GET', 'POST'])
 def index_all():
-    global showhidden
-    showhidden = False
+    global hidematches
+    hidematches = False
     return index_engine()
 
 def index_engine():
