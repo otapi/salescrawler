@@ -19,8 +19,8 @@ def index():
     results = qry.all()
     table = tables.Results(results)
     table.border = True
-    
-    return render_template('index.html')
+
+    return render_template('index.html', table=table)
 
 @app.route('/searchform', methods=['GET', 'POST'])
 def searchfrom():
