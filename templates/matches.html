@@ -22,7 +22,7 @@
         <td>{{match['description']}}</td>
         <td>{{match['price']}}</td>
         <td>{{match['location']}}</td>
-        <td>{{ render_input(match['matchid'], 'hide', match['hide']) }}</td>
+        <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
       </tr>
       {% endfor %}
     </table>
