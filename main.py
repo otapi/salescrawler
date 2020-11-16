@@ -1,4 +1,6 @@
-import app
+from app import app
+from app import db
+
 from flask import flash, render_template, request, redirect
 
 from forms import SpidersForm
