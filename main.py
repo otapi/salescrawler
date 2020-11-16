@@ -5,7 +5,6 @@ from app import db
 
 import forms
 import models
-import tables
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
