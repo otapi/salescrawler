@@ -10,12 +10,10 @@ import tables
 def index():
     print("itt")
 
-    for k in request.args.keys():
-        print(k)
-    if "run" in request.form:
+    if "run" in request.args:
         print('run!')
         pass
-    elif "update" in request.form:
+    elif "update" in request.args:
         print('update!')
         pass
 
