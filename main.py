@@ -81,10 +81,10 @@ def index():
                 setattr(model, x.name, x.data.pop())
                 db.session.commit()
     elif (request.method == "POST") and not form.validate():
-        print "Errors", form.errors
+        print("Errors", form.errors)
         
     for x in models.Match.query.all():
-        print x.test1, x.test2
+        print(x.test1, x.test2)
     return render_template('example.html', form=form)
 
 
