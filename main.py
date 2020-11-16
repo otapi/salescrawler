@@ -96,6 +96,7 @@ def matches():
     postvars = variabledecode.variable_decode(request.form, dict_char='_')
     for k, v in postvars.items():
         match = models.Match.query.filter_by(matchid=int(k)).first()
+        print(v["hide"]) 
         if v["hide"] == 'on':
             match.hide = True
         else:
