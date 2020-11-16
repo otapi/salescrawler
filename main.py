@@ -4,7 +4,7 @@ from app import db
 from flask import flash, render_template, request, redirect
 
 from forms import SpidersForm
-import models
+from models import Match
 
 @app.route('/')
 def index():
