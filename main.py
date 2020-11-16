@@ -4,8 +4,12 @@ from flask import flash, render_template, request, redirect
 from forms import SpidersForm
 import models
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
+    return "Welcome to Flask!"
+
+@app.route('/searchform', methods=['GET', 'POST'])
+def searchfrom():
     spider = SpidersForm(request.form)
     if request.method == 'POST':
         return spider_results(spider)
