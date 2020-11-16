@@ -10,6 +10,15 @@ import sclogic
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    self.showhidden = False
+    return index_engine()
+
+@app.route('/all', methods=['GET', 'POST'])
+def index_all():
+    self.showhidden = True
+    return index_engine()
+
+def index_engine():
     if "run" in request.args:
         flash('run...')
         sclogic.runall()
@@ -19,6 +28,10 @@ def index():
         flash('update...')
         sclogic.update()
         flash('updated!')
+    elif "showall" in request.args:
+        return redirect(url_for('index_all'))
+    elif "refresh" in request.args:
+        return redirect(url_for('index'))
 
     if request.method == 'POST':    
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
