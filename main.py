@@ -34,7 +34,7 @@ class XEditableWidget(object):
         kwargs.setdefault('data-role', 'x-editable')
         kwargs.setdefault('data-url', '/')
         
-        kwargs.setdefault('id', field.matchid)
+        kwargs.setdefault('id', field.id)
         kwargs.setdefault('name', field.name)
         kwargs.setdefault('href', '#')
         
