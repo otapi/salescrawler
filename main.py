@@ -71,7 +71,7 @@ class XEditableForm(wtforms.Form):
 
 
 @app.route('/matches2', methods=['POST', 'GET'])
-def index():
+def matches2():
     form = XEditableForm(request.form)
     if (request.method == "POST") and form.validate():
         for x in form:
