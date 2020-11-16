@@ -89,7 +89,7 @@ class DatabasePipeline:
 
     def close_spider(self, spider):
         for spiderbotid in self.spiderbotids:
-            self.cursor.execute("DELETE FROM matches WHERE updated <> '%s' AND spiderbotid = %s", (self.updateDateTime, spiderbotid))
+            self.cursor.execute("DELETE FROM matches WHERE not updated = %s AND spiderbotid = %s", (self.updateDateTime, spiderbotid))
         self.conn.commit()
         self.conn.close()
 
