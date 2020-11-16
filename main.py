@@ -4,7 +4,10 @@ from app import db
 from flask import flash, render_template, request, redirect
 
 from forms import SpidersForm
+
 from models import Match
+
+from tables import Results
 
 @app.route('/')
 def index():
