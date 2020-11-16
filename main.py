@@ -8,11 +8,12 @@ import tables
 
 @app.route('/')
 def index():
+    print("itt")
     if "run" in request.form:
-        print('run!')
+        flash('run!')
         pass
     elif "update" in request.form:
-        print('update!')
+        flash('update!')
         pass
 
     qry = db.session.query(models.Match)
