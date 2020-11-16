@@ -1,5 +1,6 @@
 from flask import flash, render_template, request, redirect
 from app import app
+from app import db
 
 import forms
 import models
