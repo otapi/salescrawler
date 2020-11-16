@@ -11,11 +11,13 @@ import sclogic
 hidematches = True
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    global hidematches
     hidematches = True
     return index_engine()
 
 @app.route('/all', methods=['GET', 'POST'])
 def index_all():
+    global showhidden
     showhidden = False
     return index_engine()
 
