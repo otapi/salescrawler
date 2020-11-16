@@ -110,9 +110,9 @@ def clear():
     cursor.execute("DELETE FROM matches")
     conn.commit()
 
+#@click.pass_context
 @app.cli.command()
-@click.pass_context
-def runall(ctx):
+def runall():
     """Run all active crawlers"""
     click.echo('Run all active crawlers...')
     for crawler in selectDB(f"SELECT * FROM crawlers WHERE active=True"):
