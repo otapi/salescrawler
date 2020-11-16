@@ -45,7 +45,7 @@ def index_engine():
         db.session.commit()
 
     if hidematches:
-        matches = models.Match.query.filter_by(hide=True)
+        matches = models.Match.query.filter_by(hide=False)
     else:
         matches = models.Match.query.all()
     return render_template('matches.html', matches=matches) 
