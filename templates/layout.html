@@ -15,6 +15,13 @@
     </ul>
   {% endif %}
   {% endwith %}
+
+  <form>
+    <input type="submit" name="run" value="Run active crawlers">
+    <input type="submit" name="update" value="Update the tool">
+  </form>
+  <h2>Matches</h2>
+
   {% block body %}{% endblock %}
 </div>
 </body>

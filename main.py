@@ -15,19 +15,11 @@ def index():
     elif "update" in request.args:
         flash('update!')
 
-    qry = db.session.query(models.Match)
-    results = qry.all()
-    table = tables.Results(results)
-    table.border = True
+    matches = models.Match.query.all()
 
-    return render_template('index.html', table=table)
 
-@app.route('/matches', methods=['GET', 'POST'])
-def matches():
-  matches = models.Match.query.all()
-  
-  if request.method == 'POST':    
-    
+    if request.method == 'POST':    
+
     postvars = variabledecode.variable_decode(request.form, dict_char='_')
     for k, v in postvars.items():
         match = models.Match.query.filter_by(matchid=int(k)).first()
@@ -36,7 +28,7 @@ def matches():
         else:
             match.hide = False
     db.session.commit()
-  return render_template('matches.html', matches=matches) 
+    return render_template('matches.html', matches=matches) 
 
 @app.route('/searchform', methods=['GET', 'POST'])
 def searchfrom():
@@ -44,21 +36,6 @@ def searchfrom():
     if request.method == 'POST':
         return spider_results(spider)
     return render_template('search.html', form=spider)
-    
-
-@app.route('/results')
-def results():
-    qry = db.session.query(models.Match)
-    results = qry.all()
-        
-    if not results:
-        flash('No results found!')
-        return redirect('/')
-    else:
-        # display results
-        table = tables.Results(results)
-        table.border = True
-        return render_template('results.html', table=table)
 
 if __name__ == '__main__':
     import argparse
