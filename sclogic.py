@@ -89,17 +89,20 @@ def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
     os.system(f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)}")
 
 def movetree(root_src_dir, root_target_dir):
+    print(root_src_dir+"->" root_target_dir)
     for src_dir, dirs, files in os.walk(root_src_dir):
         dst_dir = src_dir.replace(root_src_dir, root_target_dir)
+        print(dst_dir)
         if not os.path.exists(dst_dir):
             os.makedirs(dst_dir)
 
         for file_ in files:
             src_file = os.path.join(src_dir, file_)
             dst_file = os.path.join(dst_dir, file_)
+            print(src_file+"--->"+dst_file)
             if os.path.exists(dst_file):
                 os.remove(dst_file)
-                shutil.move(src_file, dst_dir)
+            shutil.move(src_file, dst_dir)
 
 def update():
     """Check for tool updates: re-clone tool, but keep DB and run crawlers"""
