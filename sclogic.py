@@ -106,8 +106,8 @@ def update():
     click.echo('Update the tool...')
 
     click.echo('Saving ImagesStore folder...')
-    source_dir = '~/salescrawler/static/ImagesStore'
-    target_dir = '~/savedImagesStore'
+    source_dir = os.path.join(Path.home(),'/salescrawler/static/ImagesStore')
+    target_dir = os.path.join(Path.home(),'~/savedImagesStore')
     movetree(source_dir, target_dir)
     input("Press Enter to continue...")
 
