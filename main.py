@@ -21,7 +21,7 @@ def index():
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for k, v in postvars.items():
             match = models.Match.query.filter_by(matchid=int(k)).first()
-            if "hide" in and v["hide"] == "on":
+            if "hide" in v and v["hide"] == "on":
                 match.hide = True
             else:
                 match.hide = False
