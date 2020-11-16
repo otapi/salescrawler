@@ -9,25 +9,25 @@ import tables
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if "run" in request.args:
-        flash('run!')
+    if request.method == 'POST':    
+        if "run" in request.args:
+            flash('run!')
+            return render_template('matches.html', matches=matches) 
 
-    elif "update" in request.args:
-        flash('update!')
+        elif "update" in request.args:
+            flash('update!')
+            return render_template('matches.html', matches=matches) 
+
+        postvars = variabledecode.variable_decode(request.form, dict_char='_')
+        for k, v in postvars.items():
+            match = models.Match.query.filter_by(matchid=int(k)).first()
+            if "hide" in and v["hide"] == "on":
+                match.hide = True
+            else:
+                match.hide = False
+        db.session.commit()
 
     matches = models.Match.query.all()
-
-
-    if request.method == 'POST':    
-
-    postvars = variabledecode.variable_decode(request.form, dict_char='_')
-    for k, v in postvars.items():
-        match = models.Match.query.filter_by(matchid=int(k)).first()
-        if "hide" in and v["hide"] == "on":
-            match.hide = True
-        else:
-            match.hide = False
-    db.session.commit()
     return render_template('matches.html', matches=matches) 
 
 @app.route('/searchform', methods=['GET', 'POST'])
