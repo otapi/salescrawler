@@ -8,6 +8,7 @@
     <table class="sortable">
       <tr>
         <th>Hide</th>
+        <th>Image</th>
         <th>Title</th>
         <th>Seller</th>
         <th>Price</th>
@@ -17,6 +18,7 @@
         {% for match in matches %}
           <tr>
             <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
+            <td><img src="{{match.image}}" loading="lazy" alt="..." width="200" height="200"></td>
             <td><a href="{{match.url}}">{{match.title}}</a></td>
             <td>{{match.seller}}</td>
             <td>{{match.price}}</td>

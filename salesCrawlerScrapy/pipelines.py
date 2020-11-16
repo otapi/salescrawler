@@ -50,12 +50,18 @@ class DatabasePipeline:
         data['updated'] = self.updateDateTime
 
         # load images into blob
+        """
         if item['images']:
             imgfile = os.path.join(Path.home(),'salescrawler/ImagesStore', item['images'][0]['path']) 
             with open(imgfile, 'rb') as file:
                 binaryData = file.read()
             os.remove(imgfile) 
             data['image'] = binaryData
+        """
+        if item['images']:
+            data['image'] = os.path.join('/ImagesStore', item['images'][0]['path']) 
+        else:
+            data['image'] = ""
 
         # check for already existing matches
         self.cursor.execute(f"SELECT price, shown, hide, hidedat FROM matches WHERE hash='{data['hash']}'")
