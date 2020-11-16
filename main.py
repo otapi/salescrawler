@@ -49,10 +49,8 @@ def index_engine():
 
     
     if hidematches:
-        print("---hide")
         matches = models.Match.query.filter_by(hide=False)
     else:
-        print("---show")
         matches = models.Match.query.all()
     return render_template('matches.html', matches=matches) 
 
