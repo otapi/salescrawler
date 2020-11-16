@@ -65,7 +65,7 @@ class DatabasePipeline:
                 data['shown'] = olddata[0][1]
                 data['hide'] = olddata[0][2]
                 data['hidedat'] = olddata[0][3]
-            self.cursor.execute(f"DELETE FROM matches WHERE hash='{data['hash']}")
+            self.cursor.execute(f"DELETE FROM matches WHERE hash='{data['hash']}'")
             self.conn.commit()
 
         # wrap up and commit the insert
