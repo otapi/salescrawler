@@ -8,15 +8,12 @@ import models
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if "run" in request.args:
+        flash('run!')
+    elif "update" in request.args:
+        flash('update!')
+
     if request.method == 'POST':    
-        if "run" in request.args:
-            flash('run!')
-            return render_template('matches.html', matches=matches) 
-
-        elif "update" in request.args:
-            flash('update!')
-            return render_template('matches.html', matches=matches) 
-
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for k, v in postvars.items():
             match = models.Match.query.filter_by(matchid=int(k)).first()
