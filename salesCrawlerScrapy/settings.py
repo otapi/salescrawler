@@ -14,7 +14,7 @@ NEWSPIDER_MODULE = 'salesCrawlerScrapy.spiders'
 
 SPIDERS = ['hardverapro']
 
-IMAGES_STORE = 'ImagesStore'
+IMAGES_STORE = 'static/ImagesStore'
 
 DB_SETTINGS = {
     'db': "salescrawler",
