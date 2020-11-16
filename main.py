@@ -98,7 +98,7 @@ def matches():
         match = models.Match.query.filter_by(matchid=int(k)).first()
         for key in v.keys():
             print(""+key +": "+v[key]) 
-        if v["hide"] == 'on':
+        if "hide" in v:
             match.hide = True
         else:
             match.hide = False

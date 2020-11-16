@@ -17,13 +17,14 @@
       </tr>
       {% for match in matches %}
       <tr>
-        <td>{{render_input(match.matchid, 'title', match.title)}}</td>
+        <td>{{match.title}}</td>
         <td>{{match['seller']}}</td>
         <td>{{match['url']}}</td>
         <td>{{match['description']}}</td>
         <td>{{match['price']}}</td>
         <td>{{match['location']}}</td>
         <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
+        <input type="text" name="{{ match.matchid }}_{{ dummy }}" value="dummy" hidden="true"/>
       </tr>
       {% endfor %}
     </table>
