@@ -10,7 +10,7 @@ import tables
 def index():
     print("itt")
 
-    for k in request.form.keys():
+    for k in request.args.keys():
         print(k)
     if "run" in request.form:
         print('run!')
