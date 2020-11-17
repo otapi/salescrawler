@@ -25,7 +25,11 @@
         {% endfor %}
     </table>
     <button type="submit">Save</button>
+    
+    
+    <a href="{{ url_for('.new_crawler') }}"> Add New Crawler </a>
   </form>
+  <form action="{{ url_for('.new_crawler') }}" method="post"></form>
 
 
   <h2>Matches</h2>
