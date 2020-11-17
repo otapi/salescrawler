@@ -5,7 +5,4 @@ class SpidersForm(Form):
     select = SelectField('Select spider:', choices=SPIDERS)
     search = StringField('Search:')
 
-class CrawlerForm(Form):
-    name = StringField('Name:')
-
 

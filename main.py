@@ -46,7 +46,7 @@ def index_engine():
     else:
         matches = models.Match.query.order_by(models.Match.price).all()
     
-    return render_template('matches.html', matches=matches, crawlers=crawlers) 
+    return render_template('main.html', matches=matches, crawlers=crawlers) 
 
 @app.route('/match-update', methods=['GET', 'POST'])
 def match_update():
