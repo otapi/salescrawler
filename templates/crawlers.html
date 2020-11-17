@@ -1,0 +1,29 @@
+{% from "_formhelpers.html" import render_input_bool %}
+
+{% extends "layout.html" %}
+{% block crawlers %}
+
+  
+  <form action="/" method="post">
+    <table class="sortable">
+      <tr>
+        <th>Active</th>
+        <th>Name</th>
+        <th>Run cadence</th>
+        <th>Last run</th>
+      </tr>
+
+        {% for crawler in crawlers %}
+          <tr>
+            <td>{{render_input_bool(crawler.crawlerid, 'hide', crawler.active.hide)}}</td>
+            <td>{{match.name}}</td>
+            <td>{{match.runcadence}}</td>
+            <td>{{match.lastrun}}</td>
+            <input type="text" name="{{ crawler.crawlerid }}_{{ dummy }}" value="dummy" hidden="true"/>
+          </tr>
+        {% endfor %}
+    </table>
+    <button type="submit">Save</button>
+  </form>
+
+{% endblock %}

@@ -9,6 +9,7 @@
 <body>
 <div class="page">
   <h1>SalesCrawler</h1>
+  <p><a href="{{ url_for('.new_crawler') }}"> Add New Crawler </a></p>
   {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class="flashes">
@@ -26,9 +27,8 @@
     <input type="submit" name="clear" value="Clear all matches">
     <input type="submit" name="update" value="Update the tool">
   </form>
-  <h2>Matches</h2>
-
-  {% block body %}{% endblock %}
+  
+  {% block matches %}{% endblock %}
 </div>
 </body>
 </html>

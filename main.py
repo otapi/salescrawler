@@ -53,14 +53,19 @@ def index_engine():
         matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price)
     else:
         matches = models.Match.query.order_by(models.Match.price).all()
-    return render_template('matches.html', matches=matches) 
+    
+    crawlers = models.Crawler.query.order_by(models.Crawler.name).all()
+    return render_template('matches.html', matches=matches, crawlers=crawlers) 
 
-@app.route('/searchform', methods=['GET', 'POST'])
-def searchfrom():
-    spider = forms.SpidersForm(request.form)
-    if request.method == 'POST':
-        return spider_results(spider)
-    return render_template('search.html', form=spider)
+@app.route('/new_crawler', methods=['GET', 'POST'])
+def new_crawler():
+    form = models.CrawlerForm(request.form)
+    if request.method == 'POST' and form.validate():
+        sclogic.crawlerAdd(form.crawler.name)
+        flash('Crawler created successfully!')
+        return redirect('/')
+
+    return render_template('new_crawler.html', form=form)
 
 if __name__ == '__main__':
     import argparse

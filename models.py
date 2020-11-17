@@ -6,10 +6,10 @@ class Crawler(db.Model):
     db.Column()
     crawlerid = db.Column(db.Integer, primary_key=True)
     # Should it run?
-    active = db.Column(db.Boolean)
-    name = db.Column(db.String)
+    active = db.Column(db.Boolean, default=True)
+    name = db.Column(db.String, nullable=False, unique=True)
     # hours - How frequent should it run?
-    runcadence = db.Column(db.Integer())
+    runcadence = db.Column(db.Integer(), default=1)
     # When run last time?
     lastrun = db.Column(db.DateTime)
 
@@ -27,7 +27,7 @@ class Spiderbot(db.Model):
     # Name of the spider
     spider = db.Column(db.String)
     # Should it run?
-    active = db.Column(db.Boolean)
+    active = db.Column(db.Boolean, default=True)
     # foreign key to crawler
     crawlerid = db.Column(db.Integer, db.ForeignKey("crawlers.crawlerid"))
     crawler = db.relationship("Crawler", backref=db.backref(
@@ -50,7 +50,7 @@ class Match(db.Model):
     # Actual price
     price = db.Column(db.Float)
     currency = db.Column(db.String)
-    isauction = db.Column(db.Boolean)
+    isauction = db.Column(db.Boolean, default=False)
     # Geography location of the item
     location = db.Column(db.String)
     # If the matched item expire
@@ -58,9 +58,9 @@ class Match(db.Model):
     # When updated this record last time?
     updated = db.Column(db.DateTime)
     # Was already show to user?
-    shown = db.Column(db.Boolean)
+    shown = db.Column(db.Boolean, default=False)
     # Hide this match from the user
-    hide = db.Column(db.Boolean)
+    hide = db.Column(db.Boolean, default=False)
     # When did user hided this match?
     hidedat = db.Column(db.String)
     # Hash code of the match (filled via pipeline)
