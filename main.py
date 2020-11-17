@@ -60,6 +60,7 @@ def match_update():
 
 @app.route('/crawler-update', methods=['GET', 'POST'])
 def crawler_update():
+    print(request.args)
     for arg in request.args.keys():
         if "delete_" in arg:
             id = arg.split("_")[1]
@@ -75,7 +76,7 @@ def crawler_update():
             crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
             crawler.active = True if ("active" in v and v["active"] == "on") else False
             crawler.name = v["name"]
-            crawler.runcadence = float(v["name"])
+            crawler.runcadence = float(v["runcadence"])
         db.session.commit()
     return redirect('/')
 
