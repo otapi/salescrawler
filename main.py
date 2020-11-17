@@ -63,8 +63,7 @@ def crawler_update():
     if request.method == 'POST':    
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for k, v in postvars.items():
-            for n in v:
-                print(" - :"+v[n])
+            print(" - :"+k)
             if "delete" in v:
                 flash('Delete crawler...')
                 #sclogic.crawlerDelete(id)
