@@ -4,6 +4,7 @@ from app import app
 from app import db
 
 import models
+import forms
 import sclogic
 
 hidematches = True
@@ -59,7 +60,7 @@ def index_engine():
 
 @app.route('/new_crawler', methods=['GET', 'POST'])
 def new_crawler():
-    form = models.CrawlerForm(request.form)
+    form = forms.CrawlerForm(request.form)
     if request.method == 'POST' and form.validate():
         sclogic.crawlerAdd(form.crawler.name)
         flash('Crawler created successfully!')
