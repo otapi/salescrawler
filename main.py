@@ -65,15 +65,13 @@ def crawler_update():
         for k, v in postvars.items():
             if "delete" in v and v["delete"] == "on":
                 flash('Delete crawler...')
-                #sclogic.crawlerDelete(id)
-                print('Delete crawler... '+k)
+                sclogic.crawlerDelete(id)
                 flash('Delete crawler finished!')
-                return redirect('/')
-            
-            crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
-            crawler.active = True if ("active" in v and v["active"] == "on") else False
-            crawler.name = v["name"]
-            crawler.runcadence = float(v["runcadence"])
+            else:
+                crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
+                crawler.active = True if ("active" in v and v["active"] == "on") else False
+                crawler.name = v["name"]
+                crawler.runcadence = float(v["runcadence"])
         db.session.commit()
     return redirect('/')
 
