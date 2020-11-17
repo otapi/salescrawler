@@ -1,5 +1,6 @@
 {% from "_formhelpers.html" import render_input_bool %}
 {% from "_formhelpers.html" import render_input_text %}
+{% from "_formhelpers.html" import render_input_number %}
 
 {% extends "layout.html" %}
 {% block body %}
@@ -18,7 +19,7 @@
           <tr>
             <td>{{render_input_bool(crawler.crawlerid, 'active', crawler.active)}}</td>
             <td>{{render_input_text(crawler.crawlerid, 'name', crawler.name)}}</td>
-            <td>{{crawler.runcadence}}</td>
+            <td>{{render_input_number(crawler.crawlerid, 'runcadence', crawler.runcadence)}}</td>
             <td>{{crawler.lastrun}}</td>
             <input type="text" name="{{ crawler.crawlerid }}_{{ dummy }}" value="dummy" hidden="true"/>
           </tr>
@@ -29,7 +30,9 @@
     
     <a href="{{ url_for('.new_crawler') }}"> Add New Crawler </a>
   </form>
-  <form action="{{ url_for('.new_crawler') }}" method="post"></form>
+  <form action="{{ url_for('.new_crawler') }}" method="post">
+    <input type="submit" name="new" value="Add new crawler">
+  </form>
 
 
   <h2>Matches</h2>

@@ -22,3 +22,7 @@
 {% macro render_input_text(id, fieldname, value) %}
     <input type="text" name="{{ id  }}_{{ fieldname }}" value="{{ value }}" />
 {% endmacro %}
+
+{% macro render_input_number(id, fieldname, value) %}
+    <input type="number" name="{{ id  }}_{{ fieldname }}" value="{{ value }}" />
+{% endmacro %}
