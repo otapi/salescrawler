@@ -6,6 +6,9 @@
 {% block body %}
 
   <h2>Crawlers</h2>
+  <form action="{{ url_for('.new_crawler') }}" method="post">
+    <button type="submit">Add new crawler</button>
+  </form>
   <form action="/crawler-update" method="post">
     <table class="sortable">
       <tr>
@@ -13,6 +16,7 @@
         <th>Name</th>
         <th>Run cadence</th>
         <th>Last run</th>
+        <th>Delete</th>
       </tr>
 
         {% for crawler in crawlers %}
@@ -21,19 +25,13 @@
             <td>{{render_input_text(crawler.crawlerid, 'name', crawler.name)}}</td>
             <td>{{render_input_number(crawler.crawlerid, 'runcadence', crawler.runcadence)}}</td>
             <td>{{crawler.lastrun}}</td>
+            <td><input type="submit" name="delete_{{ crawler.crawlerid }}" value="Delete"></td>
             <input type="text" name="{{ crawler.crawlerid }}_{{ dummy }}" value="dummy" hidden="true"/>
           </tr>
         {% endfor %}
     </table>
     <button type="submit">Save</button>
-    
-    
-    <a href="{{ url_for('.new_crawler') }}"> Add New Crawler </a>
   </form>
-  <form action="{{ url_for('.new_crawler') }}" method="post">
-    <input type="submit" name="new" value="Add new crawler">
-  </form>
-
 
   <h2>Matches</h2>
   <form action="/match-update" method="post">

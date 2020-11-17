@@ -6,5 +6,5 @@ class SpiderbotForm(Form):
     search = StringField('Name:')
 
 class CrawlerForm(Form):
-    search = StringField('Name:')
+    name = StringField('Name:')
 
