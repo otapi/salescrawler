@@ -39,24 +39,34 @@ def index_engine():
     elif "refresh" in request.args:
         return redirect(url_for('index'))
 
-    if request.method == 'POST':    
-        postvars = variabledecode.variable_decode(request.form, dict_char='_')
-        for k, v in postvars.items():
-            match = models.Match.query.filter_by(matchid=int(k)).first()
-            if "hide" in v and v["hide"] == "on":
-                match.hide = True
-            else:
-                match.hide = False
-        db.session.commit()
+    crawlers = models.Crawler.query.order_by(models.Crawler.name).all()
 
-    
     if hidematches:
         matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price)
     else:
         matches = models.Match.query.order_by(models.Match.price).all()
     
-    crawlers = models.Crawler.query.order_by(models.Crawler.name).all()
     return render_template('matches.html', matches=matches, crawlers=crawlers) 
+
+@app.route('/match-update', methods=['GET', 'POST'])
+def match_update():
+    if request.method == 'POST':    
+        postvars = variabledecode.variable_decode(request.form, dict_char='_')
+        for k, v in postvars.items():
+            match = models.Match.query.filter_by(matchid=int(k)).first()
+            match.hide = "hide" in v and v["hide"] == "on"
+        db.session.commit()
+    return redirect('/')
+
+@app.route('/crawler-update', methods=['GET', 'POST'])
+def crawler_update():
+    if request.method == 'POST':    
+        postvars = variabledecode.variable_decode(request.form, dict_char='_')
+        for k, v in postvars.items():
+            crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
+            crawler.active = "active" in v and v["active"]
+        db.session.commit()
+    return redirect('/')
 
 @app.route('/new_crawler', methods=['GET', 'POST'])
 def new_crawler():

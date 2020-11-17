@@ -3,8 +3,9 @@ from salesCrawlerScrapy.settings import SPIDERS
 
 class SpidersForm(Form):
     select = SelectField('Select spider:', choices=SPIDERS)
-    search = StringField('')
+    search = StringField('Search:')
 
 class CrawlerForm(Form):
-    name = StringField('')
+    name = StringField('Name:')
+
 
