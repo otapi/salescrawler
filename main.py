@@ -66,7 +66,7 @@ def crawler_update():
             if k == "delete":
                 flash('Delete crawler...')
                 #sclogic.crawlerDelete(id)
-                print('Delete crawler... '+v["delete"])
+                print('Delete crawler... '+v)
                 flash('Delete crawler finished!')
                 return redirect('/')
                 
