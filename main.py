@@ -63,14 +63,13 @@ def crawler_update():
     if request.method == 'POST':    
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for k, v in postvars.items():
-            print(" - :"+k)
-            if "delete" in v:
+            if "delete" in v and v["delete"] == "on":
                 flash('Delete crawler...')
                 #sclogic.crawlerDelete(id)
                 print('Delete crawler... '+k)
                 flash('Delete crawler finished!')
                 return redirect('/')
-                
+            
             crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
             crawler.active = True if ("active" in v and v["active"] == "on") else False
             crawler.name = v["name"]
