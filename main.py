@@ -62,7 +62,7 @@ def index_engine():
 def new_crawler():
     form = forms.CrawlerForm(request.form)
     if request.method == 'POST' and form.validate():
-        sclogic.crawlerAdd(form.name)
+        sclogic.crawlerAdd(form.name.data)
         flash('Crawler created successfully!')
         return redirect('/')
 
