@@ -13,19 +13,10 @@ echo Paste the content into your GitHub/BitBucket account on the SSH key section
 read -p "Press any key to resume ..."
 echo First clone
 git clone git@github.com:otapi/salescrawler.git
-sudo apt install python3-pip
-sudo apt-get install python3 python3-venv python3-dev python3-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
-sudo apt install default-libmysqlclient-dev
 
-#echo Create virtual env
-#python3 -m venv env
-#echo Activate your env: 
-#source env/bin/activate
-echo install Scrapy with pip
-pip3 install scrapy Pillow mysqlclient Click flask flask-sqlalchemy Flask-WTF formencode
 
 echo install MySQL
-sudo apt install mysql-server
+sudo apt-get install mysql-server
 echo secure the MySQL
 sudo mysql_secure_installation
 echo 
@@ -39,6 +30,18 @@ echo then exit
 mysql -u root -p
 echo Check status
 systemctl status mysql.service
+
+sudo apt-get install python3 python3-pip python3-venv python3-dev python3-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev default-libmysqlclient-dev
+
+#echo Create virtual env
+#python3 -m venv env
+#echo Activate your env: 
+#source env/bin/activate
+# pillow?
+
+echo install python packages
+pip3 install scrapy mysqlclient Click flask flask-sqlalchemy formencode
+
 echo Install MySQL Workbench
 sudo snap install mysql-workbench-community
 
