@@ -21,19 +21,19 @@ def clear():
 def runall():
     """Run all active crawlers"""
     click.echo('Run all active crawlers...')
-    for crawler in models.Crawler.filter_by(active=True):
+    for crawler in models.Crawler.query.filter_by(active=True):
         click.echo(f"Run crawler: {crawler.name} ({crawler.crawlerid})")
         runCrawler(crawlerid = crawler.crawlerid)
 
 def runCrawler(crawlerid):
     """Run all active spiderbots owned by crawlerid"""
     click.echo(f'Run all active spiders of crawler {crawlerid}...')
-    for spiderbot in models.Spiderbot.filter_by(crawlerid=crawlerid, active=True):
+    for spiderbot in models.Spiderbot.query.filter_by(crawlerid=crawlerid, active=True):
         click.echo(f"Run spiderbot: {spiderbot.spiderbotid}")
         click.echo(f"   searchterm: {spiderbot.searchterm}")
         click.echo(f"      Fullink: {spiderbot.fullink}")
         runSpider(spider = spiderbot.spider, searchterm = spiderbot.searchterm, fullink = spiderbot.fullink, spiderbotid = spiderbot.spiderbotid)
-    cr = models.Crawler.filter_by(crawlerid=crawlerid).first()
+    cr = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     cr.lastrun = datetime.datetime.now()
     db.session.commit()
 
@@ -99,9 +99,9 @@ def crawlerAdd(name):
 def crawlerDelete(crawlerid):
     """Delete the crawler with crawlerid, and also delete it's spiderbots and matches"""
     click.echo(f"Delete crawler: {crawlerid}")
-    for spiderbot in models.Spiderbot.filter_by(crawlerid=crawlerid):
+    for spiderbot in models.Spiderbot.query.filter_by(crawlerid=crawlerid):
         spiderbotDelete(spiderbotid = spiderbot.spiderbotid)
-    models.Crawler.filter_by(crawlerid=crawlerid).delete()
+    models.Crawler.query.filter_by(crawlerid=crawlerid).delete()
     db.session.commit()
 
 # ------------------
@@ -141,6 +141,6 @@ def spiderbotAdd(spider, crawlerid, searchterm, fullink):
 def spiderbotDelete(spiderbotid):
     """Delete a spiderbot with spiderbotid, and also delete it's matches"""
     click.echo(f"Delete spiderbot, ID: {spiderbotid}")
-    models.Match.filter_by(spiderbotid=spiderbotid).delete()
-    models.Spiderbot.filter_by(spiderbotid=spiderbotid).delete()
+    models.Match.query.filter_by(spiderbotid=spiderbotid).delete()
+    models.Spiderbot.query.filter_by(spiderbotid=spiderbotid).delete()
     db.session.commit()
