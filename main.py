@@ -64,7 +64,7 @@ def crawler_update():
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for k, v in postvars.items():
             crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
-            crawler.active = "active" in v and v["active"]
+            crawler.active = ("active" in v and v["active"])
         db.session.commit()
     return redirect('/')
 
