@@ -54,7 +54,7 @@ def match_update():
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for k, v in postvars.items():
             match = models.Match.query.filter_by(matchid=int(k)).first()
-            match.hide = "hide" in v and v["hide"] == "on"
+            match.hide = True if ("hide" in v and v["hide"] == "on") else False
         db.session.commit()
     return redirect('/')
 
@@ -64,7 +64,7 @@ def crawler_update():
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for k, v in postvars.items():
             crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
-            crawler.active = ("active" in v and v["active"])
+            crawler.active = True if ("active" in v and v["active"] == "on") else False
         db.session.commit()
     return redirect('/')
 
