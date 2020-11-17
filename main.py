@@ -55,8 +55,6 @@ def match_update():
         for k, v in postvars.items():
             match = models.Match.query.filter_by(matchid=int(k)).first()
             match.hide = True if ("hide" in v and v["hide"] == "on") else False
-            print(v["name"])
-            match.name = v["name"]
         db.session.commit()
     return redirect('/')
 
@@ -67,6 +65,7 @@ def crawler_update():
         for k, v in postvars.items():
             crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
             crawler.active = True if ("active" in v and v["active"] == "on") else False
+            crawler.name = v["name"]
         db.session.commit()
     return redirect('/')
 
