@@ -60,19 +60,16 @@ def match_update():
 
 @app.route('/crawler-update', methods=['GET', 'POST'])
 def crawler_update():
-    print(request.args)
-    for arg in request.args.keys():
-        if "delete_" in arg:
-            id = arg.split("_")[1]
-            flash('Delete crawler...')
-            #sclogic.crawlerDelete(id)
-            print('Delete crawler... '+id)
-            flash('Delete crawler finished!')
-            return redirect('/')
-
     if request.method == 'POST':    
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for k, v in postvars.items():
+            if k == "delete":
+                flash('Delete crawler...')
+                #sclogic.crawlerDelete(id)
+                print('Delete crawler... '+v["delete"])
+                flash('Delete crawler finished!')
+                return redirect('/')
+                
             crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
             crawler.active = True if ("active" in v and v["active"] == "on") else False
             crawler.name = v["name"]
