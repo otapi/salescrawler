@@ -15,7 +15,7 @@
 
         {% for crawler in crawlers %}
           <tr>
-            <td>{{render_input_bool(crawler.crawlerid, 'hide', crawler.active.hide)}}</td>
+            <td>{{render_input_bool(crawler.crawlerid, 'active', crawler.active)}}</td>
             <td>{{crawler.name}}</td>
             <td>{{crawler.runcadence}}</td>
             <td>{{crawler.lastrun}}</td>
