@@ -65,7 +65,7 @@ def crawler_update():
         for k, v in postvars.items():
             if "delete" in v and v["delete"] == "on":
                 flash('Delete crawler...')
-                sclogic.crawlerDelete(int(id))
+                sclogic.crawlerDelete(int(k))
                 flash('Delete crawler finished!')
             else:
                 crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
