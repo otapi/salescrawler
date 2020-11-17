@@ -1,4 +1,5 @@
 {% from "_formhelpers.html" import render_input_bool %}
+{% from "_formhelpers.html" import render_input_text %}
 
 {% extends "layout.html" %}
 {% block body %}
@@ -16,7 +17,7 @@
         {% for crawler in crawlers %}
           <tr>
             <td>{{render_input_bool(crawler.crawlerid, 'active', crawler.active)}}</td>
-            <td>{{crawler.name}}</td>
+            <td>{{render_input_text(crawler.crawlerid, 'name', crawler.name)}}</td>
             <td>{{crawler.runcadence}}</td>
             <td>{{crawler.lastrun}}</td>
             <input type="text" name="{{ crawler.crawlerid }}_{{ dummy }}" value="dummy" hidden="true"/>
