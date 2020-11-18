@@ -43,6 +43,7 @@
     <table class="sortable">
       <tr>
         <th>Hide</th>
+        <th>Crawler</th>
         <th>Image</th>
         <th>Title</th>
         <th>Price</th>
@@ -53,6 +54,7 @@
         {% for match in matches %}
           <tr>
             <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
+            <td>{{match.spiderbot.crawler.name}}</td>
             <td><img src="/static{{match.image}}" loading="lazy" alt="..." width="150"></td>
             <td><a href="{{match.url}}">{{match.title}}</a></td>
             <td>{{match.price}}</td>

@@ -2,7 +2,7 @@ import click
 import os
 import shutil
 from pathlib import Path
-from salesCrawlerScrapy.settings import SPIDERS
+from salesCrawlerScrapy.settings import SPIDERS, IMAGES_STORE
 import datetime
 import urllib.parse
 
@@ -14,8 +14,8 @@ import models
 # ----------------
 def clear():
     """Clear matches table"""
-    click.echo('Delete all matches...')
     models.Match.query.delete()
+    shutil.rmtree(os.path.join(Path.home(),'salescrawler', IMAGES_STORE))
     db.session.commit()
     
 def runall():
@@ -66,7 +66,7 @@ def update():
     click.echo('Update the tool...')
 
     click.echo('Saving ImagesStore folder...')
-    source_dir = os.path.join(Path.home(),'salescrawler/static/ImagesStore')
+    source_dir = os.path.join(Path.home(),'salescrawler', IMAGES_STORE)
     target_dir = os.path.join(Path.home(),'savedImagesStore')
     movetree(source_dir, target_dir)
 
@@ -141,6 +141,10 @@ def spiderbotAdd(spider, crawlerid, searchterm, fullink):
 def spiderbotDelete(spiderbotid):
     """Delete a spiderbot with spiderbotid, and also delete it's matches"""
     click.echo(f"Delete spiderbot, ID: {spiderbotid}")
+    for match in models.Match.query.filter_by(spiderbotid=spiderbotid).all():
+        lcl = os.path.join(Path.home(),'salescrawler', 'static', match.image)
+        if os.path.exists(lcl):
+                os.remove(lcl)
     models.Match.query.filter_by(spiderbotid=spiderbotid).delete()
     models.Spiderbot.query.filter_by(spiderbotid=spiderbotid).delete()
     db.session.commit()

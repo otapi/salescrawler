@@ -4,7 +4,7 @@
 
 {% extends "layout.html" %}
 {% block body %}
-<h2>Spiderbots of {{ crawler.name }}</h2>
+<h2>Crawler: {{ crawler.name }} / Spiderbots</h2>
     <form action="{{ url_for('.new_spiderbots', crawlerid=crawler.crawlerid) }}" method="post">
     <button type="submit" name="from_spiderbots">Add new spiderbot(s)</button>
   </form>
