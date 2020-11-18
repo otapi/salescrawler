@@ -17,6 +17,7 @@
         <th>Active</th>
         <th>Run cadence</th>
         <th>Last run</th>
+        <th>Spiderbots</th>
       </tr>
 
         {% for crawler in crawlers %}
@@ -26,12 +27,12 @@
             <td>{{render_input_bool(crawler.crawlerid, 'active', crawler.active)}}</td>
             <td>{{render_input_number(crawler.crawlerid, 'runcadence', crawler.runcadence)}}</td>
             <td>{{crawler.lastrun}}</td>
+            <td><a href="{{ url_for('spiderbots', crawlerid=crawler.crawlerid) }}">View</td>
             <input type="text" name="{{ crawler.crawlerid }}_{{ dummy }}" value="dummy" hidden="true"/>
           </tr>
         {% endfor %}
     </table>
     <input type="submit" name="save_button" value="Save changes"/>
-    <input type="submit" name="spiderbots_button" value="View spiderbots"/>
     <input type="submit" name="delete_button" value="Delete selected"/>
     <input type="submit" name="filter_button" value="Filter to selected"/>
 
