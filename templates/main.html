@@ -26,6 +26,7 @@
             <td>{{render_input_text(crawler.crawlerid, 'name', crawler.name)}}</td>
             <td>{{render_input_bool(crawler.crawlerid, 'active', crawler.active)}}</td>
             <td>{{render_input_number(crawler.crawlerid, 'runcadence', crawler.runcadence)}}</td>
+            <td>{{render_input_number(crawler.crawlerid, 'maxprice', crawler.maxprice)}}</td>
             <td>{{crawler.lastrun}}</td>
             <td><a href="{{ url_for('spiderbots', crawlerid=crawler.crawlerid) }}">View</td>
             <input type="text" name="{{ crawler.crawlerid }}_{{ dummy }}" value="dummy" hidden="true"/>

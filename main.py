@@ -90,7 +90,8 @@ def crawler_update():
                     crawler = models.Crawler.query.filter_by(crawlerid=id).first()
                     crawler.active = True if ("active" in values and values["active"] == "on") else False
                     crawler.name = values["name"]
-                    crawler.runcadence = float(values["runcadence"])
+                    crawler.runcadence = float(values["runcadence"]) 
+                    crawler.maxprice = None if values["maxprice"] or values["maxprice"] == '' or float(values["maxprice"])==0 else float(values["maxprice"])
         db.session.commit()
         if len(spiderbotids)>0:
             return redirect(url_for('index_filtered', spiderbotids=spiderbotids))

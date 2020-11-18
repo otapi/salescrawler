@@ -9,3 +9,4 @@ class SpiderbotForm(Form):
 class CrawlerForm(Form):
     name = StringField('Name:')
 
+

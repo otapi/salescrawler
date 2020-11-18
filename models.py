@@ -12,6 +12,8 @@ class Crawler(db.Model):
     runcadence = db.Column(db.Integer(), default=1)
     # When run last time?
     lastrun = db.Column(db.DateTime)
+    # Autohide matches priced above this
+    maxprice = db.Column(db.Float)
 
     def __repr__(self):
         return '<Crawler %r>' % self.name

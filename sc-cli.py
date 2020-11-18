@@ -80,4 +80,3 @@ def spiderbotDelete(spiderbotid):
 if __name__ == '__main__':
     click.echo('SalesCrawler - Program to run regular searches on websites')
     cli()
-    closeDB()
