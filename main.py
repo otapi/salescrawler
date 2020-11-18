@@ -42,7 +42,13 @@ def index_engine(hidematches = True, spiderbotids = None):
     crawlers = models.Crawler.query.order_by(models.Crawler.name).all()
     
     if spiderbotids:
-        matches = models.Match.query.filter(models.Match.spiderbotid in spiderbotids).all()
+        matches = None
+        for spiderbotid in spiderbotids:
+            rm = models.Match.query.filter_by(spiderbotid=spiderbotid).all()
+            if matches:
+                matches.append(rm)
+            else:
+                matches = rm
         flash('Matches are filtered for one Crawler...')
 
     else:
