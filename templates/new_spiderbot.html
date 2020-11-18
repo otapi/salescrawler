@@ -5,9 +5,6 @@
     <h2>New spiderbot(s) for {{ crawler.name }}</h2>
     <form action="/spiderbot-update/{{ crawler.crawlerid }}" method="post">
         <dl>
-            {{ render_field(form.name) }}
-        </dl>
-        <dl>
             {{ render_field(form.spiders) }}
         </dl>
         <dl>
