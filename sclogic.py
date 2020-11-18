@@ -55,7 +55,7 @@ def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
     if maxprice:
         found = False
         for match in models.Match.query.filter_by(spiderbotid=spiderbotid).filter_by(hide=False).all():
-            if match.price > maxprice:
+            if match.price and match.price > maxprice:
                 match.hide = True
                 db.session.commit()
                 found = True
