@@ -92,7 +92,7 @@ def crawler_update():
                     crawler.active = True if ("active" in values and values["active"] == "on") else False
                     crawler.name = values["name"]
                     crawler.runcadence = float(values["runcadence"]) 
-                    crawler.maxprice = None if values["maxprice"] or values["maxprice"] == '' or float(values["maxprice"])==0 else float(values["maxprice"])
+                    crawler.maxprice = float(values["maxprice"]) if values["maxprice"] and values["maxprice"] != '' and float(values["maxprice"]) !=0 else None
                     print("itt: "+crawler.maxprice)
                     db.session.commit()
         if len(spiderbotids)>0:
