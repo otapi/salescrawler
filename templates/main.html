@@ -57,7 +57,7 @@
             <td>{{match.spiderbot.crawler.name}}</td>
             <td><img src="/static{{match.image}}" loading="lazy" alt="..." width="150"></td>
             <td><a href="{{match.url}}">{{match.title}}</a></td>
-            <td>{{'%0,.0f' % match.price|float }}</td>
+            <td>{{'%0.0n' % match.price|float }}</td>
             <td>{{match.location}}</td>
             <td>{{match.seller}}</td>
             <input type="text" name="{{ match.matchid }}_{{ dummy }}" value="dummy" hidden="true"/>
