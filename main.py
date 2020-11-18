@@ -84,9 +84,10 @@ def crawler_update():
 def new_crawler():
     form = forms.CrawlerForm(request.form)
     if request.method == 'POST' and form.validate():
-        sclogic.crawlerAdd(form.name.data)
-        flash('Crawler created successfully!')
-        return redirect('/')
+        if not ('from_main' in request.form):
+            sclogic.crawlerAdd(form.name.data)
+            flash('Crawler created successfully!')
+            return redirect('/')
 
     return render_template('new_crawler.html', form=form)
 
