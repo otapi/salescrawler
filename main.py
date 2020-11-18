@@ -13,7 +13,7 @@ def index():
 
 @app.route('/filtered/<spiderbotids>', methods=['GET', 'POST'])
 def index_filtered(spiderbotids):
-    return index_engine(hidematches = False, spiderbotids=spiderbotids)
+    return index_engine(hidematches = True, spiderbotids=spiderbotids)
 
 @app.route('/all', methods=['GET', 'POST'])
 def index_all():
@@ -46,7 +46,7 @@ def index_engine(hidematches = True, spiderbotids = None):
         for spiderbotid in spiderbotids:
             rm = models.Match.query.filter_by(spiderbotid=spiderbotid).all()
             if matches:
-                matches.append(rm)
+                matches = matches + rm
             else:
                 matches = rm
         flash('Matches are filtered for one Crawler...')
