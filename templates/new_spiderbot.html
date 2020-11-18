@@ -3,7 +3,7 @@
 {% extends "layout.html" %}
 {% block body %}
     <h2>New spiderbot(s) for {{ crawler.name }}</h2>
-    <form action="/spiderbots/{{ crawler.crawlerid }}" method="post">
+    <form action="/new-spiderbots/{{ crawler.crawlerid }}" method="post">
         <dl>
             {{ render_field(form.spiders) }}
         </dl>
