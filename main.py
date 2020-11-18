@@ -99,7 +99,7 @@ def spiderbots(crawlerid):
     crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     return render_template('spiderbots.html', spiderbots=spiderbots, crawler=crawler)
 
-@app.route('/new_spiderbots/<crawlerid>', methods=['GET', 'POST'])
+@app.route('/new-spiderbots/<crawlerid>', methods=['GET', 'POST'])
 def new_spiderbots(crawlerid):
     form = forms.SpiderbotForm(request.form)
     if request.method == 'POST' and form.validate():
