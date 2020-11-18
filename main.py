@@ -87,6 +87,7 @@ def crawler_update():
                         for spiderbot in models.Spiderbot.query.filter_by(crawlerid=id).all():
                             spiderbotids.append(spiderbot.spiderbotid)
                 elif 'save_button' in request.form:
+                    print("itt: "+values["maxprice"])
                     crawler = models.Crawler.query.filter_by(crawlerid=id).first()
                     crawler.active = True if ("active" in values and values["active"] == "on") else False
                     crawler.name = values["name"]
