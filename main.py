@@ -103,7 +103,9 @@ def spiderbots(crawlerid):
 def new_spiderbots(crawlerid):
     form = forms.SpiderbotForm(request.form)
     if request.method == 'POST' and form.validate():
+        print("itt")
         if not ('from_spiderbots' in request.form):
+            print("itt2")
             flash('Create spiders...')
             for spider in form.spiders.data:
                 sclogic.spiderbotAdd(spider, crawlerid, form.searchterm.data, form.fullink.data)
