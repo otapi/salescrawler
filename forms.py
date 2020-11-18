@@ -3,7 +3,7 @@ from salesCrawlerScrapy.settings import SPIDERS
 
 class SpiderbotForm(Form):
     name = StringField('Name:')
-    spiderbots = SelectMultipleField('Select spiders:', choices=SPIDERS)
+    spiders = SelectMultipleField('Select spiders:', choices=SPIDERS)
     searchterm = StringField('Search Term:')
     fullink = StringField('Fullink:')
 
