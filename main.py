@@ -93,7 +93,8 @@ def crawler_update():
                     crawler.name = values["name"]
                     crawler.runcadence = float(values["runcadence"]) 
                     crawler.maxprice = None if values["maxprice"] or values["maxprice"] == '' or float(values["maxprice"])==0 else float(values["maxprice"])
-        db.session.commit()
+                    print("itt: "+crawler.maxprice)
+                    db.session.commit()
         if len(spiderbotids)>0:
             return redirect(url_for('index_filtered', spiderbotids=spiderbotids))
 
