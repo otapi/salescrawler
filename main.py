@@ -7,21 +7,21 @@ import models
 import forms
 import sclogic
 
-hidematches = True
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global hidematches
-    hidematches = True
-
     return index_engine()
+
+@app.route('/filtered/<spiderbotids>', methods=['GET', 'POST'])
+def index_filtered(spiderbotids):
+    return index_engine(hidematches = False, spiderbotids=spiderbotids)
 
 @app.route('/all', methods=['GET', 'POST'])
 def index_all():
     global hidematches
     hidematches = False
-    return index_engine()
+    return index_engine(hidematches = False)
 
-def index_engine():
+def index_engine(hidematches = True, spiderbotids = None):
     if "run" in request.args:
         flash('run...')
         sclogic.runall()
@@ -41,11 +41,16 @@ def index_engine():
 
     crawlers = models.Crawler.query.order_by(models.Crawler.name).all()
     
-    if hidematches:
-        matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price)
+    if spiderbotids:
+        matches = models.Match.query.filter(models.Match.spiderbotid in spiderbotids).all()
+        flash('Matches are filtered for one Crawler...')
+
     else:
-        matches = models.Match.query.order_by(models.Match.price).all()
-    
+        if hidematches:
+            matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price)
+        else:
+            matches = models.Match.query.order_by(models.Match.price).all()
+        
     return render_template('main.html', matches=matches, crawlers=crawlers) 
 
 @app.route('/match-update', methods=['GET', 'POST'])
@@ -60,8 +65,8 @@ def match_update():
 
 @app.route('/crawler-update', methods=['GET', 'POST'])
 def crawler_update():
-
     if request.method == 'POST':    
+        spiderbotids = []
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for ids, values in postvars.items():
             selected = True if "selected" in values and values["selected"] == "on" else False
@@ -73,13 +78,17 @@ def crawler_update():
                         sclogic.crawlerDelete(id)
                         flash('Delete crawler finished!')
                     elif 'filter_button' in request.form:
-                        flash('Filter for...')
+                        for spiderbot in models.Spiderbot.query.filter_by(crawlerid=id).all():
+                            spiderbotids.append(spiderbot.spiderbotid)
                 elif 'save_button' in request.form:
                     crawler = models.Crawler.query.filter_by(crawlerid=id).first()
                     crawler.active = True if ("active" in values and values["active"] == "on") else False
                     crawler.name = values["name"]
                     crawler.runcadence = float(values["runcadence"])
         db.session.commit()
+        if len(spiderbotids)>0:
+            return redirect(url_for(index_filtered, spiderbotids))
+
     return redirect('/')
 
 @app.route('/new_crawler', methods=['GET', 'POST'])
