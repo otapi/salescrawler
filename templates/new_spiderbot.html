@@ -1,0 +1,21 @@
+{% from "_formhelpers.html" import render_field %}
+
+{% extends "layout.html" %}
+{% block body %}
+    <h2>New spiderbot(ss) for {{ crawler.name }}</h2>
+    <form action="/spiderbot-update/{{ crawler.crawlerid }}" method="post">
+        <dl>
+            {{ render_field(form.name) }}
+        </dl>
+        <dl>
+            {{ render_field(form.spiders) }}
+        </dl>
+        <dl>
+            {{ render_field(form.searchterm) }}
+        </dl>
+        <dl>
+            {{ render_field(form.fullink) }}
+        </dl>
+        <p><input type="submit" value="Submit">
+    </p></form>
+{% endblock %}

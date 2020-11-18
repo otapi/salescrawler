@@ -1,9 +1,11 @@
-from wtforms import Form, StringField, SelectField, DecimalField, BooleanField
+from wtforms import Form, StringField, SelectMultipleField, DecimalField, BooleanField
 from salesCrawlerScrapy.settings import SPIDERS
 
 class SpiderbotForm(Form):
-    select = SelectField('Select spider:', choices=SPIDERS)
-    search = StringField('Name:')
+    name = StringField('Name:')
+    spiderbots = SelectMultipleField('Select spiders:', choices=SPIDERS)
+    searchterm = StringField('Search Term:')
+    fullink = StringField('Fullink:')
 
 class CrawlerForm(Form):
     name = StringField('Name:')

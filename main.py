@@ -99,6 +99,20 @@ def spiderbots(crawlerid):
     crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     return render_template('spiderbots.html', spiderbots=spiderbots, crawler=crawler)
 
+@app.route('/new_crawler/<crawlerid>', methods=['GET', 'POST'])
+def new_crawler(crawlerid):
+    form = forms.SpiderbotForm(request.form)
+    if request.method == 'POST' and form.validate():
+        if not ('from_spiderbots' in request.form):
+            #sclogic.crawlerAdd(form.name.data)
+            #flash('Crawler created successfully!')
+            #return redirect('/')
+            pass
+
+    crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
+    return render_template('new_spiderbot.html', form=form, crawler = crawler)
+
+
 @app.route('/spiderbot-update/<crawlerid>', methods=['GET', 'POST'])
 def spiderbot_update(crawlerid):
     if request.method == 'POST':    
