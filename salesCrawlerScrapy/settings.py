@@ -12,7 +12,11 @@ BOT_NAME = 'salesCrawlerScrapy'
 SPIDER_MODULES = ['salesCrawlerScrapy.spiders']
 NEWSPIDER_MODULE = 'salesCrawlerScrapy.spiders'
 
-SPIDERS = ['hardverapro']
+SPIDERS = [
+    ('hardverapro','hardverapro'),
+    ('second','second'),
+    ('third','third')
+        ]
 
 IMAGES_STORE = 'static/ImagesStore'
 
