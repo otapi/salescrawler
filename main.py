@@ -94,6 +94,30 @@ def new_crawler():
 
     return render_template('new_crawler.html', form=form)
 
+@app.route('/spiderbot-update', methods=['GET', 'POST'])
+def spiderbot_update():
+    if request.method == 'POST':    
+        postvars = variabledecode.variable_decode(request.form, dict_char='_')
+        for ids, values in postvars.items():
+            selected = True if "selected" in values and values["selected"] == "on" else False
+            id = int(ids) if ids.isnumeric() else None
+            if id:            
+                if 'delete_button' in request.form:
+                    if selected:
+                        flash('Delete spiderbot...')
+                        sclogic.spiderbotDelete(id)
+                        flash('Delete spiderbot finished!')
+                elif 'filter_button' in request.form:
+                    if selected:
+                        flash('Filter for...')
+                elif 'save_button' in request.form:
+                    spiderbot = models.Spiderbot.query.filter_by(spiderbotid=id).first()
+                    spiderbot.active = True if ("active" in values and values["active"] == "on") else False
+                    spiderbot.searchterm = None if values["searchterm"] == "" else values["searchterm"]
+                    spiderbot.fullink = None if values["fullink"] == "" else values["fullink"]
+        db.session.commit()
+    return redirect('/')
+
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
