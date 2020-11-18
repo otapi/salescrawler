@@ -62,16 +62,21 @@ def match_update():
 def crawler_update():
     if request.method == 'POST':    
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
-        for k, v in postvars.items():
-            if "delete" in v and v["delete"] == "on":
-                flash('Delete crawler...')
-                sclogic.crawlerDelete(int(k))
-                flash('Delete crawler finished!')
-            else:
-                crawler = models.Crawler.query.filter_by(crawlerid=int(k)).first()
-                crawler.active = True if ("active" in v and v["active"] == "on") else False
-                crawler.name = v["name"]
-                crawler.runcadence = float(v["runcadence"])
+        for id, values in postvars.items():
+            selected = True if "selected" in values and values["selected"] == "on" else False
+            if 'delete_button' in request.form:
+                if selected:
+                    flash('Delete crawler...')
+                    sclogic.crawlerDelete(int(id))
+                    flash('Delete crawler finished!')
+            elif 'filter_button' in request.form:
+                if selected:
+                    flash('Filter for...')
+            elif 'save_button' in request.form:
+                crawler = models.Crawler.query.filter_by(crawlerid=int(id)).first()
+                crawler.active = True if ("active" in values and values["active"] == "on") else False
+                crawler.name = values["name"]
+                crawler.runcadence = float(values["runcadence"])
         db.session.commit()
     return redirect('/')
 

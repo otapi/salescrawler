@@ -12,25 +12,28 @@
   <form action="/crawler-update" method="post">
     <table class="sortable">
       <tr>
-        <th>Active</th>
+        <th>Selected</th>
         <th>Name</th>
+        <th>Active</th>
         <th>Run cadence</th>
         <th>Last run</th>
-        <th>Delete</th>
       </tr>
 
         {% for crawler in crawlers %}
           <tr>
-            <td>{{render_input_bool(crawler.crawlerid, 'active', crawler.active)}}</td>
+            <td>{{render_input_bool(crawler.crawlerid, 'selected', False)}}</td>
             <td>{{render_input_text(crawler.crawlerid, 'name', crawler.name)}}</td>
+            <td>{{render_input_bool(crawler.crawlerid, 'active', crawler.active)}}</td>
             <td>{{render_input_number(crawler.crawlerid, 'runcadence', crawler.runcadence)}}</td>
             <td>{{crawler.lastrun}}</td>
-            <td>{{render_input_bool(crawler.crawlerid, 'delete', False)}}</td>
             <input type="text" name="{{ crawler.crawlerid }}_{{ dummy }}" value="dummy" hidden="true"/>
           </tr>
         {% endfor %}
     </table>
-    <button type="submit">Send</button>
+    <input type="button" name="save_button" value="Save changes"/>
+    <input type="button" name="delete_button" value="Delete selected"/>
+    <input type="button" name="filter_button" value="Filter to selected"/>
+
   </form>
 
   <h2>Matches</h2>
@@ -57,7 +60,7 @@
           </tr>
         {% endfor %}
     </table>
-    <button type="submit">Send</button>
+    <button type="submit">Hide selected matches</button>
   </form>
 
 {% endblock %}
