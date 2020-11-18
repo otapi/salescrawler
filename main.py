@@ -99,7 +99,7 @@ def new_crawler():
 def spiderbots(crawlerid):
     spiderbots = models.Spiderbot.query.filter_by(crawlerid=crawlerid).order_by(models.Spiderbot.spiderbotid).all()
     crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
-    return render_template('main.html', spiderbots=spiderbots, crawler=crawler)
+    return render_template('spiderbots.html', spiderbots=spiderbots, crawler=crawler)
 
 @app.route('/spiderbot-update/<crawlerid>', methods=['GET', 'POST'])
 def spiderbot_update(crawlerid):
