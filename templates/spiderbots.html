@@ -1,0 +1,34 @@
+{% from "_formhelpers.html" import render_input_bool %}
+{% from "_formhelpers.html" import render_input_text %}
+{% from "_formhelpers.html" import render_input_number %}
+
+{% extends "layout.html" %}
+{% block body %}
+<h2>Spiderbots of {{ crawler.name }}</h2>
+  <form action="/spiderbot-update/{{ crawler.crawlerid }}" method="post">
+    <table class="sortable">
+      <tr>
+        <th>Selected</th>
+        <th>Spider</th>
+        <th>Active</th>
+        <th>Search Term</th>
+        <th>Full Link</th>
+      </tr>
+
+        {% for spiderbot in spiderbots %}
+          <tr>
+            <td>{{render_input_bool(spiderbot.spiderbotid, 'selected', False)}}</td>
+            <td>{{ spiderbot.spider }}</td>
+            <td>{{render_input_bool(spiderbot.spiderbotid, 'active', spiderbot.active)}}</td>
+            <td>{{render_input_text(spiderbot.spiderbotid, 'searchterm', spiderbot.searchterm if spiderbot.searchterm else '')}}</td>
+            <td>{{render_input_text(spiderbot.spiderbotid, 'fullink', spiderbot.fullink if spiderbot.fullink else '')}}</td>
+
+            <input type="text" name="{{ spiderbot.spiderbotid }}_{{ dummy }}" value="dummy" hidden="true"/>
+          </tr>
+        {% endfor %}
+    </table>
+    <input type="submit" name="save_button" value="Save changes"/>
+    <input type="submit" name="delete_button" value="Delete selected"/>
+
+  </form>
+{% endblock %}

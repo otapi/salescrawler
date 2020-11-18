@@ -31,44 +31,12 @@
         {% endfor %}
     </table>
     <input type="submit" name="save_button" value="Save changes"/>
+    <input type="submit" name="spiderbots_button" value="View spiderbots"/>
     <input type="submit" name="delete_button" value="Delete selected"/>
     <input type="submit" name="filter_button" value="Filter to selected"/>
 
   </form>
-
-  <h2>Spiderbots</h2>
-  <form action="/spiderbot-update" method="post">
-    <table class="sortable">
-      <tr>
-        <th>Selected</th>
-        <th>Crawler</th>
-        <th>Spider</th>
-        <th>Active</th>
-        <th>Search Term</th>
-        <th>Full Link</th>
-      </tr>
-
-        {% for spiderbot in spiderbots %}
-          <tr>
-            <td>{{render_input_bool(spiderbot.spiderbotid, 'selected', False)}}</td>
-            <td>{{ spiderbot.crawler.name }}</td>
-            <td>{{ spiderbot.spider }}</td>
-            <td>{{render_input_bool(spiderbot.spiderbotid, 'active', spiderbot.active)}}</td>
-            <td>{{render_input_text(spiderbot.spiderbotid, 'searchterm', spiderbot.searchterm if spiderbot.searchterm else '')}}</td>
-            <td>{{render_input_text(spiderbot.spiderbotid, 'fullink', spiderbot.fullink if spiderbot.fullink else '')}}</td>
-
-            <input type="text" name="{{ spiderbot.spiderbotid }}_{{ dummy }}" value="dummy" hidden="true"/>
-          </tr>
-        {% endfor %}
-    </table>
-    <input type="submit" name="save_button" value="Save changes"/>
-    <input type="submit" name="delete_button" value="Delete selected"/>
-    <input type="submit" name="filter_button" value="Filter to selected"/>
-
-  </form>
-
-
-
+  
   <h2>Matches</h2>
   <form action="/match-update" method="post">
     <table class="sortable">
