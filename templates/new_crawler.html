@@ -1,11 +1,12 @@
-<doctype html="">
-    <title>New Crawler - SalesCrawler</title>
+{% from "_formhelpers.html" import render_field %}
+
+{% extends "layout.html" %}
+{% block body %}
     <h2>New Crawler</h2>
-    {% from "_formhelpers.html" import render_field %}
     <form method="post">
         <dl>
             {{ render_field(form.name) }}
         </dl>
         <p><input type="submit" value="Submit">
     </p></form>
-    </doctype>
+{% endblock %}
