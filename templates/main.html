@@ -51,13 +51,13 @@
         {% for spiderbot in spiderbots %}
           <tr>
             <td>{{render_input_bool(spiderbot.spiderbotid, 'selected', False)}}</td>
-            <td>{{ spiderbot.crawler }}</td>
+            <td>{{ spiderbot.crawler.name }}</td>
             <td>{{ spiderbot.spider }}</td>
-            <td>{{render_input_bool(spiderbot.crawlerid, 'active', spiderbot.active)}}</td>
-            <td>{{render_input_text(spiderbot.crawlerid, 'searchterm', spiderbot.searchterm)}}</td>
-            <td>{{render_input_text(spiderbot.crawlerid, 'fullink', spiderbot.fullink)}}</td>
+            <td>{{render_input_bool(spiderbot.spiderbotid, 'active', spiderbot.active)}}</td>
+            <td>{{render_input_text(spiderbot.spiderbotid, 'searchterm', spiderbot.searchterm if spiderbot.searchterm else '')}}</td>
+            <td>{{render_input_text(spiderbot.spiderbotid, 'fullink', spiderbot.fullink if spiderbot.fullink else '')}}</td>
 
-            <input type="text" name="{{ spiderbot.crawlerid }}_{{ dummy }}" value="dummy" hidden="true"/>
+            <input type="text" name="{{ spiderbot.spiderbotid }}_{{ dummy }}" value="dummy" hidden="true"/>
           </tr>
         {% endfor %}
     </table>

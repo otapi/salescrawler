@@ -113,8 +113,8 @@ def spiderbot_update():
                 elif 'save_button' in request.form:
                     spiderbot = models.Spiderbot.query.filter_by(spiderbotid=id).first()
                     spiderbot.active = True if ("active" in values and values["active"] == "on") else False
-                    spiderbot.searchterm = None if values["searchterm"] == "" else values["searchterm"]
-                    spiderbot.fullink = None if values["fullink"] == "" else values["fullink"]
+                    spiderbot.searchterm = None if values["searchterm"] == "" or values["searchterm"] == "None" else values["searchterm"]
+                    spiderbot.fullink = None if values["fullink"] == "" or values["fullink"] == "None" else values["fullink"]
         db.session.commit()
     return redirect('/')
 
