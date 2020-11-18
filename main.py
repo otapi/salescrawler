@@ -40,13 +40,14 @@ def index_engine():
         return redirect(url_for('index'))
 
     crawlers = models.Crawler.query.order_by(models.Crawler.name).all()
+    spiderbots = models.Spiderbot.query.order_by(models.Spiderbot.spiderbotid).all()
 
     if hidematches:
         matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price)
     else:
         matches = models.Match.query.order_by(models.Match.price).all()
     
-    return render_template('main.html', matches=matches, crawlers=crawlers) 
+    return render_template('main.html', matches=matches, crawlers=crawlers, spiderbots=spiderbots) 
 
 @app.route('/match-update', methods=['GET', 'POST'])
 def match_update():

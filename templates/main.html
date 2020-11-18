@@ -36,6 +36,42 @@
 
   </form>
 
+  <h2>Spiderbots</h2>
+  <form action="{{ url_for('.new_spiderbot') }}" method="post">
+    <button type="submit" name="from_main">Add new spiderbot</button>
+  </form>
+  <form action="/spiderbot-update" method="post">
+    <table class="sortable">
+      <tr>
+        <th>Selected</th>
+        <th>Crawler</th>
+        <th>Spider</th>
+        <th>Active</th>
+        <th>Search Term</th>
+        <th>Full Link</th>
+      </tr>
+
+        {% for spiderbot in spiderbots %}
+          <tr>
+            <td>{{render_input_bool(spiderbot.spiderbotid, 'selected', False)}}</td>
+            <td>{{ spiderbot.crawler }}</td>
+            <td>{{ spiderbot.spider }}</td>
+            <td>{{render_input_bool(spiderbot.crawlerid, 'active', spiderbot.active)}}</td>
+            <td>{{render_input_text(spiderbot.crawlerid, 'searchterm', spiderbot.searchterm)}}</td>
+            <td>{{render_input_text(spiderbot.crawlerid, 'fullink', spiderbot.fullink)}}</td>
+
+            <input type="text" name="{{ spiderbot.crawlerid }}_{{ dummy }}" value="dummy" hidden="true"/>
+          </tr>
+        {% endfor %}
+    </table>
+    <input type="submit" name="save_button" value="Save changes"/>
+    <input type="submit" name="delete_button" value="Delete selected"/>
+    <input type="submit" name="filter_button" value="Filter to selected"/>
+
+  </form>
+
+
+
   <h2>Matches</h2>
   <form action="/match-update" method="post">
     <table class="sortable">
