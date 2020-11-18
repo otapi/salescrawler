@@ -52,7 +52,7 @@ def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
     spiderbot = models.Spiderbot.query.filter_by(spiderbotid=spiderbotid).first()
     maxprice = spiderbot.crawler.maxprice
     if maxprice:
-        for match in models.Match.filter_by(spiderbotid=spiderbotid).filter_by(hide=False).all():
+        for match in models.Match.query.filter_by(spiderbotid=spiderbotid).filter_by(hide=False).all():
             if match.price > maxprice:
                 match.hide = True
         db.session.commit()
