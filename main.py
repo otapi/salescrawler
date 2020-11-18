@@ -87,7 +87,7 @@ def crawler_update():
                     crawler.runcadence = float(values["runcadence"])
         db.session.commit()
         if len(spiderbotids)>0:
-            return redirect(url_for(index_filtered, spiderbotids))
+            return redirect(url_for(index_filtered, spiderbotids=spiderbotids))
 
     return redirect('/')
 
