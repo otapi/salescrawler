@@ -55,7 +55,8 @@ def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
         for match in models.Match.query.filter_by(spiderbotid=spiderbotid).filter_by(hide=False).all():
             if match.price > maxprice:
                 match.hide = True
-        db.session.commit()
+                db.session.commit()
+        
         click.echo(f'Some matches were autohidden due higher price than set in the crawler.')
 
 def movetree(root_src_dir, root_target_dir):
