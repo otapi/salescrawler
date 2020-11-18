@@ -47,13 +47,13 @@ def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
     
     os.chdir(os.path.join(Path.home(),'salescrawler'))
     os.system(f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)}")
+    db.session.commit()
     
     # autohide if overpriced
     spiderbot = models.Spiderbot.query.filter_by(spiderbotid=spiderbotid).first()
     maxprice = spiderbot.crawler.maxprice
     if maxprice:
         found = False
-        db.session.commit()
         for match in models.Match.query.filter_by(spiderbotid=spiderbotid).filter_by(hide=False).all():
             if match.price > maxprice:
                 match.hide = True
