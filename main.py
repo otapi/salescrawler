@@ -68,7 +68,7 @@ def crawler_update():
             id = int(ids) if ids.isnumeric() else None
             if id:  
                 if selected:          
-                    if 'spiderbot_button' in request.form:
+                    if 'spiderbots_button' in request.form:
                         return redirect(url_for('spiderbots', crawlerid=id))
                     if 'delete_button' in request.form:
                         flash('Delete crawler...')
