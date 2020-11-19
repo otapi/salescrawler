@@ -40,7 +40,7 @@ class Jofogas(scrapy.Spider):
                     url = response.urljoin(link.xpath("@href").get()),
                     price = Helpers.getNumber(item.xpath(".//span[@class='price-value']/@content").get()),
                     currency = Helpers.getCurrency(item.xpath(".//span[@class='currency']/text()").get()),
-                    location = Helpers.getString(item.xpath(".//section[@class='reLiSection cityname']/text()").get()),
+                    location = Helpers.getString(item.xpath(".//section[@class='reLiSection cityname ']/text()").get()),
 
                     spiderbotid = self.spiderbotid,
                     extraid = None
