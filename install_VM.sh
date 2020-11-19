@@ -49,3 +49,12 @@ echo Copy and Run SQL query generated from 'SQLdb.vuerd.json' to create database
 echo start with 'USE salescrawler;'
 mysql -u salescrawler -p
 
+echo VPN setup
+echo see https://protonvpn.com/support/linux-vpn-tool/
+sudo apt install -y openvpn dialog python3-pip python3-setuptools
+sudo pip3 install protonvpn-cli
+sudo protonvpn init
+
+echo VPN connect:
+sudo protonvpn c -f
+
