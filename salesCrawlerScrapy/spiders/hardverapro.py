@@ -42,9 +42,8 @@ class Hardverapro(scrapy.Spider):
             )
 
         next_page = response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get()
-        if next_page:
-            if self.scrapedpages<self.maxpages:
-                self.scrapedpages += 1
-                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages})")
-                yield response.follow(next_page, self.parse)
+        if next_page and self.scrapedpages<self.maxpages:
+            self.scrapedpages += 1
+            logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages})")
+            yield response.follow(next_page, self.parse)
         

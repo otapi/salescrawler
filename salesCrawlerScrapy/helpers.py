@@ -10,12 +10,17 @@ class Helpers:
            150132.0
            >>> Helpers.getNumber("- Ft")
            0.0
+           >>> Helpers.getNumber(None)
+           0.0
         """
-        s = re.sub(r"[^\d]", "", pattern)
-        if s == "":
-            return 0.0
+        if pattern:
+            s = re.sub(r"[^\d]", "", pattern)
+            if s == "":
+                return 0.0
+            else:
+                return float(s)
         else:
-            return float(s)
+            return 0.0
 
     @staticmethod
     def getLetters(pattern):
@@ -28,17 +33,25 @@ class Helpers:
            'Ft'
            >>> Helpers.getLetters("150 132")
            ''
+           >>> Helpers.getLetters(None)
+           ''
         """
-        s = re.sub(r"[\d-]", "", pattern)
-        s = s.replace("&nbsp;", " ")
-        return s.strip()
+        if pattern:
+            s = re.sub(r"[\d-]", "", pattern)
+            s = s.replace("&nbsp;", " ")
+            return s.strip()
+        else:
+            ""
 
     @staticmethod
     def getString(text):
         """Strip text
         """
-        s = text.replace("&nbsp;", " ")
-        return s.strip()
+        if text:
+            s = text.replace("&nbsp;", " ")
+            return s.strip()
+        else:
+            return ""
 
     # Keys should be in lower case
     currencies = {
@@ -63,17 +76,18 @@ class Helpers:
            'EUR'
            >>> Helpers.getCurrency("$150")
            'USD'
+           >>> Helpers.getCurrency("None")
+           'HUF'
         """
-
-        text = Helpers.getLetters(pattern).lower()
-        for curr in Helpers.currencies:
-            if text == curr:
-                return Helpers.currencies[curr]
-        
-        for curr in Helpers.currencies:
-            if curr in text:
-                return Helpers.currencies[curr]
-        
+        if pattern:
+            text = Helpers.getLetters(pattern).lower()
+            for curr in Helpers.currencies:
+                if text == curr:
+                    return Helpers.currencies[curr]
+            
+            for curr in Helpers.currencies:
+                if curr in text:
+                    return Helpers.currencies[curr]
         return 'HUF'
 
     @staticmethod
