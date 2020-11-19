@@ -10,7 +10,7 @@
 BOT_NAME = 'salesCrawlerScrapy'
 
 # CRITICAL, ERROR, WARNING, INFO, DEBUG
-LOG_LEVEL = 'ERROR'
+LOG_LEVEL = 'DEBUG'
 
 SPIDER_MODULES = ['salesCrawlerScrapy.spiders']
 NEWSPIDER_MODULE = 'salesCrawlerScrapy.spiders'
