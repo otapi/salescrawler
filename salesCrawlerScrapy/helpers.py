@@ -33,6 +33,13 @@ class Helpers:
         s = s.replace("&nbsp;", " ")
         return s.strip()
 
+    @staticmethod
+    def getString(text):
+        """Strip text
+        """
+        s = text.replace("&nbsp;", " ")
+        return s.strip()
+
     # Keys should be in lower case
     currencies = {
         'ingyenes': 'HUF',

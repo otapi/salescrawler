@@ -26,18 +26,21 @@ class Jofogas(scrapy.Spider):
     
     def parse(self, response):
         logging.debug(f"Parse started")
+        itemcount = 0
         for item in response.xpath("//div//div[@class='contentArea']"):
-            logging.debug(f"Parsing item")
+            itemcount += 1
+            logging.debug(f"Parsing item {itemcount}")
+            
             link = item.xpath(".//h3[@class='item-title']/a")
             if len(item.xpath(".//div[contains(text(),'Kiszállítás folyamatban')]").getall()) == 0:
                 yield ProductItem(
-                    title = link.xpath("text()").get(),
+                    title = Helpers.getString(link.xpath("text()").get()),
                     seller = None,
-                    image_urls = Helpers.imageUrl(response, item.xpath(".//picture/img/@src").get()),
+                    image_urls = Helpers.imageUrl(response, item.xpath(".//meta[@itemprop='image']/@content").get()),
                     url = response.urljoin(link.xpath("@href").get()),
-                    price = Helpers.getNumber(item.xpath(".//h3[@class='item-price']/text()").get()),
+                    price = Helpers.getNumber(item.xpath(".//span[@class='price-value']/@content").get()),
                     currency = Helpers.getCurrency(item.xpath(".//span[@class='currency']/text()").get()),
-                    location = item.xpath(".//section[@class='reLiSection cityname']/text()").get(),
+                    location = Helpers.getString(item.xpath(".//section[@class='reLiSection cityname']/text()").get()),
 
                     spiderbotid = self.spiderbotid,
                     extraid = None

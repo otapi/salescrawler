@@ -29,13 +29,14 @@ class Hardverapro(scrapy.Spider):
         for item in response.xpath("//li[@class='media']"):
             logging.debug(f"Parsing item")
             yield ProductItem(
-                title = item.xpath(".//h1/a/text()").get(),
-                seller = item.xpath(".//div[@class='uad-misc']/div/a/text()").get(),
+                title = Helpers.getString(item.xpath(".//h1/a/text()").get()),
+                seller = Helpers.getString(item.xpath(".//div[@class='uad-misc']/div/a/text()").get()),
                 image_urls = Helpers.imageUrl(response, item.xpath("./a/img/@src").get()),
                 url = response.urljoin(item.xpath(".//h1/a/@href").get()),
                 price = Helpers.getNumber(item.xpath(".//div[@class='uad-info']/div[@class='uad-price']/text()").get()),
                 currency = 'HUF',
-                location = item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get(),
+                location = Helpers.getString(item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get()),
+
                 spiderbotid = self.spiderbotid,
                 extraid = None
             )
