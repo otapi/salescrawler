@@ -55,6 +55,7 @@
       <tr>
         <th><input type="checkbox" onclick="toggle(this, '_hide');" /><br/>Hide</th>
         <th>Crawler</th>
+        <th>Spider</th>
         <th>Image</th>
         <th>Title</th>
         <th>Price</th>
@@ -66,6 +67,7 @@
           <tr>
             <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
             <td>{{match.spiderbot.crawler.name}}</td>
+            <td>{{match.spiderbot.spider}}</td>
             <td><img src="/static{{match.image}}" loading="lazy" alt="..." width="150"></td>
             <td><a href="{{match.url}}">{{match.title}}</a></td>
             <td>{{ '{:,}'.format(match.price) if match.price else None }}</td>
