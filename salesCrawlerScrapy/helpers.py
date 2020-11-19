@@ -77,7 +77,7 @@ class Helpers:
             else:
                 return [imgurl]
         else:
-            return None
+            return []
 
 if __name__ == '__main__':
     import doctest
