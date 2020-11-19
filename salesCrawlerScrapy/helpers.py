@@ -69,6 +69,16 @@ class Helpers:
         
         return 'HUF'
 
+    @staticmethod
+    def imageUrl(response, imgurl):
+        if imgurl:
+            if response:
+                return [response.urljoin(imgurl)]
+            else:
+                return [imgurl]
+        else:
+            return None
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()

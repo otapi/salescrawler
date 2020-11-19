@@ -33,7 +33,7 @@ class Jofogas(scrapy.Spider):
                 yield ProductItem(
                     title = link.xpath("text()").get(),
                     seller = None,
-                    image_urls = [item.xpath(".//picture/img/@src").get()],
+                    image_urls = Helpers.imageUrl(response, item.xpath(".//picture/img/@src").get()),
                     url = response.urljoin(link.xpath("@href").get()),
                     price = Helpers.getNumber(item.xpath(".//h3[@class='item-price']/text()").get()),
                     currency = Helpers.getCurrency(item.xpath(".//span[@class='currency']/text()").get()),
