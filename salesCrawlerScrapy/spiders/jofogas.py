@@ -28,7 +28,7 @@ class Jofogas(scrapy.Spider):
         logging.debug(f"Parse started")
         for item in response.xpath("//div//div[@class='contentArea']"):
             logging.debug(f"Parsing item")
-            link = item.xpath(".//h3[@class='item-title']/a").get()
+            link = item.xpath(".//h3[@class='item-title']/a")
             if len(item.xpath(".//div[contains(text(),'Kiszállítás folyamatban')]").getall()) == 0:
                 yield ProductItem(
                     title = link.xpath("text()").get(),
