@@ -21,7 +21,7 @@ class Hardverapro(scrapy.Spider):
         else: 
             self.spiderbotid = spiderbotid
         
-        self.maxpages=15
+        self.maxpages=maxpages
         self.scrapedpages=0
     
     def parse(self, response):
@@ -45,5 +45,5 @@ class Hardverapro(scrapy.Spider):
             if self.scrapedpages<self.maxpages:
                 self.scrapedpages += 1
                 logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages})")
-                yield response.follow(response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get(), self.parse)
+                yield response.follow(next_page, self.parse)
         

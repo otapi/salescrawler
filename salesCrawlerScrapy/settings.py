@@ -17,8 +17,7 @@ NEWSPIDER_MODULE = 'salesCrawlerScrapy.spiders'
 
 SPIDERS = [
     ('hardverapro','hardverapro'),
-    ('second','second'),
-    ('third','third')
+    ('jofogas','jofogas')
         ]
 
 IMAGES_STORE = 'static/ImagesStore'
