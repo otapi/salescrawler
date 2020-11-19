@@ -2,6 +2,7 @@ import scrapy
 
 from salesCrawlerScrapy.helpers import Helpers
 from salesCrawlerScrapy.items import ProductItem
+import logging
 
 class Hardverapro(scrapy.Spider):
     name = 'hardverapro'
@@ -11,6 +12,7 @@ class Hardverapro(scrapy.Spider):
         super(Hardverapro, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [Hardverapro.url_for_searchterm.format(searchterm=searchterm)]
+            logging.debug(f"Start url is: {self.start_urls}")
         if fullink:
             self.start_urls = [f'{fullink}']
 
@@ -23,7 +25,9 @@ class Hardverapro(scrapy.Spider):
         self.scrapedpages=0
     
     def parse(self, response):
+        logging.debug(f"Parse started")
         for item in response.xpath("//li[@class='media']"):
+            logging.debug(f"Parsing item")
             yield ProductItem(
                 title = item.xpath(".//h1/a/text()").get(),
                 seller = item.xpath(".//div[@class='uad-misc']/div/a/text()").get(),
@@ -40,5 +44,6 @@ class Hardverapro(scrapy.Spider):
         if next_page:
             if self.scrapedpages<self.maxpages:
                 self.scrapedpages += 1
+                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages})")
                 yield response.follow(response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get(), self.parse)
         
