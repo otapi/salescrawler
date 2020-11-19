@@ -38,12 +38,12 @@ class Jofogas(scrapy.Spider):
                     seller = None,
                     image_urls = Helpers.imageUrl(response, item.xpath(".//meta[@itemprop='image']/@content").get()),
                     url = response.urljoin(link.xpath("@href").get()),
+                    extraid = link.xpath("@href").get(),
                     price = Helpers.getNumber(item.xpath(".//span[@class='price-value']/@content").get()),
                     currency = Helpers.getCurrency(item.xpath(".//span[@class='currency']/text()").get()),
                     location = Helpers.getString(item.xpath(".//section[@class='reLiSection cityname ']/text()").get()),
 
-                    spiderbotid = self.spiderbotid,
-                    extraid = None
+                    spiderbotid = self.spiderbotid
                 )
 
         next_page = response.xpath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']/@href").get()

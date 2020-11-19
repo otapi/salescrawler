@@ -33,12 +33,12 @@ class Hardverapro(scrapy.Spider):
                 seller = Helpers.getString(item.xpath(".//div[@class='uad-misc']/div/a/text()").get()),
                 image_urls = Helpers.imageUrl(response, item.xpath("./a/img/@src").get()),
                 url = response.urljoin(item.xpath(".//h1/a/@href").get()),
+                extraid = item.xpath(".//h1/a/@href").get(),
                 price = Helpers.getNumber(item.xpath(".//div[@class='uad-info']/div[@class='uad-price']/text()").get()),
                 currency = 'HUF',
                 location = Helpers.getString(item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get()),
 
-                spiderbotid = self.spiderbotid,
-                extraid = None
+                spiderbotid = self.spiderbotid
             )
 
         next_page = response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get()
