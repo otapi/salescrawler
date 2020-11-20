@@ -24,6 +24,6 @@ table.sortable thead {
     cursor: default;
 }
 
-select{
+select {
   overflow:auto;
 }
