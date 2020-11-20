@@ -5,8 +5,8 @@ class SpiderbotForm(Form):
     spiders = SelectMultipleField('Select spiders:', choices=sclogic.getSpidersChoices())
     searchterm = StringField('Search term:')
     fullink = StringField('Fullink:')
-    minprice = DecimalField('Minimum price:')
-    maxprice = DecimalField('Maximum price:')
+    minprice = StringField('Minimum price:')
+    maxprice = StringField('Maximum price:')
 
 class CrawlerForm(Form):
     name = StringField('Name:')

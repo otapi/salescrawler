@@ -119,13 +119,22 @@ def new_spiderbots(crawlerid):
     crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     
     form = forms.SpiderbotForm(request.form)
-    form.maxprice.data = crawler.maxprice
+    if crawler.maxprice:
+        form.maxprice.data = str(crawler.maxprice)
 
     if request.method == 'POST' and form.validate():
         if not ('from_spiderbots' in request.form):
             flash('Create spiders...')
             for spider in form.spiders.data:
-                sclogic.spiderbotAdd(spider, crawlerid, form.searchterm.data, form.fullink.data, form.minprice.data, form.maxprice.data)
+                if form.minprice.data and form.minprice.data =="":
+                    minprice = None
+                else:
+                    minprice = float(form.minprice.data)
+                if form.maxprice.data and form.maxprice.data =="":
+                    maxprice = None
+                else:
+                    maxprice = float(form.maxprice.data)
+                sclogic.spiderbotAdd(spider, crawlerid, form.searchterm.data, form.fullink.data, minprice, maxprice)
             flash('Spiders created successfully!')
             return redirect(url_for('spiderbots', crawlerid=crawlerid))
   
@@ -150,6 +159,8 @@ def spiderbot_update(crawlerid):
                     spiderbot.active = True if ("active" in values and values["active"] == "on") else False
                     spiderbot.searchterm = None if values["searchterm"] == "" or values["searchterm"] == "None" else values["searchterm"]
                     spiderbot.fullink = None if values["fullink"] == "" or values["fullink"] == "None" else values["fullink"]
+                    spiderbot.minprice = float(values["minprice"]) if values["minprice"] and values["minprice"] != '' and float(values["minprice"]) !=0 else None
+                    spiderbot.maxprice = float(values["maxprice"]) if values["maxprice"] and values["maxprice"] != '' and float(values["maxprice"]) !=0 else None
         db.session.commit()
     return redirect(url_for('spiderbots', crawlerid=crawlerid))
 
