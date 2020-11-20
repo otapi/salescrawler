@@ -4,3 +4,14 @@
 # your spiders.
 from .hardverapro import Hardverapro
 from .jofogas import Jofogas
+
+from .bikemag import Bikemag
+from .testbikebolha import Testbikebolha
+from .teszvesz import Teszvesz
+from .vatera import Vatera
+
+from .aprohirdetescom import Aprohirdetescom
+from .aprohirdetesingyenhu import Aprohirdetesingyenhu
+from .ingyenbazar import Ingyenbazar
+from .maxapro import Maxapro
+
