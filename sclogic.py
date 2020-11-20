@@ -7,6 +7,7 @@ import datetime
 import urllib.parse
 
 from salesCrawlerScrapy import spiders
+from salesCrawlerScrapy.helpers import Helpers
 import inspect
 
 from app import db
@@ -35,12 +36,12 @@ def runCrawler(crawlerid):
         click.echo(f"Run spiderbot: {spiderbot.spiderbotid}")
         click.echo(f"   searchterm: {spiderbot.searchterm}")
         click.echo(f"      Fullink: {spiderbot.fullink}")
-        runSpider(spider = spiderbot.spider, searchterm = spiderbot.searchterm, fullink = spiderbot.fullink, spiderbotid = spiderbot.spiderbotid)
+        runSpider(spider = spiderbot.spider, searchterm = spiderbot.searchterm, fullink = spiderbot.fullink, spiderbotid = spiderbot.spiderbotid, minprice=spiderbot.minprice, maxprice=spiderbot.maxprice)
     cr = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     cr.lastrun = datetime.datetime.now()
     db.session.commit()
 
-def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
+def runSpider(spider, spiderbotid, searchterm, fullink, minprice, maxprice):
     """Run a SPIDER owned by spiderbotid"""
     click.echo(f'Run spider: {spider} of spiderbot {str(spiderbotid)}')
     if searchterm:
@@ -48,8 +49,14 @@ def runSpider(spider, searchterm = None, fullink = None, spiderbotid = -1):
     else:
         search=f"fullink={urllib.parse.quote(fullink)}"
     
+    plus = ""
+    if minprice:
+        plus = f" -a minprice={str(minprice)}"
+    if maxprice:
+        plus += f" -a maxprice={str(maxprice)}"
+    
     os.chdir(os.path.join(Path.home(),'salescrawler'))
-    os.system(f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)}")
+    os.system(f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)}{plus}")
     db.session.commit()
     
     # autohide if overpriced
@@ -135,7 +142,7 @@ def crawlerDelete(crawlerid):
 # ------------------
 # Spiderbot commands
 # ------------------
-def spiderbotAdd(spider, crawlerid, searchterm, fullink):
+def spiderbotAdd(spider, crawlerid, searchterm, fullink, minprice, maxprice):
     """Add a new spiderbot of SPIDER to crawler of crawlerid and return it's ID. Either searchterm or fullink should be specified."""
     
     # call as:
@@ -159,9 +166,11 @@ def spiderbotAdd(spider, crawlerid, searchterm, fullink):
     sb.crawlerid = int(crawlerid)
     sb.searchterm = searchterm
     sb.fullink = fullink
+    sb.minprice = minprice
+    sb.maxprice = maxprice
 
     if searchterm:
-        sb.fullinkref = getSpiders()[sb.spider].url_for_searchterm.format(searchterm=searchterm)
+        sb.fullinkref = getSpiders()[sb.spider].url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)
     
     db.session.add(sb)
     db.session.commit()

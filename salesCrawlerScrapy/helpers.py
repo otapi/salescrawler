@@ -1,6 +1,7 @@
 import re
 
 class Helpers:
+    MAXPRICE = 999999   
     @staticmethod
     def getNumber(pattern):
         """Convert price text to number. Ignores any decimals.

@@ -116,16 +116,19 @@ def spiderbots(crawlerid):
 
 @app.route('/new-spiderbots/<crawlerid>', methods=['GET', 'POST'])
 def new_spiderbots(crawlerid):
+    crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
+    
     form = forms.SpiderbotForm(request.form)
+    form.maxprice.data = crawler.maxprice
+
     if request.method == 'POST' and form.validate():
         if not ('from_spiderbots' in request.form):
             flash('Create spiders...')
             for spider in form.spiders.data:
-                sclogic.spiderbotAdd(spider, crawlerid, form.searchterm.data, form.fullink.data)
+                sclogic.spiderbotAdd(spider, crawlerid, form.searchterm.data, form.fullink.data, form.minprice.data, form.maxprice.data)
             flash('Spiders created successfully!')
             return redirect(url_for('spiderbots', crawlerid=crawlerid))
-
-    crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
+  
     return render_template('new_spiderbot.html', form=form, crawler = crawler)
 
 

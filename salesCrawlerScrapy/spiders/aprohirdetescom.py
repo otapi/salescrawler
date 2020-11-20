@@ -8,10 +8,10 @@ class Aprohidetescom(scrapy.Spider):
     name = 'aprohidetescom'
     url_for_searchterm = 'https://www.jofogas.hu/magyarorszag?f=a&q={searchterm}&sp=1'
                           
-    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, *args, **kwargs):
+    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Aprohidetescom, self).__init__(*args, **kwargs)
         if searchterm:
-            self.start_urls = [Aprohidetescom.url_for_searchterm.format(searchterm=searchterm)]
+            self.start_urls = [Aprohidetescom.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
             
         if fullink:
             self.start_urls = [f'{fullink}']

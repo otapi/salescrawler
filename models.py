@@ -32,6 +32,11 @@ class Spiderbot(db.Model):
     spider = db.Column(db.String)
     # Should it run?
     active = db.Column(db.Boolean, default=True)
+    # minprice
+    minprice = db.Column(db.Float)
+    # maxprice
+    maxprice = db.Column(db.Float)
+
     # foreign key to crawler
     crawlerid = db.Column(db.Integer, db.ForeignKey("crawlers.crawlerid"))
     crawler = db.relationship("Crawler", backref=db.backref(

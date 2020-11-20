@@ -17,6 +17,8 @@
         <th>Search Term</th>
         <th>Full Link</th>
         <th>Reference Link</th>
+        <th>Minimum Price</th>
+        <th>Maximum Price</th>
       </tr>
 
         {% for spiderbot in spiderbots %}
@@ -27,6 +29,8 @@
             <td>{{render_input_text(spiderbot.spiderbotid, 'searchterm', spiderbot.searchterm if spiderbot.searchterm else '')}}</td>
             <td>{{render_input_text(spiderbot.spiderbotid, 'fullink', spiderbot.fullink if spiderbot.fullink else '')}}</td>
             <td><a href='{{ spiderbot.fullinkref }}'>Link</a></td>
+            <td>{{render_input_number(spiderbot.spiderbotid, 'minprice', spiderbot.minprice)}}</td>
+            <td>{{render_input_number(spiderbot.spiderbotid, 'maxprice', spiderbot.maxprice)}}</td>
 
             <input type="text" name="{{ spiderbot.spiderbotid }}_{{ dummy }}" value="dummy" hidden="true"/>
           </tr>
