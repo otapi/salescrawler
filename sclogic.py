@@ -101,7 +101,7 @@ def getSpiders():
     ret = {}
     for name, obj in inspect.getmembers(spiders):
         if inspect.isclass(obj):
-            ret['obj.name'] = obj
+            ret[obj.name] = obj
     return ret
 
 def getSpidersChoices():
