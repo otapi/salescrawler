@@ -12,9 +12,9 @@ class Hardverapro(scrapy.Spider):
         super(Hardverapro, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [Hardverapro.url_for_searchterm.format(searchterm=searchterm)]
-            logging.debug(f"Start url is: {self.start_urls}")
         if fullink:
             self.start_urls = [f'{fullink}']
+        logging.debug(f"Start url is: {self.start_urls}")
 
         if type(spiderbotid) == str:
             self.spiderbotid = int(spiderbotid)
