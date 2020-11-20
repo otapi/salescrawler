@@ -2,9 +2,12 @@ import click
 import os
 import shutil
 from pathlib import Path
-from salesCrawlerScrapy.settings import SPIDERS, IMAGES_STORE
+from salesCrawlerScrapy.settings import IMAGES_STORE
 import datetime
 import urllib.parse
+
+from salesCrawlerScrapy import spiders
+import inspect
 
 from app import db
 import models
@@ -94,10 +97,12 @@ def update():
     movetree(target_dir, source_dir)
 
 def getSpiders():
-    """List available spiders"""
-    click.echo('Available spiders:')
-    click.echo(SPIDERS)
-    return SPIDERS
+    """Dict of available spiders"""
+    ret = {}
+    for name, obj in inspect.getmembers(spiders):
+        if inspect.isclass(obj):
+            ret = ret + {obj.name, obj}
+    return ret
 
 # ----------------
 # Crawler commands
@@ -146,6 +151,9 @@ def spiderbotAdd(spider, crawlerid, searchterm, fullink):
     sb.crawlerid = int(crawlerid)
     sb.searchterm = searchterm
     sb.fullink = fullink
+
+    if searchterm:
+        sb.fullinkref = getSpiders()[sb.spider].url_for_searchterm.format(searchterm=searchterm)
     
     db.session.add(sb)
     db.session.commit()

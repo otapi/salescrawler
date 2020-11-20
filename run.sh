@@ -24,3 +24,6 @@ scrapy crawl hardverapro -a fullink=https://hardverapro.hu/aprok/keres.php?stext
 read -p "Press any key to resume ..."
 run.sh
 
+echo VPN connect:
+sudo protonvpn c -f
+

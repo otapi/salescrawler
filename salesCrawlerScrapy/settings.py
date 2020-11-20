@@ -15,11 +15,6 @@ LOG_LEVEL = 'DEBUG'
 SPIDER_MODULES = ['salesCrawlerScrapy.spiders']
 NEWSPIDER_MODULE = 'salesCrawlerScrapy.spiders'
 
-SPIDERS = [
-    ('hardverapro','hardverapro'),
-    ('jofogas','jofogas')
-        ]
-
 IMAGES_STORE = 'static/ImagesStore'
 
 DB_SETTINGS = {

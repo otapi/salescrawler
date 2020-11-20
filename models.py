@@ -26,6 +26,8 @@ class Spiderbot(db.Model):
     searchterm = db.Column(db.String)
     # Full url for search (instead of searchterm)
     fullink = db.Column(db.String)
+    # Calculated reference full url for search (instead of searchterm)
+    fullinkref = db.Column(db.String)
     # Name of the spider
     spider = db.Column(db.String)
     # Should it run?
