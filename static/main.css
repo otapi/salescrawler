@@ -22,4 +22,8 @@ table.sortable thead {
     color:#666666;
     font-weight: bold;
     cursor: default;
-}    
+}
+
+select{
+  overflow:auto;
+}
