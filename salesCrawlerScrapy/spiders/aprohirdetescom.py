@@ -3,7 +3,7 @@ import scrapy
 from salesCrawlerScrapy.helpers import Helpers
 from salesCrawlerScrapy.items import ProductItem
 import logging
-
+#as
 class Aprohirdetescom(scrapy.Spider):
     name = 'aprohirdetescom'
     url_for_searchterm = 'https://www.jofogas.hu/magyarorszag?f=a&q={searchterm}&sp=1'
