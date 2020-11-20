@@ -97,7 +97,6 @@ def update():
 
     click.echo('Get from github...')
     shutil.rmtree(os.path.join(Path.home(),'salescrawler'))
-    input("waiting...")
     os.chdir(Path.home())
     os.system('git clone git@github.com:otapi/salescrawler.git')
 
