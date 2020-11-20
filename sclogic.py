@@ -104,6 +104,13 @@ def getSpiders():
             ret['obj.name'] = obj
     return ret
 
+def getSpidersChoices():
+    """Dict of available spiders"""
+    ret = []
+    for spidername in getSpiders().keys():
+        ret += (spidername, spidername)
+    return ret
+
 # ----------------
 # Crawler commands
 # ----------------

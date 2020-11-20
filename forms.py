@@ -2,7 +2,7 @@ from wtforms import Form, StringField, SelectMultipleField, DecimalField, Boolea
 import sclogic
 
 class SpiderbotForm(Form):
-    spiders = SelectMultipleField('Select spiders:', choices=sclogic.getSpiders().keys())
+    spiders = SelectMultipleField('Select spiders:', choices=sclogic.getSpidersChoices())
     searchterm = StringField('Search Term:')
     fullink = StringField('Fullink:')
 
