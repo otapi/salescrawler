@@ -108,7 +108,8 @@ def getSpidersChoices():
     """Dict of available spiders"""
     ret = []
     for spidername in getSpiders().keys():
-        ret += (spidername, spidername)
+        c = (spidername, spidername)
+        ret.append(c)
     return ret
 
 # ----------------
