@@ -54,6 +54,7 @@
     <table class="sortable">
       <tr>
         <th><input type="checkbox" onclick="toggle(this, '_hide');" /><br/>Hide</th>
+        <th>Saved</th>
         <th>Crawler</th>
         <th>Spider</th>
         <th>Image</th>
@@ -67,6 +68,7 @@
         {% for match in matches %}
           <tr>
             <td>{{render_input_bool(match.matchid, 'hide', match.hide)}}</td>
+            <td>{{render_input_bool(match.matchid, 'saved', match.saved)}}</td>
             <td>{{match.spiderbot.crawler.name}}</td>
             <td>{{match.spiderbot.spider}}</td>
             <td><img src="/static{{match.image}}" loading="lazy" alt="..." width="150"></td>

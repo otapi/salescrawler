@@ -19,21 +19,23 @@ def index_filtered(spiderbotids):
 def index_all():
     return index_engine(hidematches = False)
 
-def index_engine(hidematches = True, spiderbotids = None):
+@app.route('/saved', methods=['GET', 'POST'])
+def index_saved():
+    return index_engine(hidematches = False, onlysaved = False)
+
+def index_engine(hidematches = True, onlysaved = False, spiderbotids = None):
     if "run" in request.args:
         flash('run...')
         sclogic.runall()
         flash('run finished!')
-    elif "update" in request.args:
-        flash('update...')
-        sclogic.update()
-        flash('updated!')
     elif "clear" in request.args:
         flash('update...')
         sclogic.clear()
         flash('updated!')
     elif "showall" in request.args:
         return redirect(url_for('index_all'))
+    elif "showsaved" in request.args:
+        return redirect(url_for('index_saved'))
     elif "refresh" in request.args:
         return redirect(url_for('index'))
 
@@ -51,9 +53,15 @@ def index_engine(hidematches = True, spiderbotids = None):
 
     else:
         if hidematches:
-            matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price)
+            if onlysaved:
+                matches = models.Match.query.filter_by(hide=False, saved=True).order_by(models.Match.price).all()
+            else:
+                matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price).all()
         else:
-            matches = models.Match.query.order_by(models.Match.price).all()
+            if onlysaved:
+                matches = models.Match.query.filter_by(saved=True).order_by(models.Match.price).all()
+            else:
+                matches = models.Match.query.order_by(models.Match.price).all()
         
     return render_template('main.html', matches=matches, crawlers=crawlers) 
 
@@ -64,6 +72,7 @@ def match_update():
         for k, v in postvars.items():
             match = models.Match.query.filter_by(matchid=int(k)).first()
             match.hide = True if ("hide" in v and v["hide"] == "on") else False
+            match.saved = True if ("saved" in v and v["saved"] == "on") else False
         db.session.commit()
     return redirect('/')
 
