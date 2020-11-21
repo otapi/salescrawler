@@ -34,7 +34,7 @@ class Vatera(scrapy.Spider):
             
             location = item.xpath(".//div[contains(text(),'Termék helye:')]/text()").get()
             if location:
-                Helpers.getString(location = location.replace("Termék helye:", ""))
+                location = Helpers.getString(location.replace("Termék helye:", ""))
 
             yield ProductItem(
                 title = item.xpath("@data-gtm-name").get(),
