@@ -135,7 +135,7 @@ def new_spiderbots(crawlerid):
             flash('Create spiders...')
             for spider in form.spiders.data:
                 minprice = float(form.minprice.data) if isfloat(form.minprice.data) and float(form.minprice.data) !=0 else None
-                maxprice = float(form.maxprice.data) if isfloat(form.maxrice.data) and float(form.maxprice.data) !=0 else None
+                maxprice = float(form.maxprice.data) if isfloat(form.maxprice.data) and float(form.maxprice.data) !=0 else None
                 sclogic.spiderbotAdd(spider, crawlerid, form.searchterm.data, form.fullink.data, minprice, maxprice)
             flash('Spiders created successfully!')
             return redirect(url_for('spiderbots', crawlerid=crawlerid))
