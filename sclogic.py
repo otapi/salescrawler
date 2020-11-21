@@ -7,8 +7,8 @@ import datetime
 import urllib.parse
 
 from salesCrawlerScrapy import spiders
-from salesCrawlerScrapy.helpers import Helpers
 import inspect
+import logging
 
 from app import db
 import models
@@ -144,7 +144,7 @@ def crawlerDelete(crawlerid):
 # ------------------
 def spiderbotAdd(spider, crawlerid, searchterm, fullink, minprice, maxprice):
     """Add a new spiderbot of SPIDER to crawler of crawlerid and return it's ID. Either searchterm or fullink should be specified."""
-    
+    logging.debug(f"Add spider {spider}")
     # call as:
     #   sc-cli.py spiderbotadd hardverapro 3 -f"testlink"
     #   sc-cli.py spiderbotadd hardverapro 3 -s"RX470"
