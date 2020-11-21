@@ -6,8 +6,8 @@ import logging
 
 class Jofogas(scrapy.Spider):
     name = 'jofogas'
-    url_for_searchterm = 'https://www.jofogas.hu/magyarorszag?f=a&q={searchterm}&sp=1'
-                          
+    url_for_searchterm = 'https://www.jofogas.hu/magyarorszag?f=a&max_price={maxprice}&min_price={minprice}&q={searchterm}&sp=1'
+
     def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Jofogas, self).__init__(*args, **kwargs)
         if searchterm:

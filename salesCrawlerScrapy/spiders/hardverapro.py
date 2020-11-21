@@ -6,7 +6,7 @@ import logging
 
 class Hardverapro(scrapy.Spider):
     name = 'hardverapro'
-    url_for_searchterm = 'https://hardverapro.hu/aprok/keres.php?stext={searchterm}&county=&stcid=&settlement=&stmid=&minprice=&maxprice=&company=&cmpid=&user=&usrid=&selling=1&buying=1&stext_none='
+    url_for_searchterm = 'https://hardverapro.hu/aprok/keres.php?stext={searchterm}&county=&stcid=&settlement=&stmid=&minprice={minprice}&maxprice={maxprice}&company=&cmpid=&user=&usrid=&selling=1&buying=1&stext_none='
 
     def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Hardverapro, self).__init__(*args, **kwargs)
