@@ -22,6 +22,7 @@ def clear():
     shutil.rmtree(os.path.join(Path.home(),'salescrawler', IMAGES_STORE))
     db.session.commit()
     
+    
 def runall():
     """Run all active crawlers"""
     click.echo('Run all active crawlers...')
@@ -144,7 +145,7 @@ def crawlerDelete(crawlerid):
 # ------------------
 def spiderbotAdd(spider, crawlerid, searchterm, fullink, minprice, maxprice):
     """Add a new spiderbot of SPIDER to crawler of crawlerid and return it's ID. Either searchterm or fullink should be specified."""
-    logging.debug(f"Add spider {spider}")
+    click.echo(f"Add spider {spider}")
     # call as:
     #   sc-cli.py spiderbotadd hardverapro 3 -f"testlink"
     #   sc-cli.py spiderbotadd hardverapro 3 -s"RX470"
