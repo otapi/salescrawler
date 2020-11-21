@@ -25,6 +25,7 @@
         <th>Name</th>
         <th>Active</th>
         <th>Run cadence</th>
+        <th>Min price</th>
         <th>Max price</th>
         <th>Last run</th>
         <th>Spiderbots</th>
@@ -36,6 +37,7 @@
             <td>{{render_input_text(crawler.crawlerid, 'name', crawler.name)}}</td>
             <td>{{render_input_bool(crawler.crawlerid, 'active', crawler.active)}}</td>
             <td>{{render_input_number(crawler.crawlerid, 'runcadence', crawler.runcadence)}}</td>
+            <td>{{render_input_number(crawler.crawlerid, 'minprice', crawler.minprice)}}</td>
             <td>{{render_input_number(crawler.crawlerid, 'maxprice', crawler.maxprice)}}</td>
             <td>{{crawler.lastrun}}</td>
             <td><a href="{{ url_for('spiderbots', crawlerid=crawler.crawlerid) }}">View</td>

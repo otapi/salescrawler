@@ -14,6 +14,8 @@ class Crawler(db.Model):
     lastrun = db.Column(db.DateTime)
     # Autohide matches priced above this
     maxprice = db.Column(db.Float)
+    # Autohide matches priced above this
+    minprice = db.Column(db.Float)
 
     def __repr__(self):
         return '<Crawler %r>' % self.name

@@ -100,6 +100,7 @@ def crawler_update():
                     crawler.name = values["name"]
                     crawler.runcadence = float(values["runcadence"]) 
                     crawler.maxprice = float(values["maxprice"]) if values["maxprice"] and values["maxprice"] != '' and float(values["maxprice"]) !=0 else None
+                    crawler.minprice = float(values["minprice"]) if values["minprice"] and values["minprice"] != '' and float(values["minprice"]) !=0 else None
                     db.session.commit()
         if len(spiderbotids)>0:
             return redirect(url_for('index_filtered', spiderbotids=spiderbotids))
@@ -136,10 +137,6 @@ def new_spiderbots(crawlerid):
     crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     
     form = forms.SpiderbotForm(request.form)
-    
-    if crawler.maxprice:
-        form.maxprice.data = str(crawler.maxprice)
-
     if request.method == 'POST' and form.validate():
         if not ('from_spiderbots' in request.form):
             flash('Create spiders...')
@@ -150,6 +147,10 @@ def new_spiderbots(crawlerid):
             flash('Spiders created successfully!')
             return redirect(url_for('spiderbots', crawlerid=crawlerid))
 
+    if crawler.maxprice:
+        form.maxprice.data = str(crawler.maxprice)
+    if crawler.minprice:
+        form.minprice.data = str(crawler.minprice)
     form.spiders.data = sclogic.getSpiders().keys()
     return render_template('new_spiderbot.html', form=form, crawler = crawler)
 

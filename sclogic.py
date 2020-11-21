@@ -67,9 +67,21 @@ def runSpider(spider, spiderbotid, searchterm, fullink, minprice, maxprice):
                 match.hide = True
                 db.session.commit()
                 found = True
-                
         if found:
             click.echo(f'Some matches were autohidden due higher price than set in the crawler.')
+
+    # autohide if belowpriced. Will hide even None if specified
+    spiderbot = models.Spiderbot.query.filter_by(spiderbotid=spiderbotid).first()
+    minprice = spiderbot.crawler.minprice
+    if minprice:
+        found = False
+        for match in models.Match.query.filter_by(spiderbotid=spiderbotid).filter_by(hide=False).all():
+            if (not match.price) or match.price < minprice:
+                match.hide = True
+                db.session.commit()
+                found = True
+        if found:
+            click.echo(f'Some matches were autohidden due lower or missing price than set in the crawler.')
 
 def movetree(root_src_dir, root_target_dir):
     for src_dir, dirs, files in os.walk(root_src_dir):
