@@ -67,7 +67,7 @@ class DatabasePipeline:
         self.cursor.execute(f"SELECT price, shown, hide, hidedat FROM matches WHERE hash='{data['hash']}'")
         olddata = self.cursor.fetchall()
         if len(olddata)>0:
-            if data['price'] == olddata[0][0]:
+            if ('price' in data and data['price'] == olddata[0][0]) or ('price' not in data and not olddata[0][0]):
                 data['shown'] = olddata[0][1]
                 data['hide'] = olddata[0][2]
                 data['hidedat'] = olddata[0][3]
