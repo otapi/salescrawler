@@ -161,8 +161,8 @@ def spiderbot_update(crawlerid):
                     spiderbot.active = True if ("active" in values and values["active"] == "on") else False
                     spiderbot.searchterm = None if values["searchterm"] == "" or values["searchterm"] == "None" else values["searchterm"]
                     spiderbot.fullink = None if values["fullink"] == "" or values["fullink"] == "None" else values["fullink"]
-                    spiderbot.minprice = float(values["minprice"]) if isfloat(["minprice"]) and float(values["minprice"]) !=0 else None
-                    spiderbot.maxprice = float(values["maxprice"]) if isfloat(["maxprice"]) and float(values["maxprice"]) !=0 else None
+                    spiderbot.minprice = float(values["minprice"]) if isfloat(values["minprice"]) and float(values["minprice"]) !=0 else None
+                    spiderbot.maxprice = float(values["maxprice"]) if isfloat(values["maxprice"]) and float(values["maxprice"]) !=0 else None
         db.session.commit()
     return redirect(url_for('spiderbots', crawlerid=crawlerid))
 
