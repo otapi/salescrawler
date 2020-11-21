@@ -114,6 +114,14 @@ def spiderbots(crawlerid):
     crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     return render_template('spiderbots.html', spiderbots=spiderbots, crawler=crawler)
 
+def isfloat(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
+
 @app.route('/new-spiderbots/<crawlerid>', methods=['GET', 'POST'])
 def new_spiderbots(crawlerid):
     crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
@@ -126,14 +134,8 @@ def new_spiderbots(crawlerid):
         if not ('from_spiderbots' in request.form):
             flash('Create spiders...')
             for spider in form.spiders.data:
-                if form.minprice.data and form.minprice.data =="":
-                    minprice = None
-                else:
-                    minprice = float(form.minprice.data)
-                if form.maxprice.data and form.maxprice.data =="":
-                    maxprice = None
-                else:
-                    maxprice = float(form.maxprice.data)
+                minprice = float(form.minprice.data) if isfloat(form.minprice.data) and float(form.minprice.data) !=0 else None
+                maxprice = float(form.maxprice.data) if isfloat(form.maxrice.data) and float(form.maxprice.data) !=0 else None
                 sclogic.spiderbotAdd(spider, crawlerid, form.searchterm.data, form.fullink.data, minprice, maxprice)
             flash('Spiders created successfully!')
             return redirect(url_for('spiderbots', crawlerid=crawlerid))
@@ -159,8 +161,8 @@ def spiderbot_update(crawlerid):
                     spiderbot.active = True if ("active" in values and values["active"] == "on") else False
                     spiderbot.searchterm = None if values["searchterm"] == "" or values["searchterm"] == "None" else values["searchterm"]
                     spiderbot.fullink = None if values["fullink"] == "" or values["fullink"] == "None" else values["fullink"]
-                    spiderbot.minprice = float(values["minprice"]) if values["minprice"] and values["minprice"] != '' and float(values["minprice"]) !=0 else None
-                    spiderbot.maxprice = float(values["maxprice"]) if values["maxprice"] and values["maxprice"] != '' and float(values["maxprice"]) !=0 else None
+                    spiderbot.minprice = float(values["minprice"]) if isfloat(["minprice"]) and float(values["minprice"]) !=0 else None
+                    spiderbot.maxprice = float(values["maxprice"]) if isfloat(["maxprice"]) and float(values["maxprice"]) !=0 else None
         db.session.commit()
     return redirect(url_for('spiderbots', crawlerid=crawlerid))
 
