@@ -34,9 +34,6 @@ def runCrawler(crawlerid):
     """Run all active spiderbots owned by crawlerid"""
     click.echo(f'Run all active spiders of crawler {crawlerid}...')
     for spiderbot in models.Spiderbot.query.filter_by(crawlerid=crawlerid, active=True):
-        click.echo(f"Run spiderbot: {spiderbot.spiderbotid}")
-        click.echo(f"   searchterm: {spiderbot.searchterm}")
-        click.echo(f"      Fullink: {spiderbot.fullink}")
         runSpider(spider = spiderbot.spider, searchterm = spiderbot.searchterm, fullink = spiderbot.fullink, spiderbotid = spiderbot.spiderbotid, minprice=spiderbot.minprice, maxprice=spiderbot.maxprice)
     cr = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     cr.lastrun = datetime.datetime.now()
