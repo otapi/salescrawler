@@ -6,7 +6,7 @@ import logging
 
 class Aprohirdetesingyenhu(scrapy.Spider):
     name = 'aprohirdetesingyenhu'
-    url_for_searchterm = 'https://aprohirdetesingyen.hu/osszes-hirdetes/kereses--{searchterm}}'
+    url_for_searchterm = 'https://aprohirdetesingyen.hu/osszes-hirdetes/kereses--{searchterm}'
                           
                           
     def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
