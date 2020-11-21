@@ -36,17 +36,6 @@ class Spiderbot(db.Model):
     minprice = db.Column(db.Float)
     # maxprice
     maxprice = db.Column(db.Float)
-    # itemcount on the page found
-    pageitemcount = db.Column(db.Integer)
-    # number of page where found
-    pagenumber = db.Column(db.Integer)
-    # url of the page on found
-    pageurl = db.Column(db.String)
-    # Saved for later?
-    saved = db.Column(db.Boolean, default=False)
-
-    
-
 
     # foreign key to crawler
     crawlerid = db.Column(db.Integer, db.ForeignKey("crawlers.crawlerid"))
@@ -87,6 +76,16 @@ class Match(db.Model):
     hash = db.Column(db.String)
     # Extra ID field to identify the match
     extraid = db.Column(db.String)
+    # itemcount on the page found
+    pageitemcount = db.Column(db.Integer)
+    # number of page where found
+    pagenumber = db.Column(db.Integer)
+    # url of the page on found
+    pageurl = db.Column(db.String)
+    # Saved for later?
+    saved = db.Column(db.Boolean, default=False)
+
+
     # foreign key to spiderbot
     spiderbotid = db.Column(db.Integer, db.ForeignKey("spiderbots.spiderbotid"))
     spiderbot = db.relationship("Spiderbot", backref=db.backref(
