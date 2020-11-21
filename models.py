@@ -95,3 +95,5 @@ class Match(db.Model):
 
     def __repr__(self):
         return '<Match %r>' % self.title
+
+db.create_all()

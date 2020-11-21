@@ -12,3 +12,4 @@ host=DB_SETTINGS['host']
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{user}:{passwd}@{host}/{db}"
 app.secret_key = "salescrawler"
 db = SQLAlchemy(app)
+
