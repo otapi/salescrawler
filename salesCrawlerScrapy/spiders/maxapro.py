@@ -50,6 +50,6 @@ class Maxapro(scrapy.Spider):
         next_page = response.xpath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']/@href").get()
         if next_page and self.scrapedpages<self.maxpages:
                 self.scrapedpages += 1
-                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages})")
+                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages}): {next_page}")
                 yield response.follow(next_page, self.parse)
         

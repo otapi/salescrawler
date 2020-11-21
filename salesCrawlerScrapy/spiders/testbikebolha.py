@@ -48,5 +48,5 @@ class Testbikebolha(scrapy.Spider):
         next_page = response.xpath("//a[i/@class='fa fa-angle-right d_inline_m']/@href").get()
         if next_page and self.scrapedpages<self.maxpages:
                 self.scrapedpages += 1
-                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages})")
+                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages}): {next_page}")
                 yield response.follow(next_page, self.parse)

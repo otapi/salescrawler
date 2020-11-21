@@ -6,7 +6,7 @@ import logging
 
 class Aprohirdetescom(scrapy.Spider):
     name = 'aprohirdetescom'
-    url_for_searchterm = 'https://www.jofogas.hu/magyarorszag?f=a&q={searchterm}&sp=1'
+    url_for_searchterm = 'https://www.aprohirdetes.com/hu/_?s=price_asc&q={searchterm}&z=11&md=50&c=_'
                           
     def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Aprohirdetescom, self).__init__(*args, **kwargs)
@@ -28,28 +28,26 @@ class Aprohirdetescom(scrapy.Spider):
     def parse(self, response):
         logging.debug(f"Parse started")
         itemcount = 0
-        for item in response.xpath("//div//div[@class='contentArea']"):
+        for item in response.xpath("//div[@data-hirdetes-id]"):
             itemcount += 1
             logging.debug(f"Parsing item {itemcount}")
             
-            link = item.xpath(".//h3[@class='item-title']/a")
-            if len(item.xpath(".//div[contains(text(),'Kiszállítás folyamatban')]").getall()) == 0:
-                yield ProductItem(
-                    title = Helpers.getString(link.xpath("text()").get()),
-                    seller = None,
-                    image_urls = Helpers.imageUrl(response, item.xpath(".//meta[@itemprop='image']/@content").get()),
-                    url = response.urljoin(link.xpath("@href").get()),
-                    extraid = link.xpath("@href").get(),
-                    price = Helpers.getNumber(item.xpath(".//span[@class='price-value']/@content").get()),
-                    currency = Helpers.getCurrency(item.xpath(".//span[@class='currency']/text()").get()),
-                    location = Helpers.getString(item.xpath(".//section[@class='reLiSection cityname ']/text()").get()),
+            yield ProductItem(
+                extraid = item.xpath("./@data-hirdetes-id").get(),    
+                image_urls = Helpers.imageUrl(None, item.xpath(".//img/@src").get()),    
+                url = response.urljoin(item.xpath("//a[@class='tile-link']/@href").get()),
+                title = item.xpath(".//img/@alt").get(),
+                seller = None,
+                price = Helpers.getNumber(item.xpath(".//span[@class='h4 mr-1 text-primary']/text()").get()),
+                currency = "HUF",
+                location = Helpers.getString(item.xpath(".//p[@class='mb-0 text-muted text-sm']/text()").get()),
 
-                    spiderbotid = self.spiderbotid
-                )
+                spiderbotid = self.spiderbotid
+            )
 
-        next_page = response.xpath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']/@href").get()
+        next_page = response.urljoin(response.xpath("//li[@class='page-item active']/a[@class='page-link' and i/@class='fa fa-angle-right']/@href").get())
         if next_page and self.scrapedpages<self.maxpages:
                 self.scrapedpages += 1
-                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages})")
+                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages}): {next_page}")
                 yield response.follow(next_page, self.parse)
         

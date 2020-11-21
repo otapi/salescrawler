@@ -51,5 +51,5 @@ class Teszvesz(scrapy.Spider):
         next_page = response.xpath("//a[contains(img/@src, '/arw_frw.gif')]/@href").get()
         if next_page and self.scrapedpages<self.maxpages:
                 self.scrapedpages += 1
-                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages})")
+                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages}): {next_page}")
                 yield response.follow(next_page, self.parse)
