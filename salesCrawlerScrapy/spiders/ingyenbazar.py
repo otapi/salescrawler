@@ -42,7 +42,10 @@ class Ingyenbazar(scrapy.Spider):
                 location = Helpers.getString(item.xpath(".//div[@class='price']/i/b[1]/text()").get()),
                 image_urls = Helpers.imageUrl(response, item.xpath(".//a[@class='product_name']/img/@src").get()),
 
-                spiderbotid = self.spiderbotid
+                spiderbotid = self.spiderbotid,
+                pageitemcount = itemcount,
+                pagenumber = self.scrapedpages,
+                pageurl = response.url
             )
 
         next_page = response.xpath("//a[@class='next']/@href").get()

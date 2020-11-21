@@ -42,7 +42,10 @@ class Aprohirdetescom(scrapy.Spider):
                 currency = "HUF",
                 location = Helpers.getString(item.xpath(".//p[@class='mb-0 text-muted text-sm']/text()").get()),
 
-                spiderbotid = self.spiderbotid
+                spiderbotid = self.spiderbotid,
+                pageitemcount = itemcount,
+                pagenumber = self.scrapedpages,
+                pageurl = response.url
             )
 
         next_page = response.urljoin(response.xpath("//li[@class='page-item active']/a[@class='page-link' and i/@class='fa fa-angle-right']/@href").get())

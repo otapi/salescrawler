@@ -51,7 +51,10 @@ class Aprohirdetesingyenhu(scrapy.Spider):
                 currency = Helpers.getCurrency(item.xpath(".//div[@class='h_ar']/text()").get()),
                 location = None,
 
-                spiderbotid = self.spiderbotid
+                spiderbotid = self.spiderbotid,
+                pageitemcount = itemcount,
+                pagenumber = self.scrapedpages,
+                pageurl = response.url
             )
 
         next_page = response.xpath("//a[@class = 'h_oldal_kovetkezo']/@href").get()

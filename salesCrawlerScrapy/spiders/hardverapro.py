@@ -26,7 +26,9 @@ class Hardverapro(scrapy.Spider):
     
     def parse(self, response):
         logging.debug(f"Parse started")
+        itemcount = 0
         for item in response.xpath("//li[@class='media']"):
+            itemcount += 1
             logging.debug(f"Parsing item")
             yield ProductItem(
                 title = Helpers.getString(item.xpath(".//h1/a/text()").get()),
@@ -38,7 +40,10 @@ class Hardverapro(scrapy.Spider):
                 currency = 'HUF',
                 location = Helpers.getString(item.xpath(".//div[@class='uad-info']/div[@class='uad-light']/text()").get()),
 
-                spiderbotid = self.spiderbotid
+                spiderbotid = self.spiderbotid,
+                pageitemcount = itemcount,
+                pagenumber = self.scrapedpages,
+                pageurl = response.url
             )
 
         next_page = response.xpath("//li[@class='nav-arrow']/a[@rel='next']/@href").get()

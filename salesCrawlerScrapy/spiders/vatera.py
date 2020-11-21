@@ -46,7 +46,10 @@ class Vatera(scrapy.Spider):
                 extraid = item.xpath("@data-product-id").get(),
                 currency = "HUF",
                 
-                spiderbotid = self.spiderbotid
+                spiderbotid = self.spiderbotid,
+                pageitemcount = itemcount,
+                pagenumber = self.scrapedpages,
+                pageurl = response.url
             )
 
         next_page = response.xpath("//a[@aria-label='Következő oldal']/@href").get()

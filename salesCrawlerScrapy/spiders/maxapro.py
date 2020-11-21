@@ -42,7 +42,10 @@ class Maxapro(scrapy.Spider):
                 currency = Helpers.getCurrency(item.xpath(".//div[@class='srPrice']/text()").get()),
                 location = Helpers.getString(item.xpath(".//div[@class='location']/i/text()").get()),
 
-                spiderbotid = self.spiderbotid
+                spiderbotid = self.spiderbotid,
+                pageitemcount = itemcount,
+                pagenumber = self.scrapedpages,
+                pageurl = response.url
             )
 
         next_page = response.xpath("//div[@id='searchResultPagination']/a[contains(text(), 'Következő')]/@href").get()

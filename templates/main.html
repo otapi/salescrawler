@@ -61,6 +61,7 @@
         <th>Price</th>
         <th>Location</th>
         <th>Seller</th>
+        <th>Found on page</th>
       </tr>
 
         {% for match in matches %}
@@ -73,6 +74,7 @@
             <td>{{ '{:,}'.format(match.price) if match.price else None }}</td>
             <td>{{match.location}}</td>
             <td>{{match.seller}}</td>
+            <td><a href='{{ match.pageurl }}'>{{ match.pagenumber}}</a></td>
             <input type="text" name="{{ match.matchid }}_{{ dummy }}" value="dummy" hidden="true"/>
           </tr>
         {% endfor %}

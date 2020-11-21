@@ -44,7 +44,10 @@ class Jofogas(scrapy.Spider):
                     currency = Helpers.getCurrency(item.xpath(".//span[@class='currency']/text()").get()),
                     location = Helpers.getString(item.xpath(".//section[@class='reLiSection cityname ']/text()").get()),
 
-                    spiderbotid = self.spiderbotid
+                    spiderbotid = self.spiderbotid,
+                    pageitemcount = itemcount,
+                    pagenumber = self.scrapedpages,
+                    pageurl = response.url
                 )
 
         next_page = response.xpath("//a[@class='ad-list-pager-item ad-list-pager-item-next active-item js_hist_li js_hist jofogasicon-right']/@href").get()

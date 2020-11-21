@@ -45,7 +45,10 @@ class Teszvesz(scrapy.Spider):
                 extraid = item.xpath("@data-gtm-id").get(),
                 currency = "HUF",
                 
-                spiderbotid = self.spiderbotid
+                spiderbotid = self.spiderbotid,
+                pageitemcount = itemcount,
+                pagenumber = self.scrapedpages,
+                pageurl = response.url
             )
 
         next_page = response.xpath("//a[contains(img/@src, '/arw_frw.gif')]/@href").get()

@@ -42,7 +42,10 @@ class Bikemag(scrapy.Spider):
                 currency = Helpers.getCurrency(item.xpath(".//span[@class='d_block']/text()").get()),
                 location = Helpers.getString(item.xpath(".//span[@class='d_block fw_bold color_light']/text()").get()),
 
-                spiderbotid = self.spiderbotid
+                spiderbotid = self.spiderbotid,
+                pageitemcount = itemcount,
+                pagenumber = self.scrapedpages,
+                pageurl = response.url
             )
 
         next_page = response.xpath("//a[i/@class='fa fa-angle-right d_inline_m']/@href").get()
