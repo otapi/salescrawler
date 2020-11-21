@@ -37,7 +37,7 @@ class Bikemag(scrapy.Spider):
                 url = response.urljoin(item.xpath("./div[@class='relative']/div/a/@href").get()),
                 image_urls = Helpers.imageUrl(None, item.xpath("./div/div/a/img/@src").get()),
                 extraid = item.xpath("./div[@class='relative']/div/a/@href").get(),
-                seller = Helpers.getString(item.xpath(".//span[@class='fw_bold color_light']").get()),
+                seller = Helpers.getString(item.xpath(".//span[@class='fw_bold color_light']/text()").get()),
                 price = Helpers.getNumber(item.xpath(".//span[@class='d_block']/text()").get()),
                 currency = Helpers.getCurrency(item.xpath(".//span[@class='d_block']/text()").get()),
                 location = Helpers.getString(item.xpath(".//span[@class='d_block fw_bold color_light']/text()").get()),

@@ -7,7 +7,7 @@ import logging
 class Teszvesz(scrapy.Spider):
     name = 'teszvesz'
     url_for_searchterm = 'https://www.teszvesz.hu/listings/index.php?q={searchterm}&qt=2&td=on&c=&p1={minprice}&p2={maxprice}&at=2&re=0&on=0&ap=0&tr=0&dc=0&pw=0&ds=&de=&us=&ub=&ob=16&obd=2&behat_search_item=Keres%C3%A9s'
-                          
+
     def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Teszvesz, self).__init__(*args, **kwargs)
         if searchterm:

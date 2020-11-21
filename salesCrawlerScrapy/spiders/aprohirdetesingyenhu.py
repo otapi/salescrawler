@@ -42,7 +42,7 @@ class Aprohirdetesingyenhu(scrapy.Spider):
             logging.debug(f"Parsing item {itemcount}")
             
             yield ProductItem(
-                title = Helpers.getString(item.xpath(".//div[@class='h0_elem']//div[@ class='h_nev']//a/text()").get()),
+                title = Helpers.getString(item.xpath(".//div[@ class='h_nev']//a/text()").get()),
                 url = response.urljoin(item.xpath(".//div[@class='h_info']/a[@style='color:#427CB3']/@href").get()),
                 image_urls = Helpers.imageUrl(None, item.xpath(".//div[@class='h_left_inner']//img/@src").get()),
                 extraid = item.xpath(".//div[@class='h_info']/a[@style='color:#427CB3']/@href").get(),

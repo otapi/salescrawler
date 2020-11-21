@@ -35,7 +35,7 @@ class Aprohirdetescom(scrapy.Spider):
             yield ProductItem(
                 extraid = item.xpath("./@data-hirdetes-id").get(),    
                 image_urls = Helpers.imageUrl(None, item.xpath(".//img/@src").get()),    
-                url = response.urljoin(item.xpath("//a[@class='tile-link']/@href").get()),
+                url = response.urljoin(item.xpath(".//a[@class='tile-link']/@href").get()),
                 title = item.xpath(".//img/@alt").get(),
                 seller = None,
                 price = Helpers.getNumber(item.xpath(".//span[@class='h4 mr-1 text-primary']/text()").get()),
