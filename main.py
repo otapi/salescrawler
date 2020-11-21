@@ -136,6 +136,7 @@ def new_spiderbots(crawlerid):
     crawler = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     
     form = forms.SpiderbotForm(request.form)
+    
     if crawler.maxprice:
         form.maxprice.data = str(crawler.maxprice)
 
@@ -148,7 +149,8 @@ def new_spiderbots(crawlerid):
                 sclogic.spiderbotAdd(spider, crawlerid, form.searchterm.data, form.fullink.data, minprice, maxprice)
             flash('Spiders created successfully!')
             return redirect(url_for('spiderbots', crawlerid=crawlerid))
-  
+
+    form.spiders.data = sclogic.getSpiders().keys()
     return render_template('new_spiderbot.html', form=form, crawler = crawler)
 
 
