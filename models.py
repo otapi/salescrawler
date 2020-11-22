@@ -27,9 +27,9 @@ class Spiderbot(db.Model):
     # Item or key term to search
     searchterm = db.Column(db.String(255))
     # Full url for search (instead of searchterm)
-    fullink = db.Column(db.String(255))
+    fullink = db.Column(db.String(2550))
     # Calculated reference full url for search (instead of searchterm)
-    fullinkref = db.Column(db.String(255))
+    fullinkref = db.Column(db.String(2550))
     # Name of the spider
     spider = db.Column(db.String(255))
     # Should it run?
@@ -56,7 +56,7 @@ class Match(db.Model):
     seller = db.Column(db.String(255))
     # Picture of the item
     image = db.Column(db.String(255))
-    url = db.Column(db.String(255))
+    url = db.Column(db.String(2550))
     description = db.Column(db.String(255))
     # Actual price
     price = db.Column(db.Float)
@@ -83,7 +83,7 @@ class Match(db.Model):
     # number of page where found
     pagenumber = db.Column(db.Integer)
     # url of the page on found
-    pageurl = db.Column(db.String(255))
+    pageurl = db.Column(db.String(2550))
     # Saved for later?
     saved = db.Column(db.Boolean, default=False)
 
