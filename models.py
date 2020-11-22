@@ -7,7 +7,7 @@ class Crawler(db.Model):
     crawlerid = db.Column(db.Integer, primary_key=True)
     # Should it run?
     active = db.Column(db.Boolean, default=True)
-    name = db.Column(db.String, nullable=False, unique=True)
+    name = db.Column(db.String(255), nullable=False, unique=True)
     # hours - How frequent should it run?
     runcadence = db.Column(db.Integer(), default=1)
     # When run last time?
@@ -25,13 +25,13 @@ class Spiderbot(db.Model):
     __tablename__ = "spiderbots"
     spiderbotid = db.Column(db.Integer, primary_key=True)
     # Item or key term to search
-    searchterm = db.Column(db.String)
+    searchterm = db.Column(db.String(255))
     # Full url for search (instead of searchterm)
-    fullink = db.Column(db.String)
+    fullink = db.Column(db.String(255))
     # Calculated reference full url for search (instead of searchterm)
-    fullinkref = db.Column(db.String)
+    fullinkref = db.Column(db.String(255))
     # Name of the spider
-    spider = db.Column(db.String)
+    spider = db.Column(db.String(255))
     # Should it run?
     active = db.Column(db.Boolean, default=True)
     # minprice
@@ -52,20 +52,20 @@ class Match(db.Model):
     __tablename__ = "matches"
     matchid = db.Column(db.Integer, primary_key=True)
     # Title of the matched item
-    title = db.Column(db.String)
-    seller = db.Column(db.String)
+    title = db.Column(db.String(255))
+    seller = db.Column(db.String(255))
     # Picture of the item
-    image = db.Column(db.String)
-    url = db.Column(db.String)
-    description = db.Column(db.String)
+    image = db.Column(db.String(255))
+    url = db.Column(db.String(255))
+    description = db.Column(db.String(255))
     # Actual price
     price = db.Column(db.Float)
-    currency = db.Column(db.String)
+    currency = db.Column(db.String(10))
     isauction = db.Column(db.Boolean, default=False)
     # Geography location of the item
-    location = db.Column(db.String)
+    location = db.Column(db.String(255))
     # If the matched item expire
-    expire = db.Column(db.String)
+    expire = db.Column(db.DateTime)
     # When updated this record last time?
     updated = db.Column(db.DateTime)
     # Was already show to user?
@@ -73,17 +73,17 @@ class Match(db.Model):
     # Hide this match from the user
     hide = db.Column(db.Boolean, default=False)
     # When did user hided this match?
-    hidedat = db.Column(db.String)
+    hidedat = db.Column(db.DateTime)
     # Hash code of the match (filled via pipeline)
-    hash = db.Column(db.String)
+    hash = db.Column(db.String(255))
     # Extra ID field to identify the match
-    extraid = db.Column(db.String)
+    extraid = db.Column(db.String(255))
     # itemcount on the page found
     pageitemcount = db.Column(db.Integer)
     # number of page where found
     pagenumber = db.Column(db.Integer)
     # url of the page on found
-    pageurl = db.Column(db.String)
+    pageurl = db.Column(db.String(255))
     # Saved for later?
     saved = db.Column(db.Boolean, default=False)
 
