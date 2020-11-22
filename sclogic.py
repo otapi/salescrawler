@@ -55,7 +55,7 @@ def runSpider(spider, spiderbotid, searchterm, fullink, minprice, maxprice):
     
     os.chdir(os.path.join(Path.home(),'salescrawler'))
     runcode = f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)}{plus}"
-    click.echo(f"Run: "+runcode)
+    click.echo(f"cmd: "+runcode)
     os.system(runcode)
     db.session.commit()
     
