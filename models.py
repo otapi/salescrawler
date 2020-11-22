@@ -9,7 +9,7 @@ class Crawler(db.Model):
     active = db.Column(db.Boolean, default=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
     # hours - How frequent should it run?
-    runcadence = db.Column(db.Integer(), server_default=1)
+    runcadence = db.Column(db.Integer(), default=True)
     # When run last time?
     lastrun = db.Column(db.DateTime)
     # Autohide matches priced above this
