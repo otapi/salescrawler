@@ -6,10 +6,10 @@ class Crawler(db.Model):
     db.Column()
     crawlerid = db.Column(db.Integer, primary_key=True)
     # Should it run?
-    active = db.Column(db.Boolean, default=True)
+    active = db.Column(db.Boolean, server_default=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
     # hours - How frequent should it run?
-    runcadence = db.Column(db.Integer(), default=1)
+    runcadence = db.Column(db.Integer(), server_default=1)
     # When run last time?
     lastrun = db.Column(db.DateTime)
     # Autohide matches priced above this
@@ -33,7 +33,7 @@ class Spiderbot(db.Model):
     # Name of the spider
     spider = db.Column(db.String(255))
     # Should it run?
-    active = db.Column(db.Boolean, default=True)
+    active = db.Column(db.Boolean, server_default=True)
     # minprice
     minprice = db.Column(db.Float)
     # maxprice
@@ -61,7 +61,7 @@ class Match(db.Model):
     # Actual price
     price = db.Column(db.Float)
     currency = db.Column(db.String(10))
-    isauction = db.Column(db.Boolean, default=False)
+    isauction = db.Column(db.Boolean, server_default=False)
     # Geography location of the item
     location = db.Column(db.String(255))
     # If the matched item expire
@@ -69,9 +69,9 @@ class Match(db.Model):
     # When updated this record last time?
     updated = db.Column(db.DateTime)
     # Was already show to user?
-    shown = db.Column(db.Boolean, default=False)
+    shown = db.Column(db.Boolean, server_default=False)
     # Hide this match from the user
-    hide = db.Column(db.Boolean, default=False)
+    hide = db.Column(db.Boolean, server_default=False)
     # When did user hided this match?
     hidedat = db.Column(db.DateTime)
     # Hash code of the match (filled via pipeline)
@@ -85,7 +85,7 @@ class Match(db.Model):
     # url of the page on found
     pageurl = db.Column(db.String(255))
     # Saved for later?
-    saved = db.Column(db.Boolean, default=False)
+    saved = db.Column(db.Boolean, server_default=False)
 
 
     # foreign key to spiderbot

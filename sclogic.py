@@ -84,6 +84,7 @@ def runSpider(spider, spiderbotid, searchterm, fullink, minprice, maxprice):
                 found = True
         if found:
             click.echo(f'Some matches were autohidden due lower or missing price than set in the crawler.')
+    click.echo(f'Completed spider: {spider} of spiderbot {str(spiderbotid)}')
 
 def movetree(root_src_dir, root_target_dir):
     for src_dir, dirs, files in os.walk(root_src_dir):
