@@ -54,7 +54,9 @@ def runSpider(spider, spiderbotid, searchterm, fullink, minprice, maxprice):
         plus += f" -a maxprice={str(maxprice)}"
     
     os.chdir(os.path.join(Path.home(),'salescrawler'))
-    os.system(f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)}{plus}")
+    runcode = f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)}{plus}"
+    click.echo(f"Run: "+runcode)
+    os.system(runcode)
     db.session.commit()
     
     # autohide if overpriced
