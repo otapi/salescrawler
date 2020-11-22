@@ -43,7 +43,7 @@ def runSpider(spider, spiderbotid, searchterm, fullink, minprice, maxprice):
     """Run a SPIDER owned by spiderbotid"""
     click.echo(f'Run spider: {spider} of spiderbot {str(spiderbotid)}')
     if searchterm:
-        search=f"searchterm={searchterm}"
+        search=f'"searchterm={searchterm}"'
     else:
         search=f"fullink={urllib.parse.quote(fullink)}"
     
