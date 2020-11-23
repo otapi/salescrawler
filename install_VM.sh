@@ -54,7 +54,19 @@ echo see https://protonvpn.com/support/linux-vpn-tool/
 sudo apt install -y openvpn dialog python3-pip python3-setuptools
 sudo pip3 install protonvpn-cli
 sudo protonvpn init
+echo Add as new line
+echo otapi   ALL=(ALL) NOPASSWD:/usr/local/bin/protonvpn c -f
+sudo visudo
 
-echo VPN connect:
-sudo protonvpn c -f
+echo autostart the server
+echo add lines to contrab:
+echo @reboot cd ~/ ; rm -rf salescrawler ; git clone git@github.com:otapi/salescrawler.git; cd ~/salescrawler ; FLASK_APP=main.py flask run
+echo @reboot xdg-open http://127.0.0.1:5000/
+crontab -e
+
+echo autologin in ubuntu
+echo goto to settings / users and enable autologin
+read -r input
+
+
 

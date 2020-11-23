@@ -32,6 +32,10 @@ def index_engine(hidematches = True, onlysaved = False, spiderbotids = None):
         flash('update...')
         sclogic.clear()
         flash('updated!')
+    elif "connectvpn" in request.args:
+        flash('connect to VPN...')
+        sclogic.connectvpn()
+        flash('VPN completed')
     elif "showall" in request.args:
         return redirect(url_for('index_all'))
     elif "showsaved" in request.args:

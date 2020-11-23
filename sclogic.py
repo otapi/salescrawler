@@ -39,6 +39,10 @@ def runCrawler(crawlerid):
     cr.lastrun = datetime.datetime.now()
     db.session.commit()
 
+def connectvpn():
+    """ Connect to protonVPN"""
+    os.system("sudo protonvpn c -f")
+
 def runSpider(spider, spiderbotid, searchterm, fullink, minprice, maxprice):
     """Run a SPIDER owned by spiderbotid"""
     click.echo(f'Run spider: {spider} of spiderbot {str(spiderbotid)}')
