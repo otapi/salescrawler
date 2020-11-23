@@ -58,15 +58,20 @@ echo Add as new line
 echo otapi   ALL=(ALL) NOPASSWD:/usr/local/bin/protonvpn c -f
 sudo visudo
 
-echo autostart the server
-echo add lines to contrab:
-echo @reboot cd ~/ ; rm -rf salescrawler ; git clone git@github.com:otapi/salescrawler.git; cd ~/salescrawler ; FLASK_APP=main.py flask run
-echo @reboot xdg-open http://127.0.0.1:5000/
-crontab -e
+copy ~/salescrawler/run.sh ~/run.sh
+chmod +x ~/run.sh
+echo goto to Startup Applications and add home/run.sh
+read -r input
+echo add Terminal=true
+nano /.config/autostart/run.sh.desktop
+
 
 echo autologin in ubuntu
 echo goto to settings / users and enable autologin
 read -r input
+
+echo autologin in ubuntu
+echo goto to settings / users and enable autologin
 
 
 
