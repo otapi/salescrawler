@@ -10,6 +10,6 @@
 cd ~/
 python3 salescrawler/sc-cli.py update
 cd ~/salescrawler
-xdg-open http://127.0.0.1:5000/
+xdg-open http://127.0.0.1:5000/ &
 FLASK_APP=main.py flask run
 
