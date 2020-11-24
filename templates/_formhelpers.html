@@ -26,3 +26,11 @@
 {% macro render_input_number(id, fieldname, value) %}
     <input type="number" name="{{ id  }}_{{ fieldname }}" value="{{ value }}" />
 {% endmacro %}
+
+{% macro render_checkbox(fieldname, value) %}
+    {% if value == True %}
+        <input type="checkbox" name="{{ fieldname }}" checked="on" />
+    {% else %}
+        <input type="checkbox" name="{{ fieldname }}"/>
+    {% endif %}
+{% endmacro %}

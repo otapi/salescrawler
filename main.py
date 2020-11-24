@@ -15,14 +15,7 @@ def index():
 def index_filtered(spiderbotids):
     return index_engine(hidematches = True, spiderbotids=spiderbotids)
 
-@app.route('/all', methods=['GET', 'POST'])
-def index_all():
-    return index_engine(hidematches = False)
-
-@app.route('/saved', methods=['GET', 'POST'])
-def index_saved():
-    return index_engine(hidematches = False, onlysaved = False)
-
+@app.route('/main/<hidematches>/<onlysaved>/<spiderbotids>', methods=['GET', 'POST'])
 def index_engine(hidematches = True, onlysaved = False, spiderbotids = None):
     if "run" in request.args:
         flash('run...')
