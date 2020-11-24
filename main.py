@@ -33,10 +33,6 @@ def index_engine(showhidden = False, onlysaved = False, spiderbotids = None):
         flash('connect to VPN...')
         sclogic.connectvpn()
         flash('VPN completed')
-    elif "showall" in request.args:
-        return redirect(url_for('index_all'))
-    elif "showsaved" in request.args:
-        return redirect(url_for('index_saved'))
     elif "refresh" in request.args:
         return redirect(url_for('index'))
 
