@@ -57,6 +57,7 @@
   
   <h2>Matches</h2>
   <form action="/match-update" method="post">
+    <button type="submit">Save changes</button>
     <table class="sortable">
       <tr>
         <th><input type="checkbox" onclick="toggle(this, '_hide');" /><br/>Hide</th>
@@ -94,7 +95,7 @@
           </tr>
         {% endfor %}
     </table>
-    <button type="submit">Hide selected matches</button>
+    <button type="submit">Save changes</button>
   </form>
 
 {% endblock %}
