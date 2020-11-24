@@ -104,6 +104,7 @@ def crawler_update():
                     if crawler:
                         crawler.active = True if ("active" in values and values["active"] == "on") else False
                         crawler.name = values["name"]
+                        crawler.notes = values["notes"]
                         crawler.runcadence = float(values["runcadence"]) 
                         crawler.maxprice = float(values["maxprice"]) if values["maxprice"] and values["maxprice"] != '' and float(values["maxprice"]) !=0 else None
                         crawler.minprice = float(values["minprice"]) if values["minprice"] and values["minprice"] != '' and float(values["minprice"]) !=0 else None
@@ -113,7 +114,7 @@ def crawler_update():
 
     return redirect('/')
 
-@app.route('/new_crawler', methods=['GET', 'POST'])
+@app.route('/new-crawler', methods=['GET', 'POST'])
 def new_crawler():
     form = forms.CrawlerForm(request.form)
     if request.method == 'POST' and form.validate():

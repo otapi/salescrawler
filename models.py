@@ -8,6 +8,8 @@ class Crawler(db.Model):
     # Should it run?
     active = db.Column(db.Boolean, default=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
+    # User notes
+    notes = db.Column(db.String(2550))
     # hours - How frequent should it run?
     runcadence = db.Column(db.Integer(), default=True)
     # When run last time?
