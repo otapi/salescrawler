@@ -9,14 +9,14 @@ import sclogic
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    showhidden = True if request.form.get('showhidden') else False
-    onlysaved = True if request.form.get('onlysaved') else False
+    showhidden = True if 'showhidden' in request.args else False
+    onlysaved = True if 'onlysaved'  in request.args else False
     return index_engine(showhidden = showhidden, onlysaved = onlysaved)
 
 @app.route('/filtered/<spiderbotids>', methods=['GET', 'POST'])
 def index_filtered(spiderbotids):
-    showhidden = True if request.form.get('showhidden') else False
-    onlysaved = True if request.form.get('onlysaved') else False
+    showhidden = True if 'showhidden' in request.args else False
+    onlysaved = True if 'onlysaved'  in request.args else False
     return index_engine(showhidden = showhidden, onlysaved = onlysaved, spiderbotids=spiderbotids)
 
 def index_engine(showhidden = False, onlysaved = False, spiderbotids = None):
