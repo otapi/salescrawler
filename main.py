@@ -11,6 +11,7 @@ import sclogic
 def index():
     showhidden = True if 'showhidden' in request.args else False
     onlysaved = True if 'onlysaved'  in request.args else False
+    print(f'Showhidden: {showhidden}')
     return index_engine(showhidden = showhidden, onlysaved = onlysaved)
 
 @app.route('/filtered/<spiderbotids>', methods=['GET', 'POST'])
