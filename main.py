@@ -41,7 +41,11 @@ def index_engine(showhidden, onlysaved, spiderbotids = None):
     if spiderbotids:
         matches = None
         for spiderbotid in spiderbotids:
-            rm = models.Match.query.filter_by(spiderbotid=spiderbotid).filter_by(saved=onlysaved).filter_by(hide=showhidden).all()
+            if onlysaved:
+                rm = models.Match.query.filter_by(spiderbotid=spiderbotid).filter_by(saved=True).all()
+            else:
+                rm = models.Match.query.filter_by(spiderbotid=spiderbotid).filter_by(hide=showhidden).all()
+            
             if matches:
                 matches = matches + rm
             else:
@@ -49,7 +53,10 @@ def index_engine(showhidden, onlysaved, spiderbotids = None):
         flash('Matches are filtered for one Crawler...')
 
     else:
-        matches = models.Match.query.filter_by(saved=onlysaved).filter_by(hide=showhidden).order_by(models.Match.price).all()
+        if onlysaved:
+            matches = models.Match.query.filter_by(saved=True).order_by(models.Match.price).all()
+        else:
+            matches = models.Match.query.filter_by(hide=showhidden).order_by(models.Match.price).all()
         
     return render_template('main.html', matches=matches, crawlers=crawlers, showhidden = showhidden, onlysaved = onlysaved) 
 
