@@ -19,7 +19,7 @@ def index_filtered(spiderbotids):
     onlysaved = True if request.form.get('onlysaved') else False
     return index_engine(showhidden = showhidden, onlysaved = onlysaved, spiderbotids=spiderbotids)
 
-def index_engine(showhidden = True, onlysaved = False, spiderbotids = None):
+def index_engine(showhidden = False, onlysaved = False, spiderbotids = None):
     if "run" in request.args:
         flash('run...')
         sclogic.runall()
