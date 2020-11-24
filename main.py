@@ -9,13 +9,16 @@ import sclogic
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return index_engine()
+    hidematches = True if request.form.get('hidematches') else False
+    onlysaved = True if request.form.get('onlysaved') else False
+    return index_engine(hidematches = hidematches, onlysaved = onlysaved)
 
 @app.route('/filtered/<spiderbotids>', methods=['GET', 'POST'])
 def index_filtered(spiderbotids):
-    return index_engine(hidematches = True, spiderbotids=spiderbotids)
+    hidematches = True if request.form.get('hidematches') else False
+    onlysaved = True if request.form.get('onlysaved') else False
+    return index_engine(hidematches = hidematches, onlysaved = onlysaved, spiderbotids=spiderbotids)
 
-@app.route('/main/<hidematches>/<onlysaved>/<spiderbotids>', methods=['GET', 'POST'])
 def index_engine(hidematches = True, onlysaved = False, spiderbotids = None):
     if "run" in request.args:
         flash('run...')
@@ -103,7 +106,9 @@ def crawler_update():
                         crawler.minprice = float(values["minprice"]) if values["minprice"] and values["minprice"] != '' and float(values["minprice"]) !=0 else None
                     db.session.commit()
         if len(spiderbotids)>0:
-            return redirect(url_for('index_filtered', spiderbotids=spiderbotids))
+            hidematches = True if request.form.get('hidematches') else False
+            onlysaved = True if request.form.get('onlysaved') else False
+            return redirect(url_for('index_filtered', spiderbotids=spiderbotids, hidematches=hidematches, onlysaved=onlysaved))
 
     return redirect('/')
 

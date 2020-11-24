@@ -50,17 +50,12 @@
     </table>
     <input type="submit" name="save_button" value="Save changes"/>
     <input type="submit" name="delete_button" value="Delete selected"/>
-    <input type="submit" name="filter_button" value="Filter matches to selected"/>
+    <input type="submit" name="filter_button" value="Filter matches to selected"/>{{render_checkbox('hidematches', hidematches)}} Do not show hidden matches
+    {{render_checkbox('onlysaved', onlysaved)}} Show only saved matches
 
   </form>
   
   <h2>Matches</h2>
-  <form action="/main" method="post">
-    {{render_checkbox('hidematches', hidematches)}} Do not show hidden matches
-    <br/>
-    {{render_checkbox('onlysaved', onlysaved)}} Show only saved matches
-    <input type="submit" name="show_button" value="Refresh matches"/>
-  </form>
   <form action="/match-update" method="post">
     <table class="sortable">
       <tr>
