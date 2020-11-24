@@ -75,8 +75,9 @@ def match_update():
         postvars = variabledecode.variable_decode(request.form, dict_char='_')
         for k, v in postvars.items():
             match = models.Match.query.filter_by(matchid=int(k)).first()
-            match.hide = True if ("hide" in v and v["hide"] == "on") else False
-            match.saved = True if ("saved" in v and v["saved"] == "on") else False
+            if match:
+                match.hide = True if ("hide" in v and v["hide"] == "on") else False
+                match.saved = True if ("saved" in v and v["saved"] == "on") else False
         db.session.commit()
     return redirect('/')
 
@@ -100,11 +101,12 @@ def crawler_update():
                 elif 'save_button' in request.form:
                     print("itt: "+values["maxprice"])
                     crawler = models.Crawler.query.filter_by(crawlerid=id).first()
-                    crawler.active = True if ("active" in values and values["active"] == "on") else False
-                    crawler.name = values["name"]
-                    crawler.runcadence = float(values["runcadence"]) 
-                    crawler.maxprice = float(values["maxprice"]) if values["maxprice"] and values["maxprice"] != '' and float(values["maxprice"]) !=0 else None
-                    crawler.minprice = float(values["minprice"]) if values["minprice"] and values["minprice"] != '' and float(values["minprice"]) !=0 else None
+                    if crawler:
+                        crawler.active = True if ("active" in values and values["active"] == "on") else False
+                        crawler.name = values["name"]
+                        crawler.runcadence = float(values["runcadence"]) 
+                        crawler.maxprice = float(values["maxprice"]) if values["maxprice"] and values["maxprice"] != '' and float(values["maxprice"]) !=0 else None
+                        crawler.minprice = float(values["minprice"]) if values["minprice"] and values["minprice"] != '' and float(values["minprice"]) !=0 else None
                     db.session.commit()
         if len(spiderbotids)>0:
             return redirect(url_for('index_filtered', spiderbotids=spiderbotids))
@@ -174,11 +176,12 @@ def spiderbot_update(crawlerid):
                         flash('Delete spiderbot finished!')
                 elif 'save_button' in request.form:
                     spiderbot = models.Spiderbot.query.filter_by(spiderbotid=id).first()
-                    spiderbot.active = True if ("active" in values and values["active"] == "on") else False
-                    spiderbot.searchterm = None if values["searchterm"] == "" or values["searchterm"] == "None" else values["searchterm"]
-                    spiderbot.fullink = None if values["fullink"] == "" or values["fullink"] == "None" else values["fullink"]
-                    spiderbot.minprice = float(values["minprice"]) if isfloat(values["minprice"]) and float(values["minprice"]) !=0 else None
-                    spiderbot.maxprice = float(values["maxprice"]) if isfloat(values["maxprice"]) and float(values["maxprice"]) !=0 else None
+                    if spiderbot:
+                        spiderbot.active = True if ("active" in values and values["active"] == "on") else False
+                        spiderbot.searchterm = None if values["searchterm"] == "" or values["searchterm"] == "None" else values["searchterm"]
+                        spiderbot.fullink = None if values["fullink"] == "" or values["fullink"] == "None" else values["fullink"]
+                        spiderbot.minprice = float(values["minprice"]) if isfloat(values["minprice"]) and float(values["minprice"]) !=0 else None
+                        spiderbot.maxprice = float(values["maxprice"]) if isfloat(values["maxprice"]) and float(values["maxprice"]) !=0 else None
         db.session.commit()
     return redirect(url_for('spiderbots', crawlerid=crawlerid))
 

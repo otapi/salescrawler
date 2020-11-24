@@ -60,12 +60,17 @@ sudo visudo
 
 cp ~/salescrawler/run.sh ~/Desktop/run.sh
 chmod +x ~/Desktop/run.sh
+echo add this line to crontab:
+echo @reboot ~/Desktop/run.sh
+crontab -e
+
+
 cp ~/salescrawler/run.sh.desktop ~/.config/autostart/run.sh.desktop
 
 echo goto to Startup Applications and add home/run.sh
 read -r input
 echo add Terminal=true
-nano /.config/autostart/run.sh.desktop
+nano ~/.config/autostart/run.sh.desktop
 
 
 echo autologin in ubuntu
