@@ -58,8 +58,10 @@ echo Add as new line
 echo otapi   ALL=(ALL) NOPASSWD:/usr/local/bin/protonvpn c -f
 sudo visudo
 
-copy ~/salescrawler/run.sh ~/run.sh
-chmod +x ~/run.sh
+cp ~/salescrawler/run.sh ~/Desktop/run.sh
+chmod +x ~/Desktop/run.sh
+cp ~/salescrawler/run.sh.desktop ~/.config/autostart/run.sh.desktop
+
 echo goto to Startup Applications and add home/run.sh
 read -r input
 echo add Terminal=true

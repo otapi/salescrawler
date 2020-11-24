@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/Desktop/run.sh
+Hidden=false
+NoDisplay=false
+Terminal=true
+X-GNOME-Autostart-enabled=true
+Name[en_US]=salescrawler
+Name=salescrawler
+Comment[en_US]=
+Comment=
