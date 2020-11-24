@@ -12,7 +12,9 @@ def index():
     showhidden = True if "showhidden" in request.args else False
     onlysaved = True if 'onlysaved'  in request.args else False
     print(f'Showhidden: {showhidden}')
-    print(f"args: {request.args}")
+
+    for k in request.args.keys():
+      print(f"args: {k}")
     return index_engine(showhidden = showhidden, onlysaved = onlysaved)
 
 @app.route('/filtered/<spiderbotids>', methods=['GET', 'POST'])
