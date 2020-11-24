@@ -9,6 +9,22 @@ import sclogic
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if "run" in request.args:
+        flash('run...')
+        sclogic.runall()
+        flash('run finished!')
+    elif "clear" in request.args:
+        flash('update...')
+        sclogic.clear()
+        flash('updated!')
+    elif "connectvpn" in request.args:
+        flash('connect to VPN...')
+        sclogic.connectvpn()
+        flash('VPN completed')
+    elif "refresh" in request.args:
+        #return redirect(url_for('index'))
+        pass
+
     showhidden = True if "showhidden" in request.args else False
     onlysaved = True if 'onlysaved'  in request.args else False
     print(f'Showhidden: {showhidden}')
@@ -24,21 +40,6 @@ def index_filtered(spiderbotids):
     return index_engine(showhidden = showhidden, onlysaved = onlysaved, spiderbotids=spiderbotids)
 
 def index_engine(showhidden, onlysaved, spiderbotids = None):
-    if "run" in request.args:
-        flash('run...')
-        sclogic.runall()
-        flash('run finished!')
-    elif "clear" in request.args:
-        flash('update...')
-        sclogic.clear()
-        flash('updated!')
-    elif "connectvpn" in request.args:
-        flash('connect to VPN...')
-        sclogic.connectvpn()
-        flash('VPN completed')
-    elif "refresh" in request.args:
-        return redirect(url_for('index'))
-
     crawlers = models.Crawler.query.order_by(models.Crawler.name).all()
     
     if spiderbotids:
