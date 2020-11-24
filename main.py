@@ -9,9 +9,10 @@ import sclogic
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    showhidden = True if 'showhidden' in request.args else False
+    showhidden = True if "showhidden" in request.args else False
     onlysaved = True if 'onlysaved'  in request.args else False
     print(f'Showhidden: {showhidden}')
+    print(f"args: {request.args}")
     return index_engine(showhidden = showhidden, onlysaved = onlysaved)
 
 @app.route('/filtered/<spiderbotids>', methods=['GET', 'POST'])
