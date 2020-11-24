@@ -9,17 +9,17 @@ import sclogic
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    hidematches = True if request.form.get('hidematches') else False
+    showhidden = True if request.form.get('showhidden') else False
     onlysaved = True if request.form.get('onlysaved') else False
-    return index_engine(hidematches = hidematches, onlysaved = onlysaved)
+    return index_engine(showhidden = showhidden, onlysaved = onlysaved)
 
 @app.route('/filtered/<spiderbotids>', methods=['GET', 'POST'])
 def index_filtered(spiderbotids):
-    hidematches = True if request.form.get('hidematches') else False
+    showhidden = True if request.form.get('showhidden') else False
     onlysaved = True if request.form.get('onlysaved') else False
-    return index_engine(hidematches = hidematches, onlysaved = onlysaved, spiderbotids=spiderbotids)
+    return index_engine(showhidden = showhidden, onlysaved = onlysaved, spiderbotids=spiderbotids)
 
-def index_engine(hidematches = True, onlysaved = False, spiderbotids = None):
+def index_engine(showhidden = True, onlysaved = False, spiderbotids = None):
     if "run" in request.args:
         flash('run...')
         sclogic.runall()
@@ -52,18 +52,18 @@ def index_engine(hidematches = True, onlysaved = False, spiderbotids = None):
         flash('Matches are filtered for one Crawler...')
 
     else:
-        if hidematches:
-            if onlysaved:
-                matches = models.Match.query.filter_by(hide=False, saved=True).order_by(models.Match.price).all()
-            else:
-                matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price).all()
-        else:
+        if showhidden:
             if onlysaved:
                 matches = models.Match.query.filter_by(saved=True).order_by(models.Match.price).all()
             else:
                 matches = models.Match.query.order_by(models.Match.price).all()
+        else:
+            if onlysaved:
+                matches = models.Match.query.filter_by(hide=False, saved=True).order_by(models.Match.price).all()
+            else:
+                matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price).all()
         
-    return render_template('main.html', matches=matches, crawlers=crawlers, hidematches = hidematches, onlysaved = onlysaved) 
+    return render_template('main.html', matches=matches, crawlers=crawlers, showhidden = showhidden, onlysaved = onlysaved) 
 
 @app.route('/match-update', methods=['GET', 'POST'])
 def match_update():
@@ -106,9 +106,9 @@ def crawler_update():
                         crawler.minprice = float(values["minprice"]) if values["minprice"] and values["minprice"] != '' and float(values["minprice"]) !=0 else None
                     db.session.commit()
         if len(spiderbotids)>0:
-            hidematches = True if request.form.get('hidematches') else False
+            showhidden = True if request.form.get('showhidden') else False
             onlysaved = True if request.form.get('onlysaved') else False
-            return redirect(url_for('index_filtered', spiderbotids=spiderbotids, hidematches=hidematches, onlysaved=onlysaved))
+            return redirect(url_for('index_filtered', spiderbotids=spiderbotids, showhidden=showhidden, onlysaved=onlysaved))
 
     return redirect('/')
 
