@@ -60,7 +60,7 @@ def index_engine(hidematches = True, onlysaved = False, spiderbotids = None):
             else:
                 matches = models.Match.query.order_by(models.Match.price).all()
         
-    return render_template('main.html', matches=matches, crawlers=crawlers) 
+    return render_template('main.html', matches=matches, crawlers=crawlers, hidematches = hidematches, onlysaved = onlysaved) 
 
 @app.route('/match-update', methods=['GET', 'POST'])
 def match_update():
