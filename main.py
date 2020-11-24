@@ -27,10 +27,6 @@ def index():
 
     showhidden = True if "showhidden" in request.args else False
     onlysaved = True if 'onlysaved'  in request.args else False
-    print(f'Showhidden: {showhidden}')
-
-    for k in request.args.keys():
-      print(f"args: {k}")
     return index_engine(showhidden = showhidden, onlysaved = onlysaved)
 
 @app.route('/filtered/<spiderbotids>', methods=['GET', 'POST'])
@@ -45,7 +41,7 @@ def index_engine(showhidden, onlysaved, spiderbotids = None):
     if spiderbotids:
         matches = None
         for spiderbotid in spiderbotids:
-            rm = models.Match.query.filter_by(spiderbotid=spiderbotid).all()
+            rm = models.Match.query.filter_by(spiderbotid=spiderbotid).filter_by(saved=onlysaved).filter_by(hide=showhidden).all()
             if matches:
                 matches = matches + rm
             else:
@@ -53,16 +49,7 @@ def index_engine(showhidden, onlysaved, spiderbotids = None):
         flash('Matches are filtered for one Crawler...')
 
     else:
-        if showhidden:
-            if onlysaved:
-                matches = models.Match.query.filter_by(saved=True).order_by(models.Match.price).all()
-            else:
-                matches = models.Match.query.order_by(models.Match.price).all()
-        else:
-            if onlysaved:
-                matches = models.Match.query.filter_by(hide=False, saved=True).order_by(models.Match.price).all()
-            else:
-                matches = models.Match.query.filter_by(hide=False).order_by(models.Match.price).all()
+        matches = models.Match.query.filter_by(saved=onlysaved).filter_by(hide=showhidden).order_by(models.Match.price).all()
         
     return render_template('main.html', matches=matches, crawlers=crawlers, showhidden = showhidden, onlysaved = onlysaved) 
 
