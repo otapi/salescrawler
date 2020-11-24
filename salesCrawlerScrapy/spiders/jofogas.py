@@ -8,7 +8,7 @@ class Jofogas(scrapy.Spider):
     name = 'jofogas'
     url_for_searchterm = 'https://www.jofogas.hu/magyarorszag?f=a&max_price={maxprice}&min_price={minprice}&q={searchterm}&sp=1'
 
-    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
+    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, crawlerid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Jofogas, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [Jofogas.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
@@ -21,7 +21,13 @@ class Jofogas(scrapy.Spider):
             self.spiderbotid = int(spiderbotid)
         else: 
             self.spiderbotid = spiderbotid
+ 
+        if type(crawlerid) == str:
+            self.crawlerid = int(crawlerid)
+        else: 
+            self.crawlerid = crawlerid
         
+       
         self.maxpages=maxpages
         self.scrapedpages=0
     
@@ -44,6 +50,7 @@ class Jofogas(scrapy.Spider):
                     currency = Helpers.getCurrency(item.xpath(".//span[@class='currency']/text()").get()),
                     location = Helpers.getString(item.xpath(".//section[@class='reLiSection cityname ']/text()").get()),
 
+                    crawlerid = self.crawlerid,
                     spiderbotid = self.spiderbotid,
                     pageitemcount = itemcount,
                     pagenumber = self.scrapedpages,

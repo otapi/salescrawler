@@ -9,7 +9,7 @@ class Aprohirdetesingyenhu(scrapy.Spider):
     url_for_searchterm = 'https://aprohirdetesingyen.hu/osszes-hirdetes/kereses--{searchterm}'
                           
                           
-    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
+    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, crawlerid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Aprohirdetesingyenhu, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [Aprohirdetesingyenhu.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
@@ -22,6 +22,12 @@ class Aprohirdetesingyenhu(scrapy.Spider):
             self.spiderbotid = int(spiderbotid)
         else: 
             self.spiderbotid = spiderbotid
+
+        if type(crawlerid) == str:
+            self.crawlerid = int(crawlerid)
+        else: 
+            self.crawlerid = crawlerid
+        
         
         self.maxpages=maxpages
         self.scrapedpages=0
@@ -51,6 +57,7 @@ class Aprohirdetesingyenhu(scrapy.Spider):
                 currency = Helpers.getCurrency(item.xpath(".//div[@class='h_ar']/text()").get()),
                 location = None,
 
+                crawlerid = self.crawlerid,
                 spiderbotid = self.spiderbotid,
                 pageitemcount = itemcount,
                 pagenumber = self.scrapedpages,

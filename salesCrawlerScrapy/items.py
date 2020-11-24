@@ -21,6 +21,7 @@ class ProductItem(scrapy.Item):
     extraid = scrapy.Field()
     hash = scrapy.Field()
     spiderbotid = scrapy.Field()
+    crawlerid = scrapy.Field()
     pageitemcount = scrapy.Field()
     pagenumber = scrapy.Field()
     pageurl = scrapy.Field()

@@ -8,7 +8,7 @@ class Aprohirdetescom(scrapy.Spider):
     name = 'aprohirdetescom'
     url_for_searchterm = 'https://www.aprohirdetes.com/hu/_?s=price_asc&q={searchterm}&z=11&md=50&c=_'
                           
-    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
+    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, crawlerid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Aprohirdetescom, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [Aprohirdetescom.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
@@ -21,6 +21,12 @@ class Aprohirdetescom(scrapy.Spider):
             self.spiderbotid = int(spiderbotid)
         else: 
             self.spiderbotid = spiderbotid
+
+        if type(crawlerid) == str:
+            self.crawlerid = int(crawlerid)
+        else: 
+            self.crawlerid = crawlerid
+        
         
         self.maxpages=maxpages
         self.scrapedpages=0
@@ -42,6 +48,7 @@ class Aprohirdetescom(scrapy.Spider):
                 currency = "HUF",
                 location = Helpers.getString(item.xpath(".//p[@class='mb-0 text-muted text-sm']/text()").get()),
 
+                crawlerid = self.crawlerid,
                 spiderbotid = self.spiderbotid,
                 pageitemcount = itemcount,
                 pagenumber = self.scrapedpages,

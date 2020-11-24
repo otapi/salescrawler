@@ -8,7 +8,7 @@ class Teszvesz(scrapy.Spider):
     name = 'teszvesz'
     url_for_searchterm = 'https://www.teszvesz.hu/listings/index.php?q={searchterm}&qt=2&td=on&c=&p1={minprice}&p2={maxprice}&at=2&re=0&on=0&ap=0&tr=0&dc=0&pw=0&ds=&de=&us=&ub=&ob=16&obd=2&behat_search_item=Keres%C3%A9s'
 
-    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
+    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, crawlerid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Teszvesz, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [Teszvesz.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
@@ -21,6 +21,12 @@ class Teszvesz(scrapy.Spider):
             self.spiderbotid = int(spiderbotid)
         else: 
             self.spiderbotid = spiderbotid
+
+        if type(crawlerid) == str:
+            self.crawlerid = int(crawlerid)
+        else: 
+            self.crawlerid = crawlerid
+        
         
         self.maxpages=maxpages
         self.scrapedpages=0
@@ -45,6 +51,7 @@ class Teszvesz(scrapy.Spider):
                 extraid = item.xpath("@data-gtm-id").get(),
                 currency = "HUF",
                 
+                crawlerid = self.crawlerid,
                 spiderbotid = self.spiderbotid,
                 pageitemcount = itemcount,
                 pagenumber = self.scrapedpages,

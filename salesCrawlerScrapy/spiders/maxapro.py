@@ -8,7 +8,7 @@ class Maxapro(scrapy.Spider):
     name = 'maxapro'
     url_for_searchterm = 'https://maxapro.hu/aprohirdetes/{searchterm}-order_priceasc'
                           
-    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
+    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, crawlerid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Maxapro, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [Maxapro.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
@@ -21,7 +21,13 @@ class Maxapro(scrapy.Spider):
             self.spiderbotid = int(spiderbotid)
         else: 
             self.spiderbotid = spiderbotid
+ 
+        if type(crawlerid) == str:
+            self.crawlerid = int(crawlerid)
+        else: 
+            self.crawlerid = crawlerid
         
+       
         self.maxpages=maxpages
         self.scrapedpages=0
     
@@ -42,6 +48,7 @@ class Maxapro(scrapy.Spider):
                 currency = Helpers.getCurrency(item.xpath(".//div[@class='srPrice']/text()").get()),
                 location = Helpers.getString(item.xpath(".//div[@class='location']/i/text()").get()),
 
+                crawlerid = self.crawlerid,
                 spiderbotid = self.spiderbotid,
                 pageitemcount = itemcount,
                 pagenumber = self.scrapedpages,

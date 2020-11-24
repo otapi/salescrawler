@@ -8,7 +8,7 @@ class Bikemag(scrapy.Spider):
     name = 'bikemag'
     url_for_searchterm = 'https://apro.bikemag.hu/aprok?q={searchterm}&p=1&s=cheap'
                           
-    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
+    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, crawlerid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Bikemag, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [Bikemag.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
@@ -21,6 +21,12 @@ class Bikemag(scrapy.Spider):
             self.spiderbotid = int(spiderbotid)
         else: 
             self.spiderbotid = spiderbotid
+
+        if type(crawlerid) == str:
+            self.crawlerid = int(crawlerid)
+        else: 
+            self.crawlerid = crawlerid
+        
         
         self.maxpages=maxpages
         self.scrapedpages=0
@@ -42,6 +48,7 @@ class Bikemag(scrapy.Spider):
                 currency = Helpers.getCurrency(item.xpath(".//span[@class='d_block']/text()").get()),
                 location = Helpers.getString(item.xpath(".//span[@class='d_block fw_bold color_light']/text()").get()),
 
+                crawlerid = self.crawlerid,
                 spiderbotid = self.spiderbotid,
                 pageitemcount = itemcount,
                 pagenumber = self.scrapedpages,

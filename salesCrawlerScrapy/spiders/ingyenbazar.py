@@ -8,7 +8,7 @@ class Ingyenbazar(scrapy.Spider):
     name = 'ingyenbazar'
     url_for_searchterm = 'https://www.ingyenbazar.hu/search/&search={searchterm}&kategoria=0&sub=&location=&city=&distance=30&from={minprice}&to={maxprice}&sort=price'
                           
-    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
+    def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, crawlerid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Ingyenbazar, self).__init__(*args, **kwargs)
         if searchterm:
             self.start_urls = [Ingyenbazar.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
@@ -21,6 +21,12 @@ class Ingyenbazar(scrapy.Spider):
             self.spiderbotid = int(spiderbotid)
         else: 
             self.spiderbotid = spiderbotid
+
+        if type(crawlerid) == str:
+            self.crawlerid = int(crawlerid)
+        else: 
+            self.crawlerid = crawlerid
+        
         
         self.maxpages=maxpages
         self.scrapedpages=0
@@ -42,6 +48,7 @@ class Ingyenbazar(scrapy.Spider):
                 location = Helpers.getString(item.xpath(".//div[@class='price']/i/b[1]/text()").get()),
                 image_urls = Helpers.imageUrl(response, item.xpath(".//a[@class='product_name']/img/@src").get()),
 
+                crawlerid = self.crawlerid,
                 spiderbotid = self.spiderbotid,
                 pageitemcount = itemcount,
                 pagenumber = self.scrapedpages,

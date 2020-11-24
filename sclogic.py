@@ -34,7 +34,7 @@ def runCrawler(crawlerid):
     """Run all active spiderbots owned by crawlerid"""
     click.echo(f'Run all active spiders of crawler {crawlerid}...')
     for spiderbot in models.Spiderbot.query.filter_by(crawlerid=crawlerid, active=True):
-        runSpider(spider = spiderbot.spider, searchterm = spiderbot.searchterm, fullink = spiderbot.fullink, spiderbotid = spiderbot.spiderbotid, minprice=spiderbot.minprice, maxprice=spiderbot.maxprice)
+        runSpider(spider = spiderbot.spider, searchterm = spiderbot.searchterm, fullink = spiderbot.fullink, spiderbotid = spiderbot.spiderbotid, crawlerid = crawlerid, minprice=spiderbot.minprice, maxprice=spiderbot.maxprice)
     cr = models.Crawler.query.filter_by(crawlerid=crawlerid).first()
     cr.lastrun = datetime.datetime.now()
     db.session.commit()
@@ -43,7 +43,7 @@ def connectvpn():
     """ Connect to protonVPN"""
     os.system("sudo protonvpn c -f")
 
-def runSpider(spider, spiderbotid, searchterm, fullink, minprice, maxprice):
+def runSpider(spider, spiderbotid, crawlerid, searchterm, fullink, minprice, maxprice):
     """Run a SPIDER owned by spiderbotid"""
     click.echo(f'Run spider: {spider} of spiderbot {str(spiderbotid)}')
     if searchterm:
@@ -58,7 +58,7 @@ def runSpider(spider, spiderbotid, searchterm, fullink, minprice, maxprice):
         plus += f" -a maxprice={str(maxprice)}"
     
     os.chdir(os.path.join(Path.home(),'salescrawler'))
-    runcode = f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)}{plus}"
+    runcode = f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)} -a crawlerid={str(crawlerid)}{plus}"
     click.echo(f"cmd: "+runcode)
     os.system(runcode)
     db.session.commit()
