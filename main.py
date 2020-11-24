@@ -101,9 +101,9 @@ def crawler_update():
                         crawler.minprice = float(values["minprice"]) if values["minprice"] and values["minprice"] != '' and float(values["minprice"]) !=0 else None
                     db.session.commit()
         if len(spiderbotids)>0:
-            showhidden = True if request.form.get('showhidden') else False
-            onlysaved = True if request.form.get('onlysaved') else False
-            return redirect(url_for('index_filtered', spiderbotids=spiderbotids, showhidden=showhidden, onlysaved=onlysaved))
+            showhidden = True if 'showhidden' in request.args else False
+            onlysaved = True if 'onlysaved'  in request.args else False
+            return index_engine(spiderbotids=spiderbotids, showhidden=showhidden, onlysaved=onlysaved)
 
     return redirect('/')
 
