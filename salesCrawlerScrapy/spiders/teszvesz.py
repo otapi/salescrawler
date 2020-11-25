@@ -10,15 +10,15 @@ class Teszvesz(scrapy.Spider):
 
     def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, crawlerid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Teszvesz, self).__init__(*args, **kwargs)
-        logging.debug(f"init")
+        print(f"init")
         if searchterm:
-            logging.debug(f"Searchterm: {searchterm}")
+            print(f"Searchterm: {searchterm}")
             self.start_urls = [Teszvesz.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
             
         if fullink:
-            logging.debug(f"fullink: {fullink}")
+            print(f"fullink: {fullink}")
             self.start_urls = [fullink]
-        logging.debug(f"Start url is: {self.start_urls}")
+        print(f"Start url is: {self.start_urls}")
         
         if type(spiderbotid) == str:
             self.spiderbotid = int(spiderbotid)
@@ -35,11 +35,11 @@ class Teszvesz(scrapy.Spider):
         self.scrapedpages=0
     
     def parse(self, response):
-        logging.debug(f"Parse started")
+        print(f"Parse started")
         itemcount = 0
         for item in response.xpath("//tr[@data-gtm-name]"):
             itemcount += 1
-            logging.debug(f"Parsing item {itemcount}")
+            print(f"Parsing item {itemcount}")
             
             yield ProductItem(
                 location = None,
@@ -64,5 +64,5 @@ class Teszvesz(scrapy.Spider):
         next_page = response.xpath("//a[contains(img/@src, '/arw_frw.gif')]/@href").get()
         if next_page and self.scrapedpages<self.maxpages:
                 self.scrapedpages += 1
-                logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages}): {next_page}")
+                print(f"Next page (#{str(self.scrapedpages)} of {self.maxpages}): {next_page}")
                 yield response.follow(next_page, self.parse)
