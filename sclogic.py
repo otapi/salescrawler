@@ -50,10 +50,10 @@ def disconnectvpn():
 def runSpider(spider, spiderbotid, crawlerid, searchterm, fullink, minprice, maxprice):
     """Run a SPIDER owned by spiderbotid"""
     click.echo(f'Run spider: {spider} of spiderbot {str(spiderbotid)}')
-    if searchterm:
-        search=f'"searchterm={searchterm}"'
+    if fullink:
+        search=f'"fullink={urllib.parse.quote(fullink)}"'
     else:
-        search=f"fullink={urllib.parse.quote(fullink)}"
+        search=f'"searchterm={searchterm}"'
     
     plus = ""
     if minprice:
