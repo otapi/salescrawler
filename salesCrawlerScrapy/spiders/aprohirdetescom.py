@@ -55,7 +55,7 @@ class Aprohirdetescom(scrapy.Spider):
                 pageurl = response.url
             )
 
-        next_page = response.urljoin(response.xpath("//li[@class='page-item active']/a[@class='page-link' and i/@class='fa fa-angle-right']/@href").get())
+        next_page = response.xpath("//li[@class='page-item active']/a[@class='page-link' and i/@class='fa fa-angle-right']/@href").get()
         if next_page and self.scrapedpages<self.maxpages:
                 self.scrapedpages += 1
                 logging.debug(f"Next page (#{str(self.scrapedpages)} of {self.maxpages}): {next_page}")
