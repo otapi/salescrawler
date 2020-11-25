@@ -43,6 +43,10 @@ def connectvpn():
     """ Connect to protonVPN"""
     os.system("sudo protonvpn c -f")
 
+def disconnectvpn():
+    """ Connect to protonVPN"""
+    os.system("sudo protonvpn d")
+
 def runSpider(spider, spiderbotid, crawlerid, searchterm, fullink, minprice, maxprice):
     """Run a SPIDER owned by spiderbotid"""
     click.echo(f'Run spider: {spider} of spiderbot {str(spiderbotid)}')
@@ -107,6 +111,7 @@ def update():
     """Check for tool updates: re-clone tool, but keep DB and run crawlers"""
     click.echo('Update the tool...')
 
+    disconnectvpn()
     click.echo('Saving ImagesStore folder...')
     source_dir = os.path.join(Path.home(),'salescrawler', IMAGES_STORE)
     target_dir = os.path.join(Path.home(),'savedImagesStore')

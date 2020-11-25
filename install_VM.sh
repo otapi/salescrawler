@@ -56,6 +56,7 @@ sudo pip3 install protonvpn-cli
 sudo protonvpn init
 echo Add as new line
 echo otapi   ALL=(ALL) NOPASSWD:/usr/local/bin/protonvpn c -f
+echo otapi   ALL=(ALL) NOPASSWD:/usr/local/bin/protonvpn d
 sudo visudo
 
 cp ~/salescrawler/run.sh ~/Desktop/run.sh
