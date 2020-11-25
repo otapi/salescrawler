@@ -38,14 +38,13 @@ class Jofogas(scrapy.Spider):
             itemcount += 1
             logging.debug(f"Parsing item {itemcount}")
             
-            link = item.xpath(".//h3[@class='item-title']/a")
             if len(item.xpath(".//div[contains(text(),'Kiszállítás folyamatban')]").getall()) == 0:
                 yield ProductItem(
-                    title = Helpers.getString(link.xpath("text()").get()),
+                    title = Helpers.getString(item.xpath(".//h3[@class='item-title']/a/text()").get()),
                     seller = None,
                     image_urls = Helpers.imageUrl(response, item.xpath(".//meta[@itemprop='image']/@content").get()),
-                    url = response.urljoin(link.xpath("@href").get()),
-                    extraid = link.xpath("@href").get(),
+                    url = response.urljoin(item.xpath(".//h3[@class='item-title']/a/@href").get()),
+                    extraid = item.xpath(".//h3[@class='item-title']/a/@href").get(),
                     price = Helpers.getNumber(item.xpath(".//span[@class='price-value']/@content").get()),
                     currency = Helpers.getCurrency(item.xpath(".//span[@class='currency']/text()").get()),
                     location = Helpers.getString(item.xpath(".//section[@class='reLiSection cityname ']/text()").get()),
