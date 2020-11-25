@@ -32,7 +32,8 @@ class DatabasePipeline:
 
     ignoreFields = [
         'image_urls',
-        'images'
+        'images',
+        'crawlerid'
     ]
 
     def process_item(self, item, spider):
