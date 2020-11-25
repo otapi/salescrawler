@@ -53,9 +53,9 @@ def runSpider(spider, spiderbotid, crawlerid, searchterm, fullink, minprice, max
     
     plus = ""
     if minprice:
-        plus = f" -a minprice={str(minprice)}"
+        plus = f" -a minprice={str(int(minprice))}"
     if maxprice:
-        plus += f" -a maxprice={str(maxprice)}"
+        plus += f" -a maxprice={str(int(maxprice))}"
     
     os.chdir(os.path.join(Path.home(),'salescrawler'))
     runcode = f"scrapy crawl {spider} -a {search} -a spiderbotid={str(spiderbotid)} -a crawlerid={str(crawlerid)}{plus}"
@@ -187,7 +187,7 @@ def spiderbotAdd(spider, crawlerid, searchterm, fullink, minprice, maxprice):
     sb.maxprice = maxprice
 
     if searchterm:
-        sb.fullinkref = getSpiders()[sb.spider].url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)
+        sb.fullinkref = getSpiders()[sb.spider].url_for_searchterm.format(searchterm=searchterm, minprice=int(minprice), maxprice=int(maxprice))
     
     db.session.add(sb)
     db.session.commit()
