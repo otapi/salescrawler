@@ -10,11 +10,14 @@ class Teszvesz(scrapy.Spider):
 
     def __init__(self, searchterm=None, fullink=None, spiderbotid = -1, crawlerid = -1, maxpages=15, minprice=0, maxprice=Helpers.MAXPRICE, *args, **kwargs):
         super(Teszvesz, self).__init__(*args, **kwargs)
+        logging.debug(f"init")
         if searchterm:
+            logging.debug(f"Searchterm: {searchterm}")
             self.start_urls = [Teszvesz.url_for_searchterm.format(searchterm=searchterm, minprice=minprice, maxprice=maxprice)]
             
         if fullink:
-            self.start_urls = [f'{fullink}']
+            logging.debug(f"fullink: {fullink}")
+            self.start_urls = [fullink]
         logging.debug(f"Start url is: {self.start_urls}")
         
         if type(spiderbotid) == str:
