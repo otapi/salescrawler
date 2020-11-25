@@ -5,6 +5,15 @@
 
 {% extends "layout.html" %}
 {% block body %}
+<script language="JavaScript">
+  function toggle(source, pattern) {
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      for (var i = 0; i < checkboxes.length; i++) {
+          if (checkboxes[i].name.includes(pattern))
+             checkboxes[i].checked = source.checked;
+      }
+  }
+  </script>
 <h2>Crawler: {{ crawler.name }} / Spiderbots</h2>
     <form action="{{ url_for('.new_spiderbots', crawlerid=crawler.crawlerid) }}" method="post">
     <button type="submit" name="from_spiderbots">Add new spiderbot(s)</button>
@@ -12,7 +21,7 @@
   <form action="/spiderbot-update/{{ crawler.crawlerid }}" method="post">
     <table class="sortable">
       <tr>
-        <th class="sorttable_nosort">Selected</th>
+        <th class="sorttable_nosort"><input type="checkbox" onclick="toggle(this, '_selected');" /><br/>Selected</th>
         <th>Spider</th>
         <th>Active</th>
         <th>Search Term</th>
