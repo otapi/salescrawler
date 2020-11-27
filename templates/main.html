@@ -35,8 +35,8 @@
 
         {% for crawler in crawlers %}
           <tr>
-            <td>{{render_input_bool(crawler.crawlerid, 'selected', False)}} {{ crawler.crawlerid }}</td>
-            <td>{{render_input_text(crawler.crawlerid, 'name', crawler.name)}}</td>
+            <td>{{render_input_bool(crawler.crawlerid, 'selected', False)}}</td>
+            <td>{{render_input_text(crawler.crawlerid, 'name', crawler.name)}} {{ crawler.crawlerid }}</td>
             <td>{{render_input_bool(crawler.crawlerid, 'active', crawler.active)}}</td>
             <td>{{render_input_text(crawler.crawlerid, 'notes', crawler.notes)}}</td>
             <td>{{render_input_number(crawler.crawlerid, 'runcadence', crawler.runcadence)}}</td>
