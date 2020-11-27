@@ -73,6 +73,8 @@ class DatabasePipeline:
                 data['hide'] = olddata[0][2]
                 data['hidedat'] = olddata[0][3]
                 data['saved'] = olddata[0][4]
+                if data['saved']:
+                    data['hide'] = False
             self.cursor.execute(f"DELETE FROM matches WHERE hash='{data['hash']}'")
             self.conn.commit()
 
