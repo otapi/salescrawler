@@ -13,8 +13,33 @@
              checkboxes[i].checked = source.checked;
       }
   }
+
+  function setvalue(pattern, value) {
+      var inputs = document.querySelectorAll('input[type="number"]');
+      for (var i = 0; i < inputs.length; i++) {
+          if (inputs[i].name.includes(pattern))
+            inputs[i].value = value;
+      }
+  }
   </script>
-<h2>Crawler: {{ crawler.name }} / Spiderbots</h2>
+<h2>Crawler: {{ crawler.name }}</h2>
+{{ crawler.notes }}
+    <table>
+      <tr>
+        <th>Min price</th>
+        <th>Max price</th>
+      </tr>
+      <tr>
+        <td>{{ crawler.minprice }}</td>
+        <td>{{ crawler.maxprice }}</td>
+      </tr>
+      <tr>
+        <td><input type="submit" value="Copy to Spiderbots" onclick="toggle('minprice', '{{ crawler.minprice }}');"/></td>
+        <td><input type="submit" value="Copy to Spiderbots" onclick="toggle('maxprice', '{{ crawler.maxprice }}');"/></td>
+      </tr>
+
+    </table>
+    
     <form action="{{ url_for('.new_spiderbots', crawlerid=crawler.crawlerid) }}" method="post">
     <button type="submit" name="from_spiderbots">Add new spiderbot(s)</button>
   </form>
