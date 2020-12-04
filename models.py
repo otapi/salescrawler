@@ -88,6 +88,8 @@ class Match(db.Model):
     pageurl = db.Column(db.String(2550))
     # Saved for later?
     saved = db.Column(db.Boolean, default=False)
+    # Any user notes
+    notes = db.Column(db.String(2550))
 
 
     # foreign key to spiderbot
