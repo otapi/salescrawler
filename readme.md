@@ -1,5 +1,5 @@
 # About
-Backend, WebGUI and some custom spiders to host regular searches of scrapy spiders. User can hide matches to avoid repeative checks of same found items.
+Backend, WebGUI and some custom spiders to host regular searches of scrapy spiders. User can hide matches to avoid repeative checks of same found items. Still working in progress, 1st version with pip package coming soon...
 ![Main screen](scmain.png)
 
 ## Features
